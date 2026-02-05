@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard NADI SENI</title>
+    <style>
+        /* --- DESIGN ASAS --- */
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; }
+        
+        /* HEADER */
+        header { background: #1a237e; color: white; padding: 30px 20px; text-align: center; }
+        header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+        header p { margin: 10px 0 0; opacity: 0.9; font-size: 16px; }
+
+        /* MENU TAB */
+        nav { background: #283593; display: flex; justify-content: center; padding: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        nav a { color: white; text-decoration: none; padding: 15px 25px; font-weight: bold; transition: 0.3s; }
+        nav a:hover { background: #3949ab; }
+        nav a.active { background: #ffca28; color: #1a237e; }
+
+        /* CONTAINER */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+        /* SUSUN ATUR GRID (KIRI & KANAN) */
+        .content-grid { display: flex; gap: 25px; flex-wrap: wrap; }
+        
+        /* KOLUM KIRI (BORANG) */
+        .col-left { 
+            flex: 7; /* Ambil 70% ruang */
+            background: white; padding: 25px; border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-width: 300px; 
+        }
+        
+        /* KOLUM KANAN (INFO & DOWNLOAD) */
+        .col-right { 
+            flex: 3; /* Ambil 30% ruang */
+            background: white; padding: 25px; border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: fit-content; min-width: 250px; 
+        }
+
+        /* TOMBOL DOWNLOAD */
+        .btn-download {
+            display: block; width: 100%; padding: 15px; margin-top: 15px;
+            background: #d32f2f; color: white; text-align: center; text-decoration: none;
+            font-weight: bold; border-radius: 6px; box-sizing: border-box; 
+            box-shadow: 0 4px 0 #b71c1c; transition: 0.2s;
+        }
+        .btn-download:hover { transform: translateY(2px); box-shadow: 0 2px 0 #b71c1c; }
+
+        /* TAJUK */
+        h2 { border-left: 5px solid #ffca28; padding-left: 10px; color: #1a237e; margin-top: 0; }
+
+        /* RESPONSIF (PHONE) */
+        @media (max-width: 768px) {
+            .content-grid { flex-direction: column; }
+            .col-left, .col-right { flex: 100%; }
+            nav { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FESTIVAL APRESIASI SENI UNTUK SEMUA (FASUS)</h1>
+        <p>UNIT KESENIAN JABATAN PENDIDIKAN NEGERI TERENGGANU</p>
+    </header>
+
+    <nav>
+        <a href="#" class="active">PENDAFTARAN</a>
+        <a href="#">SEMAKAN</a>
+        <a href="#">KEPUTUSAN</a>
+        <a href="#">HUBUNGI KAMI</a>
+    </nav>
+
+    <div class="container">
+        <div class="content-grid">
+            
+            <div class="col-left">
+                <h2>📝 Borang Pendaftaran</h2>
+                <p>Sila lengkapkan butiran di bawah. Pastikan resit pembayaran telah disediakan.</p>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdc.../viewform?embedded=true" width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            </div>
+
+            <div class="col-right">
+                <h2>📂 Muat Turun Dokumen</h2>
+                <p style="font-size: 14px; color: #666;">Wajib baca syarat pertandingan sebelum mendaftar.</p>
+                
+                <a href="#" class="btn-download">📥 KERTAS KONSEP</a>
+                <a href="#" class="btn-download" style="background:#008CBA; box-shadow: 0 4px 0 #006080;">📥 SURAT JEMPUTAN</a>
+
+                <br><hr><br>
+                
+                <h2>📊 Statistik Semasa</h2>
+                <p style="font-size: 13px;">Jumlah sekolah yang telah mendaftar setakat ini:</p>
+                
+                <div style="background:#e3f2fd; padding:15px; text-align:center; border-radius:8px;">
+                    <span style="font-size:30px; font-weight:bold; color:#1565c0;">0</span><br>
+                    <span style="font-size:12px;">PENYERTAAN</span>
+                </div>
+                <br>
+                <a href="#" style="text-decoration:none; color:blue; font-size:14px;">Lihat Senarai Penuh &rarr;</a>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 30px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h2>📈 Analisa Penyertaan (Dashboard)</h2>
+            <div style="background:#eee; height:500px; display:flex; align-items:center; justify-content:center; border:2px dashed #ccc;">
+                <p style="color:#777;">[ Ruang untuk Embed Looker Studio ]</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer style="text-align:center; padding: 30px; color: #888; font-size: 12px;">
+        Hak Cipta Terpelihara &copy; 2026 Unit Kesenian JPNT
+    </footer>
+
+</body>
+</html>
