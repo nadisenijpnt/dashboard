@@ -3,117 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard NADI SENI</title>
+    <title>Dashboard Kesenian JPNT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- DESIGN ASAS --- */
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; }
+        /* --- ANIMASI & SETTING ASAS --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* HEADER */
-        header { background: #1a237e; color: white; padding: 30px 20px; text-align: center; }
-        header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
-        header p { margin: 10px 0 0; opacity: 0.9; font-size: 16px; }
-
-        /* MENU TAB */
-        nav { background: #283593; display: flex; justify-content: center; padding: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        nav a { color: white; text-decoration: none; padding: 15px 25px; font-weight: bold; transition: 0.3s; }
-        nav a:hover { background: #3949ab; }
-        nav a.active { background: #ffca28; color: #1a237e; }
-
-        /* CONTAINER */
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-
-        /* SUSUN ATUR GRID (KIRI & KANAN) */
-        .content-grid { display: flex; gap: 25px; flex-wrap: wrap; }
-        
-        /* KOLUM KIRI (BORANG) */
-        .col-left { 
-            flex: 7; /* Ambil 70% ruang */
-            background: white; padding: 25px; border-radius: 10px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-width: 300px; 
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; padding: 0; 
+            background-color: #f4fcfc; /* Latar belakang Cyan pudar sangat cair */
+            color: #333;
+            animation: fadeIn 0.8s ease-out; /* Efek website muncul perlahan */
         }
         
-        /* KOLUM KANAN (INFO & DOWNLOAD) */
-        .col-right { 
-            flex: 3; /* Ambil 30% ruang */
-            background: white; padding: 25px; border-radius: 10px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: fit-content; min-width: 250px; 
+        /* --- HEADER (TEMA DARK TEAL) --- */
+        header { 
+            background: linear-gradient(135deg, #012a2a 0%, #004d4d 100%); /* Gradient Dark Teal */
+            color: white; 
+            padding: 50px 20px; 
+            text-align: center; 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Hiasan background header (Bulatan pudar) */
+        header::before {
+            content: ''; position: absolute; top: -50px; right: -50px;
+            width: 200px; height: 200px; background: rgba(0, 229, 255, 0.1);
+            border-radius: 50%; filter: blur(40px);
         }
 
-        /* TOMBOL DOWNLOAD */
+        header h1 { 
+            margin: 0; font-weight: 800; font-size: 36px; letter-spacing: 2px; 
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, #00e5ff); /* Teks gradient Putih ke Cyan */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.3); /* Efek Glow */
+        }
+        header p { margin: 10px 0 0; color: #b2dfdb; font-weight: 400; font-size: 16px; letter-spacing: 1px;}
+
+        /* --- NAVIGATION BAR (MODEN) --- */
+        .navbar {
+            background-color: #003333; /* Dark Teal pekat */
+            display: flex; justify-content: center; flex-wrap: wrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            position: sticky; top: 0; z-index: 100; /* Sticky kat atas bila scroll */
+            border-bottom: 2px solid #004d4d;
+        }
+
+        /* Link Menu */
+        .navbar a, .dropbtn {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+            color: #e0f2f1;
+            padding: 20px 25px;
+            text-decoration: none;
+            background: transparent; border: none; cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect: Garis Cyan Bergerak */
+        .navbar a::after, .dropbtn::after {
+            content: ''; position: absolute; width: 0; height: 3px;
+            bottom: 0; left: 50%; background-color: #00e5ff; /* Garis Cyan Neon */
+            transition: all 0.3s ease; transform: translateX(-50%);
+        }
+        .navbar a:hover::after, .dropdown:hover .dropbtn::after { width: 100%; }
+        .navbar a:hover, .dropdown:hover .dropbtn { color: #00e5ff; background: rgba(255,255,255,0.05); }
+
+        /* DROPDOWN MENU */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none; position: absolute;
+            background-color: #ffffff; min-width: 260px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 0 0 8px 8px; overflow: hidden;
+            animation: fadeIn 0.3s ease; /* Submenu muncul smooth */
+        }
+        .dropdown-content a {
+            color: #333; padding: 15px 20px; display: block; text-align: left;
+            border-bottom: 1px solid #f0f0f0; font-weight: 500; font-size: 13px;
+        }
+        .dropdown-content a:hover {
+            background-color: #e0f7fa; color: #00838f; padding-left: 25px; /* Gerak ke kanan sikit */
+        }
+        .dropdown-content a::after { display: none; } /* Buang garis underline utk submenu */
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- CONTAINER & CARDS --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .content-grid { display: flex; gap: 30px; flex-wrap: wrap; }
+        
+        /* Card Styles dengan Hover Float */
+        .card {
+            background: white; padding: 30px; border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e0f2f1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-7px); /* Terapung ke atas */
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.15); /* Bayang Cyan lembut */
+            border-color: #b2ebf2;
+        }
+
+        .col-left { flex: 7; min-width: 300px; }
+        .col-right { flex: 3; min-width: 250px; height: fit-content; }
+
+        /* --- BUTANG DOWNLOAD (GRADIENT & GLOW) --- */
         .btn-download {
-            display: block; width: 100%; padding: 15px; margin-top: 15px;
-            background: #d32f2f; color: white; text-align: center; text-decoration: none;
-            font-weight: bold; border-radius: 6px; box-sizing: border-box; 
-            box-shadow: 0 4px 0 #b71c1c; transition: 0.2s;
+            display: block; width: 100%; padding: 16px; margin-top: 15px;
+            background: linear-gradient(45deg, #009688, #00e5ff); /* Gradient Teal ke Cyan */
+            color: white; text-align: center; text-decoration: none;
+            font-weight: 700; border-radius: 50px; /* Bentuk Pill */
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3); 
+            transition: all 0.3s ease; text-transform: uppercase; font-size: 14px;
         }
-        .btn-download:hover { transform: translateY(2px); box-shadow: 0 2px 0 #b71c1c; }
+        .btn-download:hover {
+            transform: scale(1.05); /* Besar sikit */
+            box-shadow: 0 8px 25px rgba(0, 229, 255, 0.5); /* Glow makin kuat */
+        }
+        .btn-secondary { 
+            background: white; color: #00838f; border: 2px solid #00838f;
+            box-shadow: none;
+        }
+        .btn-secondary:hover { background: #e0f7fa; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* TAJUK */
-        h2 { border-left: 5px solid #ffca28; padding-left: 10px; color: #1a237e; margin-top: 0; }
+        /* --- TAJUK & TEKS --- */
+        h2 { 
+            font-weight: 700; color: #004d4d; margin-top: 0; position: relative; padding-bottom: 15px;
+        }
+        h2::before { /* Garis hiasan tajuk */
+            content: ''; position: absolute; left: 0; bottom: 0;
+            width: 60px; height: 5px; background: #00e5ff; border-radius: 10px;
+        }
 
-        /* RESPONSIF (PHONE) */
+        /* --- RESPONSIF --- */
         @media (max-width: 768px) {
             .content-grid { flex-direction: column; }
             .col-left, .col-right { flex: 100%; }
-            nav { flex-direction: column; text-align: center; }
+            .navbar { flex-direction: column; padding: 0; }
+            .navbar a, .dropbtn { width: 100%; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .dropdown-content { position: relative; box-shadow: none; width: 100%; }
+            .dropdown:hover .dropdown-content { display: none; } /* Di phone, dropdown perlu klik (js) atau biar simple dulu */
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>FESTIVAL APRESIASI SENI UNTUK SEMUA (FASUS)</h1>
-        <p>UNIT KESENIAN JABATAN PENDIDIKAN NEGERI TERENGGANU</p>
+        <h1>DASHBOARD KESENIAN JPNT</h1>
+        <p>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</p>
     </header>
 
-    <nav>
-        <a href="#" class="active">PENDAFTARAN</a>
-        <a href="#">SEMAKAN</a>
-        <a href="#">KEPUTUSAN</a>
-        <a href="#">HUBUNGI KAMI</a>
-    </nav>
+    <div class="navbar">
+        <a href="#utama">UTAMA</a>
+        
+        <div class="dropdown">
+            <button class="dropbtn">MUZIK ▾</button>
+            <div class="dropdown-content">
+                <a href="#">Festival Apresiasi Seni Untuk Semua (FASUS)</a>
+                <a href="#">Festival Rancak Seni (FERAS)</a>
+                <a href="#">Genta Suara</a>
+                <a href="#">Kompang Formasi</a>
+            </div>
+        </div> 
+
+        <div class="dropdown">
+            <button class="dropbtn">TARI ▾</button>
+            <div class="dropdown-content">
+                <a href="#">Tarian Sekolah Malaysia (TA'SEEM)</a>
+                <a href="#">Tarian Rampaian Tradisional</a>
+                <a href="#">Zapin Menengah</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">TEATER ▾</button>
+            <div class="dropdown-content">
+                <a href="#">Lakon Layar (FLASH)</a>
+                <a href="#">Dramatari</a>
+                <a href="#">Bicara Berirama</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">SENI VISUAL ▾</button>
+            <div class="dropdown-content">
+                <a href="#">Apresiasi Seni Visual (ASEV)</a>
+                <a href="#">Laskar Seni Visual</a>
+                <a href="#">Galeri Karya Murid</a>
+            </div>
+        </div>
+
+        <a href="#analisa" style="color:#00e5ff;">ANALISA PENYERTAAN</a>
+    </div>
 
     <div class="container">
+        
         <div class="content-grid">
             
-            <div class="col-left">
-                <h2>📝 Borang Pendaftaran</h2>
-                <p>Sila lengkapkan butiran di bawah. Pastikan resit pembayaran telah disediakan.</p>
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdc.../viewform?embedded=true" width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            <div class="col-left card">
+                <h2>📝 Pendaftaran: FASUS</h2>
+                <p style="color:#555; margin-bottom: 20px;">Sila lengkapkan borang di bawah. Pastikan fail PDF telah disediakan sebelum mendaftar.</p>
+                
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdc.../viewform?embedded=true" width="100%" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             </div>
 
-            <div class="col-right">
-                <h2>📂 Muat Turun Dokumen</h2>
-                <p style="font-size: 14px; color: #666;">Wajib baca syarat pertandingan sebelum mendaftar.</p>
+            <div class="col-right card">
+                <h2>📂 Dokumen Rasmi</h2>
+                <p style="font-size: 13px; color: #666; line-height: 1.6;">Muat turun syarat pertandingan dan surat punca kuasa di sini.</p>
                 
                 <a href="#" class="btn-download">📥 KERTAS KONSEP</a>
-                <a href="#" class="btn-download" style="background:#008CBA; box-shadow: 0 4px 0 #006080;">📥 SURAT JEMPUTAN</a>
+                <a href="#" class="btn-download btn-secondary">📥 SURAT JEMPUTAN</a>
 
-                <br><hr><br>
-                
-                <h2>📊 Statistik Semasa</h2>
-                <p style="font-size: 13px;">Jumlah sekolah yang telah mendaftar setakat ini:</p>
-                
-                <div style="background:#e3f2fd; padding:15px; text-align:center; border-radius:8px;">
-                    <span style="font-size:30px; font-weight:bold; color:#1565c0;">0</span><br>
-                    <span style="font-size:12px;">PENYERTAAN</span>
-                </div>
+                <br><br>
+                <div style="border-top: 1px dashed #ccc; margin: 10px 0;"></div>
                 <br>
-                <a href="#" style="text-decoration:none; color:blue; font-size:14px;">Lihat Senarai Penuh &rarr;</a>
+                
+                <h2>📊 Statistik Live</h2>
+                <p style="font-size: 13px; color:#666;">Jumlah penyertaan sekolah yang diterima setakat jam ini:</p>
+                
+                <div style="background: #e0f7fa; padding:25px; text-align:center; border-radius:12px; color:#006064; border: 1px solid #b2ebf2;">
+                    <span style="font-size:42px; font-weight:700; color: #00838f;">0</span><br>
+                    <span style="font-size:12px; font-weight:600; letter-spacing: 1px;">SEKOLAH BERDAFTAR</span>
+                </div>
+                
+                <br>
+                <a href="#" style="text-decoration:none; color:#00838f; font-weight:600; font-size:13px; display:block; text-align:center;">Lihat Senarai Penuh →</a>
             </div>
 
         </div>
 
-        <div style="margin-top: 30px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <h2>📈 Analisa Penyertaan (Dashboard)</h2>
-            <div style="background:#eee; height:500px; display:flex; align-items:center; justify-content:center; border:2px dashed #ccc;">
-                <p style="color:#777;">[ Ruang untuk Embed Looker Studio ]</p>
+        <div class="card" style="margin-top: 40px;">
+            <h2>📈 Analisa Keseluruhan</h2>
+            <div style="background:#f5fcfc; height:600px; display:flex; align-items:center; justify-content:center; border:2px dashed #b2ebf2; border-radius: 10px; color:#00838f;">
+                <p>[ Ruang untuk Embed Looker Studio ]</p>
             </div>
         </div>
 
     </div>
 
-    <footer style="text-align:center; padding: 30px; color: #888; font-size: 12px;">
+    <footer style="text-align:center; padding: 40px; color: #555; font-size: 13px; margin-top: 40px;">
         Hak Cipta Terpelihara &copy; 2026 Unit Kesenian JPNT
     </footer>
 
