@@ -24,27 +24,26 @@
         .logo-area span { color: var(--accent); }
         .logo-area p { margin: 0; font-size: 11px; color: #6b7280; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- 3. MENU NAVIGASI (PILL SHAPE EFFECT) --- */
+        /* --- 3. NAVIGASI --- */
         .navbar { display: flex; gap: 10px; align-items: center; }
-        
-        /* Butang Menu Utama */
         .nav-btn {
             background: transparent; border: none; font-family: 'Poppins'; font-size: 13px; font-weight: 600; 
             color: #4b5563; cursor: pointer; padding: 10px 20px; transition: 0.3s;
-            border-radius: 50px; /* Pill Shape */
-            text-transform: uppercase; position: relative;
+            border-radius: 50px; text-transform: uppercase; position: relative;
         }
-
-        /* Hover Effect: Pill Shape + Shadow */
         .nav-btn:hover, .nav-btn.active { 
             background-color: var(--primary); color: white; 
             box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); transform: translateY(-1px);
         }
 
-        /* Dropdown Setup */
+        /* BUTANG ADMIN KHAS */
+        .btn-admin {
+            background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; padding: 8px 15px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-admin:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+
+        /* DROPDOWN MENU */
         .dropdown { position: relative; display: inline-block; }
-        
-        /* Dropdown Content */
         .dropdown-content {
             display: none; position: absolute; right: 0; top: 120%; 
             background-color: var(--white); min-width: 240px;
@@ -54,7 +53,6 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .dropdown:hover .dropdown-content { display: block; top: 100%; }
 
-        /* Sub-Menu Items */
         .sub-group { padding: 5px 10px; border-bottom: 1px solid #f1f5f9; }
         .sub-group:last-child { border-bottom: none; }
         .sub-title { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; margin: 5px 0; letter-spacing: 0.5px; }
@@ -64,17 +62,16 @@
         }
         .sub-link:hover { background-color: #f0fdfa; color: var(--primary); padding-left: 15px; }
 
-        /* --- 4. LAYOUT --- */
+        /* --- 4. CONTAINER & VIEWS --- */
         .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none; }
 
-        /* DASHBOARD */
+        /* VIEW: DASHBOARD */
         .hero-stat {
             background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; 
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; position: relative; overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;
         }
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        
         .menu-card { 
             background: var(--white); border-radius: 16px; overflow: hidden; cursor: pointer;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02); border: 1px solid #f1f5f9; transition: 0.3s;
@@ -82,23 +79,32 @@
         }
         .menu-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
         .tag { position: absolute; top: 15px; right: 15px; background: #e0f2fe; color: #0284c7; font-size: 10px; padding: 4px 8px; border-radius: 6px; font-weight: 700; }
-        
         .card-body { padding: 25px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .card-cat { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .card-title { font-size: 15px; font-weight: 700; color: var(--dark); line-height: 1.4; margin-bottom: 15px; }
+        .card-title { font-size: 14px; font-weight: 700; color: var(--dark); line-height: 1.4; margin-bottom: 15px; }
         .stat-badge { background: #f0fdfa; color: #0f766e; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #ccfbf1; }
 
-        /* PAGE DETAIL */
-        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-family: 'Poppins'; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; font-size: 12px; }
-        .btn-back:hover { color: var(--primary); border-color: var(--primary); }
+        /* VIEW: ADMIN (TABLE) */
+        .admin-panel { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .admin-table th { text-align: left; padding: 12px; background: #f8fafc; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
+        .admin-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        .admin-table tr:hover { background: #f0fdfa; }
+        .btn-sheet { 
+            background: #10b981; color: white; text-decoration: none; padding: 6px 12px; 
+            border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .btn-sheet:hover { background: #059669; }
 
+        /* VIEW: PAGE DETAIL */
+        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-family: 'Poppins'; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; }
         .split-layout { display: flex; gap: 30px; flex-wrap: wrap; }
         .col-left { flex: 3; min-width: 350px; }
         .col-right { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
-
         .form-wrapper { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
         
-        /* KOTAK STATISTIK (INTERAKTIF) */
+        /* BOX STATISTIK */
         .stat-box { 
             background: linear-gradient(145deg, #0f766e, #115e59); color: white; 
             padding: 30px; border-radius: 16px; text-align: center; cursor: pointer; 
@@ -106,44 +112,37 @@
             box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.3);
         }
         .stat-box:hover { transform: scale(1.02); box-shadow: 0 25px 30px -5px rgba(15, 118, 110, 0.5); }
-        .stat-icon { font-size: 24px; margin-bottom: 10px; opacity: 0.8; }
-        .stat-number { font-size: 56px; font-weight: 800; line-height: 1; margin: 5px 0; letter-spacing: -2px; }
-        .stat-label { font-size: 11px; font-weight: 700; opacity: 0.9; letter-spacing: 1px; text-transform: uppercase; }
-        .click-hint { font-size: 10px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; margin-top: 15px; display: inline-block; }
+        .stat-number { font-size: 56px; font-weight: 800; line-height: 1; margin: 5px 0; }
+        .stat-label { font-size: 11px; font-weight: 700; opacity: 0.9; letter-spacing: 1px; }
 
         .download-box { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; }
         .btn-dl { display: block; width: 100%; padding: 12px; background: #1e293b; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 13px; transition: 0.2s; margin-top: 15px; }
         .btn-dl:hover { background: var(--primary); }
 
-        /* --- MODAL STATISTIK (POPUP) --- */
+        /* MODAL POPUP */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 2000;
-            justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s;
+            justify-content: center; align-items: center; padding: 20px;
         }
         .modal-content {
-            background: white; width: 100%; max-width: 1000px; max-height: 90vh;
-            border-radius: 20px; overflow-y: auto; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: white; width: 100%; max-width: 900px; max-height: 90vh;
+            border-radius: 20px; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-        .modal-header { padding: 20px 30px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; background: white; position: sticky; top: 0; z-index: 10; }
-        .modal-body { padding: 30px; overflow-y: auto; }
-        .close-btn { background: #fee2e2; border: none; color: #ef4444; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .close-btn:hover { background: #ef4444; color: white; }
-        
-        /* GRID CARTA & TABLE */
+        .modal-header { padding: 20px 30px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 10; }
+        .modal-body { padding: 30px; }
+        .close-btn { background: #fee2e2; border: none; color: #ef4444; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; }
         .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
-        .chart-container { background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; height: 350px; display: flex; align-items: center; justify-content: center; }
+        .chart-container { background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; height: 300px; display: flex; justify-content: center; }
+        .table-container { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; max-height: 300px; overflow-y: auto; }
         
-        .table-container { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; max-height: 350px; overflow-y: auto; }
         .school-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .school-table th { background: #f1f5f9; text-align: left; padding: 12px 15px; font-weight: 700; color: #475569; position: sticky; top: 0; }
-        .school-table td { border-bottom: 1px solid #f1f5f9; padding: 10px 15px; color: #334155; }
-        .school-table tr:hover { background: #f8fafc; }
+        .school-table th { background: #f1f5f9; text-align: left; padding: 10px; position: sticky; top: 0; }
+        .school-table td { border-bottom: 1px solid #f1f5f9; padding: 8px 10px; }
 
         @media (max-width: 900px) {
             header { flex-direction: column; gap: 15px; }
-            .navbar { overflow-x: auto; max-width: 100%; padding-bottom: 10px; }
+            .navbar { width: 100%; justify-content: center; flex-wrap: wrap; }
             .split-layout { flex-direction: column-reverse; }
             .analysis-grid { grid-template-columns: 1fr; }
         }
@@ -159,7 +158,10 @@
         
         <nav class="navbar" id="nav_menu">
             <button class="nav-btn" onclick="bukaHome()">Utama</button>
-            </nav>
+            <button class="btn-admin" onclick="bukaAdmin()">
+                🔒 URUS DATA
+            </button>
+        </nav>
     </header>
 
     <div class="container">
@@ -167,7 +169,7 @@
         <div id="view_dashboard">
             <div class="hero-stat">
                 <h2 style="margin:0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 2px;">Jumlah Penyertaan Keseluruhan</h2>
-                <h1 id="grand_total" style="font-size: 72px; font-weight: 800; color: var(--primary); margin: 10px 0; letter-spacing: -2px;">...</h1>
+                <h1 id="grand_total" style="font-size: 72px; font-weight: 800; color: var(--primary); margin: 10px 0;">...</h1>
                 <p style="font-size: 12px; color: #94a3b8; background: #f1f5f9; display: inline-block; padding: 5px 15px; border-radius: 20px;">Data masa nyata (Live)</p>
             </div>
 
@@ -176,62 +178,75 @@
         </div>
 
         <div id="view_page" class="hidden">
-            <button class="btn-back" onclick="bukaHome()">← KEMBALI KE MENU</button>
-            
+            <button class="btn-back" onclick="bukaHome()">← KEMBALI</button>
             <div class="split-layout">
                 <div class="col-left">
                     <h2 id="page_title" style="margin:0 0 20px 0; font-size:22px; font-weight:700; color:var(--dark);">Tajuk</h2>
                     <div class="form-wrapper">
                         <div style="background: #f8fafc; padding: 10px 20px; border-bottom: 1px solid #e2e8f0; text-align: right;">
-                            <a id="link_newtab" href="#" target="_blank" style="font-size: 11px; font-weight: 700; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                                BUKA TAB BARU ↗
-                            </a>
+                            <a id="link_newtab" href="#" target="_blank" style="font-size: 11px; font-weight: 700; color: var(--primary); text-decoration: none;">BUKA TAB BARU ↗</a>
                         </div>
                         <iframe id="frame_borang" src="" width="100%" height="1200px" frameborder="0"></iframe>
                     </div>
                 </div>
-
                 <div class="col-right">
                     <div class="stat-box" onclick="bukaModalStatistik()">
-                        <div class="stat-icon">📊</div>
                         <div class="stat-label">PENYERTAAN SEMASA</div>
                         <div class="stat-number" id="page_stat">0</div>
-                        <div class="click-hint">KLIK UNTUK ANALISIS</div>
+                        <div style="font-size:10px; background:rgba(255,255,255,0.2); display:inline-block; padding:3px 10px; border-radius:20px;">KLIK UNTUK ANALISIS</div>
                     </div>
-
                     <div class="download-box">
-                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155; text-transform: uppercase;">Bahan Pertandingan</h4>
-                        <p style="font-size: 11px; color: #64748b; margin-top: 5px;">Muat turun syarat & konsep</p>
-                        <a id="link_drive" href="#" target="_blank" class="btn-dl">📂 BUKA GOOGLE DRIVE</a>
+                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155;">DOKUMEN</h4>
+                        <p style="font-size: 11px; color: #64748b; margin-top: 5px;">Syarat & Konsep</p>
+                        <a id="link_drive" href="#" target="_blank" class="btn-dl">📂 GOOGLE DRIVE</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="view_admin" class="hidden">
+            <button class="btn-back" onclick="bukaHome()">← KEMBALI KE UTAMA</button>
+            <div class="admin-panel">
+                <div class="admin-header">
+                    <h2 style="margin:0; color:var(--dark);">PENGURUSAN DATA (ADMIN)</h2>
+                    <p style="margin:0; font-size:12px; color:#64748b;">Hanya pengguna yang mempunyai akses Google Sheet boleh membuka pautan data.</p>
+                </div>
+                
+                <div style="overflow-x:auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>KATEGORI</th>
+                                <th>TAJUK PERTANDINGAN</th>
+                                <th>TINDAKAN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin_tbody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="stats_modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <h3 style="margin:0; font-size:18px; color:var(--dark);">ANALISIS PENYERTAAN</h3>
-                    <p id="modal_subtitle" style="margin:0; font-size:12px; color:#64748b;">Analisis data masa nyata</p>
-                </div>
+                <h3 style="margin:0;">ANALISIS PENYERTAAN</h3>
                 <button class="close-btn" onclick="tutupModalStatistik()">✕</button>
             </div>
             <div class="modal-body">
                 <div class="analysis-grid">
                     <div>
-                        <h4 style="font-size:12px; color:#64748b; margin-bottom:10px; font-weight:700;">PECAHAN MENGIKUT DAERAH</h4>
-                        <div class="chart-container">
-                            <canvas id="chart_daerah"></canvas>
-                        </div>
+                        <h4 style="font-size:12px; margin-bottom:10px;">PECAHAN DAERAH</h4>
+                        <div class="chart-container"><canvas id="chart_daerah"></canvas></div>
                     </div>
-                    
                     <div>
-                        <h4 style="font-size:12px; color:#64748b; margin-bottom:10px; font-weight:700;">SENARAI SEKOLAH BERDAFTAR</h4>
+                        <h4 style="font-size:12px; margin-bottom:10px;">SENARAI SEKOLAH</h4>
                         <div class="table-container">
                             <table class="school-table">
-                                <thead><tr><th width="40">#</th><th>Nama Sekolah</th><th>Daerah</th></tr></thead>
+                                <thead><tr><th>#</th><th>Nama Sekolah</th><th>Daerah</th></tr></thead>
                                 <tbody id="list_body"></tbody>
                             </table>
                         </div>
@@ -243,53 +258,55 @@
 
     <script>
         // =================================================================
-        // 🛠️ DATABASE LENGKAP (DATA DARI TEKS CIKGU)
+        // 🛠️ DATABASE LENGKAP (DARI DATA CIKGU)
         // =================================================================
         const DATABASE = [
             // MUZIK
-            { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
-            { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
-            { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
-            { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
-            { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
-            { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
-            { cat: "MUZIK", sub: "GENTA SUARA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
-            { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SR)", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
-            { cat: "MUZIK", sub: "GENTA SUARA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
-            { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SM)", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", sheet: "https://docs.google.com/spreadsheets/d/1qCjiMQln2Qc0TS-vlqCmgSivLWxRbT_cKchbg0rX1BA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", sheet: "https://docs.google.com/spreadsheets/d/1QPJT6cLTGkOuqmiJvVnl4ahBCBmJoFtwgy7OM7Yb7Ls/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", sheet: "https://docs.google.com/spreadsheets/d/1lGT06n1XYYEUwab4IkBIewgd4upykPioA4igynIuHrM/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", sheet: "https://docs.google.com/spreadsheets/d/1HVgN4Sz2kfxiRcEK2JXmg27wT_ij0E3osaSl8keeG9s/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", sheet: "https://docs.google.com/spreadsheets/d/1SqG0xXq6Q82FLVCsAIq63osX1bRQeLliBXixxuF1gSA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
+            { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", sheet: "https://docs.google.com/spreadsheets/d/15yjNo_CoFDe7SaN5rQKPbHic9ZFCESnPlMUOedo8Q40/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
+            { cat: "MUZIK", sub: "GENTA SUARA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", sheet: "https://docs.google.com/spreadsheets/d/127Fvu_tyU7XcEphzxOZFVK8Fn4Kx8M0WpY8nT8ENCms/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
+            { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SR)", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", sheet: "https://docs.google.com/spreadsheets/d/1tRAe0VluRcv3W1HR6TIZt6Gomm-L24T9XcHnu5dK90A/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
+            { cat: "MUZIK", sub: "GENTA SUARA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", sheet: "https://docs.google.com/spreadsheets/d/1KoBy60UR1B0srN5xLz5dI0zFgjC8xPEAz88rJtfa2pE/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
+            { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SM)", form: "https://forms.gle/NksdkKXuiu8uEhBy7", sheet: "https://docs.google.com/spreadsheets/d/1NFPf0spN9qaveQy-nKmFHGMh6XjBsV5EENagFQwHw5o/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
             
             // TARI
-            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
-            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
-            { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
-            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
+            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", sheet: "https://docs.google.com/spreadsheets/d/1viKSXLmpeWQd5q47D65X5vtmolCvlNgZFoSNIRF77ho/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
+            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", sheet: "https://docs.google.com/spreadsheets/d/1U55Lv368iW3VFbnDienH_Hs30gxC66W5H4KnuIMdNEg/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
+            { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", sheet: "https://docs.google.com/spreadsheets/d/1Rgi0iJAQtJj_nMHAJQUX2oMUhHBYL7NeVlo4uNrMwkw/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
+            { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", sheet: "https://docs.google.com/spreadsheets/d/1PhbnKhaFRsVOVxWFG5gaK5VXAAQeLX7hNIq-OA9w-50/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
             
             // TEATER
-            { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
-            { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
-            { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
-            { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
-            { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
-            { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", sheet: "https://docs.google.com/spreadsheets/d/1dkUKieSlaj_Y647iOcnp7A2MBhcJDSrcnJsjmba_8jE/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", sheet: "https://docs.google.com/spreadsheets/d/1RbH6MHpP4e8uSQ7rBaUeybu5C_0AxY48TCmlLH3ntjs/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", sheet: "https://docs.google.com/spreadsheets/d/1NosQKr5059qHaBGyUdyKo_-CYW8QOOFP1s-AfdJ7zbA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", sheet: "https://docs.google.com/spreadsheets/d/10kTGTOAjzPOlPOZYJIDL8sQ_McXLpqlc6eAYi_2TMCo/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", sheet: "https://docs.google.com/spreadsheets/d/1dOqDL-sTiw8aCRuYA1lzaPdSA_9vKov65EveCS9RrOA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
+            { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", sheet: "https://docs.google.com/spreadsheets/d/16MwFNnYBEFXIU0ISBcs7tdQJx1MJBgmOMqiqWpFJr7k/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
 
             // SENI VISUAL
-            { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
-            { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
-            { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
+            { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", sheet: "https://docs.google.com/spreadsheets/d/1DLhXc-ZPkeJbkwoa5kVIBDJmBqCOHUYcGpTN4R-dwIg/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
+            { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", sheet: "https://docs.google.com/spreadsheets/d/1yEE06IJv5oX3Oc5Fxo-VpveQ7twdxXsp3uOCzdRjOQU/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
+            { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", sheet: "https://docs.google.com/spreadsheets/d/1GaA5_xXqksfKLACJO4YBbhI5lDkTGnhacvGuFmBxOO0/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" },
+            
+            // NESTLE (BARU) - Pautan belum ada, letak placeholder
+            { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ KOKO KRUNCH (SR)", form: "#", sheet: "#", drive: "#", csv: "" },
+            { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA BAHAN TERBUANG (SM)", form: "#", sheet: "#", drive: "#", csv: "" }
         ];
 
-        // =================================================================
-        // ⚙️ SYSTEM & ANALYTICS
-        // =================================================================
-        
-        // 1. GENERATE MENU
+        // 1. SYSTEM INITIALIZATION
         function initSystem() {
             const navbar = document.getElementById('nav_menu');
             const grid = document.getElementById('grid_container');
+            const adminBody = document.getElementById('admin_tbody');
+            
             const uniqueCats = [...new Set(DATABASE.map(item => item.cat))];
 
             uniqueCats.forEach(cat => {
-                // Dropdown Level 1 (Kategori)
+                // Dropdown Level 1
                 let dropdown = document.createElement('div');
                 dropdown.className = 'dropdown';
                 let btn = document.createElement('button');
@@ -297,7 +314,7 @@
                 btn.innerText = cat;
                 dropdown.appendChild(btn);
 
-                // Dropdown Content
+                // Content Level 2
                 let content = document.createElement('div');
                 content.className = 'dropdown-content';
                 const catItems = DATABASE.filter(item => item.cat === cat);
@@ -310,6 +327,7 @@
                     
                     DATABASE.forEach((item, index) => {
                         if(item.cat === cat && item.sub === sub) {
+                            // Menu Link
                             let link = document.createElement('a');
                             link.className = 'sub-link';
                             link.href = "#";
@@ -317,14 +335,29 @@
                             link.onclick = (e) => { e.preventDefault(); bukaPage(index); };
                             group.appendChild(link);
                             
-                            // Tambah ke Grid Dashboard
+                            // Dashboard Grid
                             addToGrid(item, index, grid);
                         }
                     });
                     content.appendChild(group);
                 });
                 dropdown.appendChild(content);
-                navbar.appendChild(dropdown);
+                navbar.insertBefore(dropdown, navbar.lastElementChild); // Insert before Admin button
+            });
+
+            // Populate Admin Table
+            DATABASE.forEach(item => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${item.cat}</b><br><span style="font-size:10px; color:#94a3b8;">${item.sub}</span></td>
+                    <td>${item.title}</td>
+                    <td>
+                        <a href="${item.sheet}" target="_blank" class="btn-sheet">
+                            📄 BUKA DATA
+                        </a>
+                    </td>
+                `;
+                adminBody.appendChild(tr);
             });
         }
 
@@ -344,19 +377,20 @@
             fetchData(item.csv, `mini_stat_${index}`);
         }
 
-        // 2. NAVIGASI
+        // 2. NAVIGATION & VIEWS
         function bukaHome() {
             document.getElementById('view_dashboard').classList.remove('hidden');
             document.getElementById('view_page').classList.add('hidden');
+            document.getElementById('view_admin').classList.add('hidden');
             window.scrollTo(0,0);
         }
 
         let currentIndex = null;
-
         function bukaPage(index) {
             currentIndex = index;
             const data = DATABASE[index];
             document.getElementById('view_dashboard').classList.add('hidden');
+            document.getElementById('view_admin').classList.add('hidden');
             document.getElementById('view_page').classList.remove('hidden');
             window.scrollTo(0,0);
 
@@ -368,9 +402,22 @@
             fetchData(data.csv, 'page_stat');
         }
 
-        // 3. FETCH DATA (Count Only)
+        // --- ADMIN GATEKEEPER ---
+        function bukaAdmin() {
+            let pin = prompt("Sila masukkan PIN Keselamatan Admin:");
+            if(pin === "1234") { // TUKAR PIN DI SINI JIKA MAHU
+                document.getElementById('view_dashboard').classList.add('hidden');
+                document.getElementById('view_page').classList.add('hidden');
+                document.getElementById('view_admin').classList.remove('hidden');
+                window.scrollTo(0,0);
+            } else if (pin != null) {
+                alert("PIN Salah! Akses ditolak.");
+            }
+        }
+
+        // 3. FETCH DATA & ANALYTICS
         function fetchData(url, elementId) {
-            if(!url) return;
+            if(!url) { document.getElementById(elementId).innerText = "-"; return; }
             fetch(url).then(r => r.text()).then(txt => {
                 let count = txt.trim().split('\n').length - 1;
                 if(count < 0) count = 0;
@@ -388,80 +435,56 @@
             document.getElementById('grand_total').innerText = total;
         }
 
-        // 4. CHART & ANALYTICS LOGIC (CHART.JS)
+        // 4. CHART & MODAL LOGIC
         let chartInstance = null;
 
         function bukaModalStatistik() {
             if(currentIndex === null) return;
             const data = DATABASE[currentIndex];
+            if(!data.csv) { alert("Data belum tersedia."); return; }
+            
             document.getElementById('stats_modal').style.display = 'flex';
-            document.getElementById('modal_subtitle').innerText = data.title;
-
-            const url = data.csv;
-            if(!url) return;
-
-            // Fetch Full Data for Analysis
-            fetch(url).then(r => r.text()).then(txt => {
-                const rows = txt.trim().split('\n').map(row => row.split(',')); // Simple CSV parser
-                // Asumsi: Row 1 = Header, Col 2 = Daerah, Col 3 = Nama Sekolah (Index 1 & 2)
+            
+            fetch(data.csv).then(r => r.text()).then(txt => {
+                const rows = txt.trim().split('\n').map(row => row.split(','));
                 
-                const sekolahList = [];
+                // DATA PROCESSING (Asumsi: Col 1=Daerah, Col 2=Sekolah)
                 const daerahStats = {};
+                const sekolahList = [];
 
-                // Skip Header (i=1)
                 for(let i=1; i<rows.length; i++) {
                     let cols = rows[i];
-                    // Clean quotes if any
-                    let daerah = cols[1] ? cols[1].replace(/"/g, '') : "Tidak Dinyatakan"; 
-                    let sekolah = cols[2] ? cols[2].replace(/"/g, '') : "-";
+                    if(cols.length < 3) continue;
+                    let daerah = cols[1].replace(/"/g, '').trim() || "Lain-lain";
+                    let sekolah = cols[2].replace(/"/g, '').trim() || "-";
                     
                     sekolahList.push({ nama: sekolah, daerah: daerah });
-                    
-                    if(daerahStats[daerah]) daerahStats[daerah]++;
-                    else daerahStats[daerah] = 1;
+                    daerahStats[daerah] = (daerahStats[daerah] || 0) + 1;
                 }
 
-                // Render List
+                // Render Table
                 const tbody = document.getElementById('list_body');
                 tbody.innerHTML = '';
                 sekolahList.forEach((s, i) => {
-                    let tr = `<tr><td>${i+1}</td><td>${s.nama}</td><td>${s.daerah}</td></tr>`;
-                    tbody.innerHTML += tr;
+                    tbody.innerHTML += `<tr><td>${i+1}</td><td>${s.nama}</td><td>${s.daerah}</td></tr>`;
                 });
 
                 // Render Chart
-                renderChart(daerahStats);
-
-            });
-        }
-
-        function renderChart(stats) {
-            const ctx = document.getElementById('chart_daerah').getContext('2d');
-            
-            // Destroy old chart if exists
-            if(chartInstance) chartInstance.destroy();
-
-            const labels = Object.keys(stats);
-            const values = Object.values(stats);
-            const colors = ['#0f766e', '#2dd4bf', '#14b8a6', '#0d9488', '#115e59', '#134e4a', '#ccfbf1', '#99f6e4'];
-
-            chartInstance = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: values,
-                        backgroundColor: colors,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { font: { family: 'Poppins', size: 10 } } }
-                    }
-                }
+                const ctx = document.getElementById('chart_daerah').getContext('2d');
+                if(chartInstance) chartInstance.destroy();
+                
+                chartInstance = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(daerahStats),
+                        datasets: [{
+                            data: Object.values(daerahStats),
+                            backgroundColor: ['#0f766e', '#14b8a6', '#2dd4bf', '#5eead4', '#99f6e4', '#ccfbf1', '#115e59'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+                });
             });
         }
 
@@ -469,10 +492,8 @@
             document.getElementById('stats_modal').style.display = 'none';
         }
 
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('stats_modal');
-            if (event.target == modal) tutupModalStatistik();
+        window.onclick = function(e) {
+            if(e.target == document.getElementById('stats_modal')) tutupModalStatistik();
         }
 
         initSystem();
