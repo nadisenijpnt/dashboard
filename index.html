@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        /* --- 1. TEMA WARNA & ASAS --- */
+        /* --- TEMA WARNA & STYLE --- */
         :root { 
             --primary: #0f766e; /* Teal Gelap */
             --accent: #2dd4bf;  /* Teal Terang */
@@ -31,7 +31,7 @@
         /* NAVIGASI */
         .navbar { display: flex; gap: 10px; align-items: center; }
         .nav-btn { background: transparent; border: none; font-family: 'Poppins'; font-size: 13px; font-weight: 600; color: #4b5563; cursor: pointer; padding: 10px 20px; transition: 0.3s; border-radius: 50px; text-transform: uppercase; }
-        .nav-btn:hover { background-color: var(--primary); color: white; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
+        .nav-btn:hover { background-color: var(--primary); color: white; transform: translateY(-1px); }
 
         .btn-admin { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; padding: 8px 15px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
         .btn-admin.logged-in { background: #dcfce7; color: #166534; border-color: #bbf7d0; } 
@@ -39,20 +39,19 @@
 
         /* DROPDOWN MENU */
         .dropdown { position: relative; display: inline-block; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 240px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-radius: 12px; z-index: 1001; padding: 10px; border: 1px solid #e2e8f0; animation: fadeIn 0.2s; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 240px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-radius: 12px; z-index: 1001; padding: 10px; border: 1px solid #e2e8f0; }
         .dropdown:hover .dropdown-content { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .sub-group { padding: 5px; border-bottom: 1px solid #f1f5f9; }
         .sub-link { display: block; padding: 8px 12px; color: #334155; text-decoration: none; font-size: 12px; font-weight: 500; border-radius: 6px; cursor: pointer; transition:0.2s; }
         .sub-link:hover { background: #f0fdfa; color: var(--primary); padding-left: 15px; }
 
-        /* LAYOUT & CONTAINER */
+        /* CONTAINER */
         .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none; }
         
-        /* DASHBOARD (GRID) */
-        .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; position: relative; overflow: hidden; }
+        /* DASHBOARD */
+        .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .menu-card { background: var(--white); border-radius: 16px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; transition: 0.3s; display: flex; flex-direction: column; position: relative; }
         .menu-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--accent); }
@@ -66,36 +65,29 @@
         .btn-google { background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-size: 14px; transition: 0.2s; }
         .btn-google:hover { background: #357ae8; transform: scale(1.02); }
         
-        /* ADMIN DATA TABLE */
+        /* DATA TABLE */
         .selector-box { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
-        .select-input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; min-width: 250px; font-family: 'Poppins'; outline: none; }
-        .search-input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; font-family: 'Poppins'; outline: none; }
-        
+        .select-input, .search-input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; min-width: 250px; font-family: 'Poppins'; outline: none; }
         .data-table-wrapper { overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 600px; overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
         .data-table th { background: #f1f5f9; padding: 15px; text-align: left; font-weight: 700; color: #475569; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #e2e8f0; }
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; }
         .data-table tr:hover { background: #f0fdfa; }
 
-        /* PAGE PERTANDINGAN */
-        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
-        .btn-back:hover { border-color: var(--primary); color: var(--primary); }
+        /* PAGE VIEWER */
+        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px; }
         .split-layout { display: flex; gap: 30px; flex-wrap: wrap; }
         .col-left { flex: 3; min-width: 350px; }
         .col-right { flex: 1; min-width: 300px; }
-        .form-wrapper { background: white; border-radius: 16px; overflow: hidden; height: 1200px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        
-        .stat-box { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); color: white; padding: 30px; border-radius: 16px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: 0.3s; position: relative; overflow: hidden; }
-        .stat-box:hover { transform: scale(1.02); box-shadow: 0 15px 30px -5px rgba(15, 118, 110, 0.4); }
-        
+        .form-wrapper { background: white; border-radius: 16px; overflow: hidden; height: 1200px; border: 1px solid #e2e8f0; }
+        .stat-box { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); color: white; padding: 30px; border-radius: 16px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: 0.3s; }
+        .stat-box:hover { transform: scale(1.02); }
         .download-box { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; }
-        .btn-dl { display: block; width: 100%; padding: 12px; background: #1e293b; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 15px; transition: 0.2s; }
-        .btn-dl:hover { background: var(--primary); }
-        .btn-sheet { background: #10b981; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition:0.2s; }
-        .btn-sheet:hover { background: #059669; }
+        .btn-dl { display: block; width: 100%; padding: 12px; background: #1e293b; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 15px; }
+        .btn-sheet { background: #10b981; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
 
         /* MODAL */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 900px; max-height: 90vh; border-radius: 20px; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
         .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px; }
         .chart-wrapper { background: #f8fafc; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; height: 350px; display: flex; align-items: center; justify-content: center; }
@@ -110,7 +102,6 @@
             <h1>NADI SENI <span>JPNT</span></h1>
             <p>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</p>
         </div>
-        
         <nav class="navbar" id="nav_menu">
             <button class="nav-btn" onclick="bukaHome()">UTAMA</button>
             <button id="btn_admin_top" class="btn-admin" onclick="checkAuthAndRedirect()">🔒 ADMIN LOGIN</button>
@@ -123,9 +114,8 @@
             <div class="hero-stat">
                 <h2 style="margin:0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 2px;">Jumlah Penyertaan Keseluruhan</h2>
                 <h1 id="grand_total" style="font-size: 72px; font-weight: 800; color: var(--primary); margin: 10px 0; letter-spacing: -2px;">...</h1>
-                <p style="font-size: 12px; color: #94a3b8; background: #f1f5f9; display: inline-block; padding: 5px 15px; border-radius: 20px;">Dikemaskini secara masa nyata (Live)</p>
+                <p style="font-size: 12px; color: #94a3b8; background: #f1f5f9; display: inline-block; padding: 5px 15px; border-radius: 20px;">Data masa nyata</p>
             </div>
-            <div style="margin-bottom: 20px; font-weight: 700; color: #334155; font-size: 18px;">SENARAI PERTANDINGAN</div>
             <div id="grid_container" class="grid-menu"></div>
         </div>
 
@@ -146,8 +136,7 @@
                         <div style="font-size:10px; opacity:0.8; margin-top:10px; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:20px; display:inline-block;">KLIK UNTUK ANALISIS</div>
                     </div>
                     <div class="download-box">
-                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155;">BAHAN PERTANDINGAN</h4>
-                        <p style="font-size: 11px; color: #64748b; margin-top: 5px;">Syarat & Kertas Konsep</p>
+                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155;">DOKUMEN</h4>
                         <a id="link_drive" href="#" target="_blank" class="btn-dl">📂 BUKA FOLDER DRIVE</a>
                     </div>
                 </div>
@@ -161,7 +150,7 @@
                 <div id="admin_login_ui">
                     <div class="login-box">
                         <h3 style="color:var(--primary); margin-bottom:10px;">AKSES ADMIN</h3>
-                        <p style="font-size:12px; color:#64748b; margin-bottom:30px;">Sila log masuk menggunakan akaun Google yang sah untuk melihat data sensitif.</p>
+                        <p style="font-size:12px; color:#64748b; margin-bottom:30px;">Log masuk untuk melihat data sensitif.</p>
                         <button class="btn-google" onclick="loginGoogle()">🔑 LOG MASUK (GOOGLE)</button>
                     </div>
                 </div>
@@ -169,7 +158,7 @@
                 <div id="admin_data_ui" class="hidden">
                     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:20px; margin-bottom:25px;">
                         <div style="text-align:left;">
-                            <h2 style="margin:0; color:var(--dark);">PANEL PENGURUSAN DATA</h2>
+                            <h2 style="margin:0; color:var(--dark);">PENGURUSAN DATA</h2>
                             <p id="user_display" style="margin:5px 0 0; font-size:12px; color:var(--primary); font-weight:600;">...</p>
                         </div>
                         <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#ef4444; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:12px;">LOG KELUAR</button>
@@ -179,10 +168,10 @@
                         <select id="comp_selector" class="select-input" onchange="loadTableData()">
                             <option value="">-- SILA PILIH PERTANDINGAN --</option>
                         </select>
-                        <input type="text" id="tableSearch" class="search-input" placeholder="🔎 Cari Nama Sekolah, Guru, atau No Tel..." onkeyup="filterTable()">
+                        <input type="text" id="tableSearch" class="search-input" placeholder="🔎 Cari Sekolah, Guru, No Tel..." onkeyup="filterTable()">
                     </div>
 
-                    <div id="loading_msg" style="display:none; color:#64748b; margin:20px;">Sedang memuat turun data dari pelayan...</div>
+                    <div id="loading_msg" style="display:none; color:#64748b; margin:20px;">Sedang memuat turun data...</div>
 
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -190,7 +179,7 @@
                                 <tr><th>#</th><th>DATA BELUM DIPILIH</th></tr>
                             </thead>
                             <tbody id="data_tbody">
-                                <tr><td colspan="2" style="text-align:center; padding:40px; color:#94a3b8;">Sila pilih salah satu pertandingan di menu atas untuk memaparkan data.</td></tr>
+                                <tr><td colspan="2" style="text-align:center; padding:40px; color:#94a3b8;">Sila pilih pertandingan di menu atas.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -203,7 +192,7 @@
                 <div id="access_denied_ui" class="hidden">
                     <div class="login-box" style="border-color:#fee2e2; background:#fef2f2;">
                         <h3 style="color:#ef4444;">AKSES DITOLAK 🚫</h3>
-                        <p style="font-size:12px;">Maaf, email <b id="denied_email"></b> tidak mempunyai kebenaran untuk mengakses halaman ini.</p>
+                        <p style="font-size:12px;">Email <b id="denied_email"></b> tiada dalam senarai admin.</p>
                         <button onclick="logoutGoogle()" style="margin-top:20px; cursor:pointer; padding:10px 20px; border:1px solid #ef4444; background:white; color:#ef4444; border-radius:6px;">Log Keluar</button>
                     </div>
                 </div>
@@ -226,7 +215,7 @@
                     </div>
                 </div>
                 <div>
-                    <h4 style="font-size:12px; margin-bottom:15px; color:#64748b; font-weight:700;">SENARAI SEKOLAH YANG TELAH MENDAFTAR</h4>
+                    <h4 style="font-size:12px; margin-bottom:15px; color:#64748b; font-weight:700;">SENARAI BERDAFTAR</h4>
                     <div class="data-table-wrapper" style="height:350px;">
                         <table class="data-table">
                             <thead><tr><th width="50">#</th><th>SEKOLAH</th><th>DAERAH</th></tr></thead>
@@ -252,31 +241,20 @@
             measurementId: "G-S0FSJYL6E4"
         };
         
-        // Init Firebase
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // 🔒 SENARAI EMAIL ADMIN (Masukkan email cikgu di sini)
+        // 🔒 SENARAI EMAIL ADMIN
         const ALLOWED_ADMINS = [
-            "naimullahkhalid@gmail.com",  // <--- EMAIL UTAMA CIKGU
-            "unit.kesenian@gmail.com"     // Boleh tambah email lain
+            "naimullahkhalid@gmail.com",
+            "unit.kesenian@gmail.com"
         ];
 
-        // 🎨 TEMA WARNA CARTA (MENARIK & CERIA)
-        const chartColors = [
-            '#14b8a6', // Teal
-            '#3b82f6', // Blue
-            '#8b5cf6', // Violet
-            '#f59e0b', // Amber
-            '#ec4899', // Pink
-            '#10b981', // Emerald
-            '#6366f1', // Indigo
-            '#f97316'  // Orange
-        ];
+        const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
         // =================================================================
-        // 🛠️ DATABASE PERTANDINGAN LENGKAP
+        // 🛠️ DATABASE
         // =================================================================
         const DATABASE = [
             // MUZIK
@@ -311,7 +289,22 @@
             { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA BAHAN TERBUANG (SM)", form: "#", sheet: "#", drive: "#", csv: "" }
         ];
 
-        // 1. INIT SYSTEM (MENU & DASHBOARD)
+        // =================================================================
+        // ⚙️ LOGIC UTAMA (PARSING CSV BIJAK) - FIX NAMA SEKOLAH
+        // =================================================================
+
+        // Fungsi ini akan baca teks yang ada dalam "..." sebagai satu ayat,
+        // jadi koma dalam nama sekolah tidak akan memotong data.
+        function parseCSVRow(rowText) {
+            const matches = rowText.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+            if (!matches) return rowText.split(','); // Fallback
+            
+            return matches.map(val => {
+                return val.replace(/^"|"$/g, '').trim(); // Buang quote
+            });
+        }
+
+        // 1. INIT SYSTEM
         function initSystem() {
             const navbar = document.getElementById('nav_menu');
             const grid = document.getElementById('grid_container');
@@ -373,7 +366,7 @@
         function showAdminPanel(user) { document.getElementById('admin_login_ui').classList.add('hidden'); document.getElementById('admin_data_ui').classList.remove('hidden'); document.getElementById('access_denied_ui').classList.add('hidden'); document.getElementById('user_display').innerText="Log Masuk: "+user.email; document.getElementById('btn_admin_top').classList.add('logged-in'); }
         function showAccessDenied(user) { document.getElementById('admin_login_ui').classList.add('hidden'); document.getElementById('admin_data_ui').classList.add('hidden'); document.getElementById('access_denied_ui').classList.remove('hidden'); document.getElementById('denied_email').innerText=user.email; }
 
-        // 3. ADMIN TABLE LOGIC (REGEX PARSER)
+        // 3. ADMIN TABLE LOGIC (Guna Parser Baru)
         function loadTableData() {
             const idx = document.getElementById('comp_selector').value;
             const tbody = document.getElementById('data_tbody');
@@ -389,19 +382,24 @@
 
             fetch(data.csv).then(r=>r.text()).then(txt => {
                 const rows = txt.trim().split('\n');
-                let headCols = rows[0].split(',');
+                // Header
+                let headCols = parseCSVRow(rows[0]);
                 let headHtml = `<tr><th>#</th>`;
-                // Hadkan kolum kepada 6 pertama supaya tak serabut
-                for(let i=0; i<Math.min(headCols.length, 6); i++) headHtml += `<th>${headCols[i].replace(/"/g,'')}</th>`;
+                // Papar max 6 column
+                for(let i=0; i<Math.min(headCols.length, 6); i++) headHtml += `<th>${headCols[i]}</th>`;
                 headHtml += `</tr>`;
                 thead.innerHTML = headHtml;
 
+                // Body
                 let bodyHtml = '';
                 for(let i=1; i<rows.length; i++) {
-                    let cols = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || rows[i].split(',');
+                    if(rows[i].trim() === "") continue;
+                    let cols = parseCSVRow(rows[i]);
                     bodyHtml += `<tr><td>${i}</td>`;
                     for(let j=0; j<Math.min(cols.length, 6); j++) {
-                        let val = cols[j] ? cols[j].replace(/"/g,'').trim() : "-";
+                        let val = cols[j] || "-";
+                        // Style sikit kalau data tu nama sekolah (biasanya column ke-3 aka index 2)
+                        if(j === 2) val = `<span style="font-weight:600; color:var(--primary);">${val}</span>`;
                         bodyHtml += `<td>${val}</td>`;
                     }
                     bodyHtml += `</tr>`;
@@ -434,7 +432,7 @@
         }
         function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e=>{let v=parseInt(e.innerText); if(!isNaN(v))t+=v;}); document.getElementById('grand_total').innerText=t; }
 
-        // 5. MODAL ANALISIS (AWAM - CHART.JS)
+        // 5. MODAL ANALISIS (Guna Parser Baru)
         let chartPie = null;
         function bukaModalStatistik() {
             if(currentIndex === null) return;
@@ -446,18 +444,22 @@
             fetch(data.csv).then(r=>r.text()).then(txt => {
                 const rows = txt.trim().split('\n');
                 const stats = {}; const list = [];
-                // ASUMSI: Col 1=Daerah, Col 2=Sekolah (Ubah index jika perlu)
+                
                 for(let i=1; i<rows.length; i++) {
-                    let cols = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    if(!cols || cols.length < 2) cols = rows[i].split(',');
-                    let d = cols[1] ? cols[1].replace(/"/g,'').trim() : "Lain"; 
-                    let s = cols[2] ? cols[2].replace(/"/g,'').trim() : "-";
+                    if(rows[i].trim() === "") continue;
+                    let cols = parseCSVRow(rows[i]);
+                    
+                    // ASUMSI: Col 1 = Daerah, Col 2 = Sekolah
+                    // Tukar nombor [1] atau [2] jika column dalam Excel cikgu berbeza
+                    let d = cols[1] || "Lain"; 
+                    let s = cols[2] || "-";
+                    
                     list.push({n:s, d:d}); 
                     stats[d] = (stats[d]||0)+1;
                 }
                 
                 const tbody = document.getElementById('list_body'); tbody.innerHTML = '';
-                list.forEach((x,k)=>tbody.innerHTML+=`<tr><td>${k+1}</td><td><b>${x.n}</b></td><td><span style="font-size:10px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${x.d}</span></td></tr>`);
+                list.forEach((x,k)=>tbody.innerHTML+=`<tr><td>${k+1}</td><td style="white-space:normal; font-weight:600; color:#334155;">${x.n}</td><td><span style="font-size:10px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${x.d}</span></td></tr>`);
 
                 const ctx = document.getElementById('chart_daerah').getContext('2d');
                 if(chartPie) chartPie.destroy();
