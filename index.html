@@ -52,7 +52,7 @@
         .card-title { font-weight: 700; margin-top: 10px; font-size: 13px; line-height: 1.4; min-height: 36px; display: flex; align-items: center; justify-content: center; }
         .stat-badge { background: #f1f5f9; color: #64748b; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-top: 15px; }
 
-        /* --- 3. PAGE VIEW (NEW DESIGN) --- */
+        /* --- 3. PAGE VIEW (NEW BUTTON DESIGN) --- */
         .registration-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; max-width: 800px; margin: 0 auto; text-align: center; }
         .reg-header { background: var(--primary); padding: 40px 20px; color: white; }
         .reg-body { padding: 40px 20px; }
@@ -67,13 +67,13 @@
         .table-container { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .data-table th { background: #f8fafc; text-align: left; padding: 15px; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
-        
-        /* 🔥 FIX UNTUK NAMA SEKOLAH (WRAP TEXT) */
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; }
+        
+        /* WRAP TEXT UNTUK NAMA SEKOLAH */
         .wrap-text { 
             white-space: normal !important; 
             word-wrap: break-word; 
-            max-width: 200px; /* Limit lebar supaya turun baris */
+            max-width: 200px; 
             line-height: 1.5;
         }
 
@@ -149,7 +149,7 @@
 
                     <div style="display:flex; flex-wrap:wrap; justify-content:center;">
                         <a id="link_form" href="#" target="_blank" class="btn-primary-lg">📝 DAFTAR SEKARANG</a>
-                        <a id="link_drive" href="#" target="_blank" class="btn-secondary-lg">📂 MAKLUMAT LENGKAP</a>
+                        <a id="link_drive" href="#" target="_blank" class="btn-secondary-lg">📂 FOLDER GOOGLE DRIVE</a>
                     </div>
 
                 </div>
@@ -242,7 +242,7 @@
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
     const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
-    // DATABASE
+    // DATABASE LENGKAP (UPDATED)
     const DATABASE = [
         // MUZIK
         { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
@@ -252,9 +252,9 @@
         { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
         { cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
-        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
+        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SR)", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
-        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
+        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SM)", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
         
         // TARI
         { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
@@ -273,9 +273,7 @@
         // SENI VISUAL
         { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
         { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
-        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ (SR)", form: "#", drive: "#", csv: "" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA (SM)", form: "#", drive: "#", csv: "" }
+        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
     ];
 
     // =================================================================
@@ -366,9 +364,8 @@
             if(head.includes("SEKOLAH") || head.includes("INSTITUSI") || head.includes("PASUKAN")) iSchool = i;
             if(head.includes("DAERAH") || head.includes("PPD") || head.includes("NEGERI")) iDistrict = i;
         });
-        // Fallback Logic
-        if(iDistrict === -1) iDistrict = 1; // Biasanya Col 1
-        if(iSchool === -1) iSchool = 2; // Biasanya Col 2
+        if(iDistrict === -1) iDistrict = 1; 
+        if(iSchool === -1) iSchool = 2; 
         return { iSchool, iDistrict };
     }
 
@@ -382,8 +379,6 @@
         fetch(d.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const stats = {}; const list = [];
-            
-            // Apply Smart Detection
             const headers = parseCSV(rows[0]);
             const cols = detectColumns(headers);
 
@@ -392,11 +387,8 @@
                 let c = parseCSV(rows[i]);
                 let da = c[cols.iDistrict]||"Lain"; 
                 let sc = c[cols.iSchool]||"-";
-                
-                // Bersihkan Data
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 sc = sc.replace(/"/g, '').trim().toUpperCase();
-
                 stats[da] = (stats[da]||0)+1;
                 list.push({s:sc, d:da});
             }
@@ -487,7 +479,7 @@
         d.heads.forEach((head, idx) => {
             if(idx===0) return;
             let val = d.full[idx] || "-";
-            val = val.replace(/"/g, ''); // Clean quotes
+            val = val.replace(/"/g, ''); 
             
             if(head.toUpperCase().includes('TELEFON') || head.toUpperCase().includes('HP')) {
                 ph = val.replace(/[^0-9]/g,''); if(!ph.startsWith('6')) ph='6'+ph;
@@ -500,7 +492,7 @@
         document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // 🔥 SMART PARSER (Fixes comma issues)
+    // 🔥 SMART PARSER
     function parseCSV(text) {
         const matches = text.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
         if (!matches) return text.split(',');
