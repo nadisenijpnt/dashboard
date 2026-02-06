@@ -6,63 +6,50 @@
     <title>NADI SENI JPNT - Portal Data</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        /* --- 1. DESIGN SYSTEM --- */
+        /* --- STYLE --- */
         :root { --primary: #0f766e; --accent: #2dd4bf; --bg: #f8fafc; --white: #ffffff; --dark: #1e293b; }
         * { box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--dark); }
         
-        /* HEADER */
         header { background: var(--white); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 1000; }
-        .logo-area { cursor: pointer; }
         .logo-area h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--primary); }
-        .logo-area span { color: var(--accent); }
-        
-        /* NAV BUTTONS */
         .nav-group { display: flex; gap: 10px; }
         .nav-btn { background: transparent; border: none; font-weight: 600; color: #64748b; cursor: pointer; padding: 8px 15px; border-radius: 50px; transition: 0.3s; font-size: 13px; }
         .nav-btn:hover { background: #f1f5f9; color: var(--primary); }
         .btn-login { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
         .btn-login.logged-in { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
 
-        /* CONTAINER */
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none !important; }
 
-        /* --- 2. PUBLIC DASHBOARD (KAD & TAB) --- */
+        /* DASHBOARD */
         .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .cat-tabs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .tab-btn { padding: 10px 20px; background: white; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 12px; color: #64748b; white-space: nowrap; transition:0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
+
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .menu-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border: 1px solid #e2e8f0; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .menu-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .card-tag { position: absolute; top: 15px; right: 15px; font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; background: #f0fdfa; padding: 3px 8px; border-radius: 6px; }
+        .card-tag { position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
+        .tag-muzik { background: #dbeafe; color: #1e40af; } .tag-tari { background: #fef3c7; color: #b45309; } .tag-teater { background: #dcfce7; color: #15803d; } .tag-visual { background: #fce7f3; color: #9d174d; }
         .card-title { font-weight: 700; margin-top: 10px; font-size: 13px; line-height: 1.4; min-height: 36px; display: flex; align-items: center; justify-content: center; }
         .stat-badge { background: #f1f5f9; color: #64748b; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-top: 15px; }
 
-        /* TAB STYLES (COMMON) */
-        .cat-tabs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-btn { padding: 10px 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 12px; color: #64748b; white-space: nowrap; transition:0.3s; }
-        .tab-btn:hover { background: #e2e8f0; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
-
-        /* --- 3. PUBLIC PAGE VIEW (DETAIL) --- */
-        .split-layout { display: flex; gap: 30px; height: 1000px; } /* Fixed height frame */
+        /* PAGE & ADMIN */
+        .split-layout { display: flex; gap: 30px; height: 1200px; }
         .col-main { flex: 3; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; height: 100%; }
         .col-side { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .side-card { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; }
-        .side-card:hover { border-color: var(--primary); transform: scale(1.02); }
-        .btn-share { display: block; margin-top: 10px; padding: 10px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid #e2e8f0; }
-        .btn-share:hover { background: #e2e8f0; }
-
-        /* --- 4. ADMIN INTERFACE --- */
-        .admin-header { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .side-card { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; }
+        .btn-share { display: block; width: 100%; margin-top: 10px; padding: 12px; background: #f8fafc; color: #334155; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
         
+        .admin-header { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
-        .sub-card { background: white; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; color: #475569; transition: 0.2s; }
-        .sub-card:hover { border-color: var(--primary); color: var(--primary); background: #f0fdfa; }
+        .sub-card { background: white; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; text-align: center; color: #475569; transition: 0.2s; }
         .sub-card.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
         .table-container { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
@@ -71,18 +58,16 @@
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; }
         .btn-view { background: #3b82f6; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; border:none; cursor: pointer; }
 
-        /* --- 5. MODALS --- */
+        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-card { background: white; width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); animation: slideUp 0.3s ease; }
+        .modal-card { background: white; width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; animation: slideUp 0.3s ease; }
         .modal-head { background: var(--primary); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .modal-body { padding: 25px; max-height: 70vh; overflow-y: auto; }
-        
-        /* ADMIN DETAIL STYLES */
         .detail-row { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
         .label { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .value { font-size: 14px; font-weight: 500; color: #334155; }
         .action-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-action { flex: 1; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-size: 13px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-action { flex: 1; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-size: 13px; font-weight: 700; color: white; }
         .btn-wa { background: #25D366; } .btn-call { background: #3b82f6; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -92,9 +77,7 @@
 <body>
 
     <header>
-        <div class="logo-area" onclick="bukaHome()">
-            <h1>NADI SENI <span>JPNT</span></h1>
-        </div>
+        <div class="logo-area" onclick="bukaHome()"><h1>NADI SENI <span>JPNT</span></h1></div>
         <div class="nav-group">
             <button class="nav-btn" onclick="bukaHome()">UTAMA</button>
             <button class="nav-btn btn-login" id="btn_auth" onclick="bukaAdmin()">🔒 ADMIN</button>
@@ -105,27 +88,21 @@
 
         <div id="view_dashboard">
             <div class="hero-stat">
-                <h4 style="margin:0; color:#94a3b8; font-size:12px; text-transform:uppercase; letter-spacing:1px;">Jumlah Penyertaan Keseluruhan</h4>
+                <h4 style="margin:0; color:#94a3b8; font-size:12px; text-transform:uppercase;">Jumlah Penyertaan Keseluruhan</h4>
                 <h1 id="grand_total" style="font-size:60px; color:var(--primary); margin:10px 0; line-height:1;">...</h1>
                 <span style="background:#f1f5f9; padding:5px 15px; border-radius:20px; font-size:11px; color:#64748b;">Data Langsung (Live)</span>
             </div>
-
             <div style="margin-bottom:20px;">
                 <div style="font-weight:700; font-size:18px; color:var(--dark); margin-bottom:15px;">SENARAI PERTANDINGAN</div>
-                <div class="cat-tabs" id="public_tabs">
-                    </div>
+                <div class="cat-tabs" id="public_tabs"></div>
             </div>
-
-            <div id="grid_container" class="grid-menu">
-                </div>
+            <div id="grid_container" class="grid-menu"></div>
         </div>
 
         <div id="view_page" class="hidden">
-            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI KE MENU</button>
+            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI</button>
             <div class="split-layout">
-                <div class="col-main">
-                    <iframe id="frame_borang" src="" width="100%" height="100%" frameborder="0"></iframe>
-                </div>
+                <div class="col-main"><iframe id="frame_borang" src="" width="100%" height="100%" frameborder="0"></iframe></div>
                 <div class="col-side">
                     <div class="side-card" style="background:#0f766e; color:white; border:none;" onclick="bukaModalStatistik()">
                         <div style="font-size:24px;">📊</div>
@@ -133,51 +110,39 @@
                         <div id="page_stat" style="font-size:48px; font-weight:800; line-height:1.2;">0</div>
                         <div style="font-size:10px; background:rgba(255,255,255,0.2); padding:5px; border-radius:20px; margin-top:10px;">KLIK UNTUK ANALISIS</div>
                     </div>
-                    
                     <div class="side-card">
-                        <div style="font-weight:700; font-size:13px;">DOKUMEN & INFO</div>
-                        <a id="link_drive" href="#" target="_blank" class="btn-share" style="background:#1e293b; color:white;">📂 FOLDER DRIVE</a>
-                        <button onclick="shareLink()" class="btn-share">🔗 SALIN LINK PERTANDINGAN</button>
+                        <div style="font-weight:700; font-size:13px;">DOKUMEN</div>
+                        <a id="link_drive" href="#" target="_blank" class="btn-share" style="background:#1e293b; color:white; border:none;">📂 GOOGLE DRIVE</a>
+                        <button onclick="shareLink()" class="btn-share">🔗 SALIN LINK</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="view_admin" class="hidden">
-            
             <div id="admin_login_ui" style="text-align:center; padding:50px;">
                 <div style="background:white; max-width:400px; margin:0 auto; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
                     <h3>PENGURUSAN DATA</h3>
-                    <p style="color:#64748b; font-size:13px; margin-bottom:20px;">Halaman ini khas untuk Urusetia JPNT sahaja.</p>
+                    <p style="color:#64748b; font-size:13px; margin-bottom:20px;">Sila log masuk untuk akses data.</p>
                     <button onclick="loginGoogle()" style="background:#4285F4; color:white; border:none; padding:12px 25px; border-radius:50px; font-weight:600; cursor:pointer;">🔑 Log Masuk Google</button>
                 </div>
             </div>
-
             <div id="admin_dashboard_ui" class="hidden">
                 <div class="admin-header">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h2 style="margin:0;">Dashboard Admin</h2>
-                            <p id="user_display" style="margin:5px 0 0; font-size:12px; color:var(--primary);">...</p>
-                        </div>
+                        <div><h2 style="margin:0;">Dashboard Admin</h2><p id="user_display" style="margin:5px 0 0; font-size:12px; color:var(--primary);">...</p></div>
                         <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#ef4444; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:700; font-size:11px;">LOG KELUAR</button>
                     </div>
                     <div class="cat-tabs" id="category_tabs"></div>
                 </div>
-
                 <div id="sub_category_area" class="sub-grid"></div>
-                
                 <div id="loading_msg" class="hidden" style="text-align:center; padding:30px; color:#64748b;">Sedang memuat turun data...</div>
-                
                 <div id="table_area" class="table-container hidden">
                     <div style="padding:15px; border-bottom:1px solid #e2e8f0;">
-                        <input type="text" id="tableSearch" style="width:100%; border:none; outline:none; font-family:'Poppins';" placeholder="🔎 Cari Nama Sekolah, Daerah, atau Guru..." onkeyup="filterTable()">
+                        <input type="text" id="tableSearch" style="width:100%; border:none; outline:none;" placeholder="🔎 Cari Sekolah, Guru, No Tel..." onkeyup="filterTable()">
                     </div>
                     <div style="overflow-x:auto;">
-                        <table class="data-table">
-                            <thead><tr><th width="5%">#</th><th>SEKOLAH</th><th>DAERAH</th><th>TINDAKAN</th></tr></thead>
-                            <tbody id="data_tbody"></tbody>
-                        </table>
+                        <table class="data-table"><thead><tr><th width="5%">#</th><th>SEKOLAH</th><th>DAERAH</th><th>TINDAKAN</th></tr></thead><tbody id="data_tbody"></tbody></table>
                     </div>
                 </div>
             </div>
@@ -187,35 +152,22 @@
 
     <div id="public_stats_modal" class="modal-overlay">
         <div class="modal-card">
-            <div class="modal-head">
-                <h3 style="margin:0;">ANALISIS PENYERTAAN</h3>
-                <button onclick="document.getElementById('public_stats_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">✕</button>
-            </div>
+            <div class="modal-head"><h3 style="margin:0;">ANALISIS PENYERTAAN</h3><button onclick="document.getElementById('public_stats_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px;">✕</button></div>
             <div class="modal-body">
                 <div style="height:300px;"><canvas id="chart_daerah"></canvas></div>
-                <div style="margin-top:20px; max-height:200px; overflow-y:auto;">
-                    <table class="data-table">
-                        <tbody id="public_list_body"></tbody>
-                    </table>
-                </div>
+                <div style="margin-top:20px; max-height:200px; overflow-y:auto;"><table class="data-table"><tbody id="public_list_body"></tbody></table></div>
             </div>
         </div>
     </div>
 
     <div id="detail_modal" class="modal-overlay" onclick="if(event.target.id==='detail_modal')this.style.display='none'">
         <div class="modal-card">
-            <div class="modal-head">
-                <h3 style="margin:0;">BUTIRAN PENYERTAAN</h3>
-                <button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">✕</button>
-            </div>
+            <div class="modal-head"><h3 style="margin:0;">BUTIRAN PESERTA</h3><button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px;">✕</button></div>
             <div class="modal-body" id="modal_content"></div>
         </div>
     </div>
 
 <script>
-    // =================================================================
-    // 🔥 CONFIG FIREBASE
-    // =================================================================
     const firebaseConfig = {
         apiKey: "AIzaSyBXqVEgI1EMzXnmKl4uOaf-npykNn4TDeg",
         authDomain: "nadisenijpnt.firebaseapp.com",
@@ -225,74 +177,63 @@
         appId: "1:140808067955:web:75a432f442ed2240dfc306",
         measurementId: "G-S0FSJYL6E4"
     };
-
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
-
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
     const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
-    // =================================================================
-    // 🛠️ DATABASE PENUH
-    // =================================================================
     const DATABASE = [
-        // MUZIK
+        // MUZIK (10 ITEM)
         { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
         { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
-        { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
+        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
         { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
-        { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
+        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
         { cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
-        // TARI
+        
+        // TARI (4 ITEM)
         { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
         { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
         { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
         { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
-        // TEATER
+        
+        // TEATER (6 ITEM)
         { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
         { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
         { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
         { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
         { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
         { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
-        // VISUAL
+        
+        // --- SENI VISUAL (3 ITEM) ---
         { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
         { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
-        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ (SR) - NESTLE", form: "#", drive: "#", csv: "" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA (SM) - NESTLE", form: "#", drive: "#", csv: "" }
+        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
     ];
 
     // =================================================================
-    // 🚀 LOGIC UTAMA (INIT)
+    // 🚀 LOGIC UTAMA (PUBLIC & ADMIN)
     // =================================================================
     
+    // 1. INIT & URL HANDLING
     function initSystem() {
-        // 1. Check URL dulu (Direct Link) ?page=5
         const params = new URLSearchParams(window.location.search);
-        const directPage = params.get('page');
-
-        if(directPage && DATABASE[directPage]) {
-            bukaPage(parseInt(directPage));
-        } else {
-            renderPublicTabs("SEMUA"); // Default Load
-        }
+        const page = params.get('page');
+        if(page && DATABASE[page]) bukaPage(parseInt(page));
+        else renderPublicTabs("SEMUA");
     }
 
-    // =================================================================
-    // 🌍 PUBLIC DASHBOARD LOGIC (TABS & GRID)
-    // =================================================================
+    // 2. PUBLIC TABS & GRID
     function renderPublicTabs(activeCat) {
         const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
-        
-        // Tab Buttons
         const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
+        
         tabContainer.innerHTML = "";
         categories.forEach(cat => {
             let btn = document.createElement('button');
@@ -302,41 +243,40 @@
             tabContainer.appendChild(btn);
         });
 
-        // Filter Data
         grid.innerHTML = "";
-        let filteredData = DATABASE;
-        if(activeCat !== "SEMUA") filteredData = DATABASE.filter(i => i.cat === activeCat);
-
-        // Render Cards
-        filteredData.forEach((item) => {
-            let originalIndex = DATABASE.indexOf(item);
+        let data = activeCat === "SEMUA" ? DATABASE : DATABASE.filter(i => i.cat === activeCat);
+        
+        data.forEach((item) => {
+            let idx = DATABASE.indexOf(item);
+            let tagClass = item.cat === "MUZIK" ? "tag-muzik" : item.cat === "TARI" ? "tag-tari" : item.cat === "TEATER" ? "tag-teater" : "tag-visual";
+            let icon = item.cat === "MUZIK" ? "🎵" : item.cat === "TARI" ? "💃" : item.cat === "TEATER" ? "🎭" : "🎨";
+            
             let card = document.createElement('div');
             card.className = 'menu-card';
-            card.onclick = () => bukaPage(originalIndex);
-            
-            let icon = "🏆";
-            if(item.cat === "MUZIK") icon = "🎵";
-            if(item.cat === "TARI") icon = "💃";
-            if(item.cat === "TEATER") icon = "🎭";
-            if(item.cat === "SENI VISUAL") icon = "🎨";
-
-            card.innerHTML = `
-                <div class="card-tag">${item.sub}</div>
-                <div style="font-size:30px; margin-bottom:10px;">${icon}</div>
-                <div class="card-title">${item.title}</div>
-                <div class="stat-badge" id="mini_${originalIndex}">Loading...</div>
-            `;
+            card.onclick = () => bukaPage(idx);
+            card.innerHTML = `<div class="card-tag ${tagClass}">${item.sub}</div><div style="font-size:32px; margin-bottom:10px;">${icon}</div><div class="card-title">${item.title}</div><div class="stat-badge" id="mini_${idx}">Loading...</div>`;
             grid.appendChild(card);
-            fetchSimpleData(item.csv, `mini_${originalIndex}`);
+            fetchCount(item.csv, `mini_${idx}`);
         });
     }
 
-    // Navigation & URL Handling
+    // 3. NAVIGATION
+    function bukaPage(idx) {
+        document.getElementById('view_dashboard').classList.add('hidden');
+        document.getElementById('view_page').classList.remove('hidden');
+        const d = DATABASE[idx];
+        document.getElementById('frame_borang').src = d.form;
+        document.getElementById('link_drive').href = d.drive;
+        fetchCount(d.csv, 'page_stat');
+        currentIndex = idx;
+        history.pushState(null, null, `?page=${idx}`);
+    }
+
     function bukaHome() {
         document.getElementById('view_dashboard').classList.remove('hidden');
         document.getElementById('view_page').classList.add('hidden');
         document.getElementById('view_admin').classList.add('hidden');
-        history.pushState(null, null, window.location.pathname); // Clear URL params
+        history.pushState(null, null, window.location.pathname);
     }
 
     function bukaAdmin() {
@@ -345,217 +285,163 @@
         document.getElementById('view_admin').classList.remove('hidden');
     }
 
-    let currentIndex = null;
-    function bukaPage(index) {
-        currentIndex = index;
-        const d = DATABASE[index];
-        document.getElementById('view_dashboard').classList.add('hidden');
-        document.getElementById('view_page').classList.remove('hidden');
-        document.getElementById('frame_borang').src = d.form;
-        document.getElementById('link_drive').href = d.drive;
-        fetchSimpleData(d.csv, 'page_stat');
-        
-        // Update URL Address Bar (e.g. ?page=3)
-        const newUrl = `${window.location.pathname}?page=${index}`;
-        history.pushState(null, null, newUrl);
-    }
-
     function shareLink() {
         navigator.clipboard.writeText(window.location.href);
-        alert("Link Pautan Telah Disalin!\nBoleh paste di WhatsApp/Telegram.");
+        alert("Pautan telah disalin!");
     }
 
-    function fetchSimpleData(url, elementId) {
-        if(!url) { document.getElementById(elementId).innerText = "-"; return; }
-        fetch(url).then(r=>r.text()).then(t=>{ 
-            let c=t.trim().split('\n').length-1; if(c<0)c=0;
-            document.getElementById(elementId).innerText = c + (elementId.startsWith('mini') ? " Peserta" : ""); 
-            if(elementId.startsWith('mini')) calcTotal();
-        }).catch(()=>{});
+    // 4. DATA FETCHING
+    function fetchCount(url, id) {
+        if(!url) { document.getElementById(id).innerText="0"; return; }
+        fetch(url).then(r=>r.text()).then(t=>{
+            let c = t.trim().split('\n').length-1; if(c<0)c=0;
+            document.getElementById(id).innerText = c;
+            if(id.startsWith('mini')) calcTotal();
+        }).catch(()=>{ document.getElementById(id).innerText="0"; });
     }
 
     function calcTotal() {
-        let total = 0;
-        document.querySelectorAll('[id^="mini_"]').forEach(el => {
-            let val = parseInt(el.innerText);
-            if(!isNaN(val)) total += val;
-        });
-        document.getElementById('grand_total').innerText = total;
+        let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0);
+        document.getElementById('grand_total').innerText = t;
     }
 
-    // Modal Public Pie Chart
-    let chartInstance = null;
+    // 5. PUBLIC MODAL STATS
+    let chartInstance;
+    let currentIndex = null;
     function bukaModalStatistik() {
-        if(currentIndex === null) return;
+        if(currentIndex===null) return;
         const d = DATABASE[currentIndex];
-        if(!d.csv) return;
         document.getElementById('public_stats_modal').style.display='flex';
-        
-        fetch(d.csv).then(r=>r.text()).then(txt => {
-            const rows = txt.trim().split('\n');
+        fetch(d.csv).then(r=>r.text()).then(t=>{
+            const rows = t.trim().split('\n');
             const stats = {}; const list = [];
+            
+            // SMART DETECT COLUMN
+            let headers = parseCSV(rows[0]);
+            let iSchool = -1, iDistrict = -1;
+            headers.forEach((h, i) => {
+                if(h.toUpperCase().includes("SEKOLAH") || h.toUpperCase().includes("INSTITUSI")) iSchool = i;
+                if(h.toUpperCase().includes("DAERAH") || h.toUpperCase().includes("PPD")) iDistrict = i;
+            });
+            // Fallback (Biasanya GForm Col 1=Daerah, Col 2=Sekolah selepas timestamp)
+            if(iSchool === -1) iSchool = 2;
+            if(iDistrict === -1) iDistrict = 1;
+
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
-                let cols = parseCSVRow(rows[i]);
-                // Asumsi Col 1 = Daerah, Col 2 = Sekolah
-                let da = cols[1] || "Lain"; let sc = cols[2] || "-";
+                let c = parseCSV(rows[i]);
+                let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
                 stats[da] = (stats[da]||0)+1;
                 list.push({s:sc, d:da});
             }
-            const tbody = document.getElementById('public_list_body'); tbody.innerHTML='';
-            list.forEach((x,i)=>tbody.innerHTML+=`<tr><td>${i+1}</td><td>${x.s}</td><td>${x.d}</td></tr>`);
-            
+            document.getElementById('public_list_body').innerHTML = list.map((x,i)=>`<tr><td>${i+1}</td><td>${x.s}</td><td>${x.d}</td></tr>`).join('');
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, {
-                type: 'pie',
-                data: { labels: Object.keys(stats), datasets: [{ data: Object.values(stats), backgroundColor: chartColors }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{position:'right'}} }
-            });
+            chartInstance = new Chart(ctx, { type:'pie', data:{labels:Object.keys(stats), datasets:[{data:Object.values(stats), backgroundColor:chartColors}]} });
         });
     }
 
-    // =================================================================
-    // 🔒 ADMIN LOGIC
-    // =================================================================
-    function loginGoogle() { auth.signInWithPopup(provider).catch(e => alert(e.message)); }
-    function logoutGoogle() { auth.signOut().then(() => location.reload()); }
+    // 6. ADMIN LOGIC
+    function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
+    function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
-        if (user) {
-            if (ALLOWED_ADMINS.includes(user.email)) {
-                document.getElementById('admin_login_ui').classList.add('hidden');
-                document.getElementById('admin_dashboard_ui').classList.remove('hidden');
-                document.getElementById('user_display').innerText = user.email;
-                document.getElementById('btn_auth').innerHTML = `🔓 ${user.email.split('@')[0]}`;
-                document.getElementById('btn_auth').classList.add('logged-in');
-                renderAdminCategoryTabs();
-            } else { alert("Akses Ditolak."); auth.signOut(); }
+        if(user && ALLOWED_ADMINS.includes(user.email)) {
+            document.getElementById('admin_login_ui').classList.add('hidden');
+            document.getElementById('admin_dashboard_ui').classList.remove('hidden');
+            document.getElementById('user_display').innerText = user.email;
+            document.getElementById('btn_auth').innerHTML = `🔓 ${user.email.split('@')[0]}`;
+            document.getElementById('btn_auth').classList.add('logged-in');
+            renderAdminTabs("MUZIK");
         }
     });
 
-    function renderAdminCategoryTabs() {
-        const container = document.getElementById('category_tabs');
-        container.innerHTML = "";
-        const cats = ["MUZIK", "TARI", "TEATER", "SENI VISUAL"];
-        cats.forEach((cat, index) => {
-            let btn = document.createElement('button');
-            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
-            btn.innerText = cat;
-            btn.onclick = () => {
-                document.querySelectorAll('#category_tabs .tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderAdminSubCategories(cat);
-            };
-            container.appendChild(btn);
+    function renderAdminTabs(active) {
+        const c = document.getElementById('category_tabs'); c.innerHTML="";
+        ["MUZIK","TARI","TEATER","SENI VISUAL"].forEach(cat=>{
+            let b = document.createElement('button'); b.className=`tab-btn ${cat===active?'active':''}`; b.innerText=cat;
+            b.onclick=()=>{ renderAdminTabs(cat); }; c.appendChild(b);
         });
-        renderAdminSubCategories(cats[0]);
-    }
-
-    function renderAdminSubCategories(cat) {
-        const container = document.getElementById('sub_category_area');
-        container.innerHTML = "";
+        const sub = document.getElementById('sub_category_area'); sub.innerHTML="";
         document.getElementById('table_area').classList.add('hidden');
-        
-        const filtered = DATABASE.filter(d => d.cat === cat);
-        filtered.forEach(item => {
-            let btn = document.createElement('div');
-            btn.className = 'sub-card';
-            btn.innerText = item.title;
-            btn.onclick = () => {
-                document.querySelectorAll('.sub-card').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                loadAdminTable(item);
+        DATABASE.filter(d=>d.cat===active).forEach(item=>{
+            let b = document.createElement('div'); b.className='sub-card'; b.innerText=item.title;
+            b.onclick=()=>{ 
+                document.querySelectorAll('.sub-card').forEach(x=>x.classList.remove('selected'));
+                b.classList.add('selected'); loadAdminData(item); 
             };
-            container.appendChild(btn);
+            sub.appendChild(b);
         });
     }
 
-    let currentAdminData = [];
-    function loadAdminTable(item) {
-        if(!item.csv) { alert("Data belum tersedia."); return; }
+    let adminData = [];
+    function loadAdminData(item) {
+        if(!item.csv) { alert("Tiada data."); return; }
         document.getElementById('loading_msg').classList.remove('hidden');
         document.getElementById('table_area').classList.add('hidden');
-        document.getElementById('data_tbody').innerHTML = "";
-
-        fetch(item.csv).then(r => r.text()).then(txt => {
-            const rows = txt.trim().split('\n');
-            const headers = parseCSVRow(rows[0]);
-            currentAdminData = [];
-
-            // Auto Detect Columns
-            let idxSchool = -1, idxDistrict = -1;
-            headers.forEach((h, i) => {
-                const header = h.toUpperCase();
-                if(header.includes("SEKOLAH") || header.includes("NAMA SEKOLAH")) idxSchool = i;
-                if(header.includes("DAERAH") || header.includes("PPD")) idxDistrict = i;
+        fetch(item.csv).then(r=>r.text()).then(t=>{
+            const rows = t.trim().split('\n');
+            const heads = parseCSV(rows[0]);
+            adminData = [];
+            // SMART DETECT COLUMNS
+            let iSchool = -1, iDistrict = -1;
+            heads.forEach((h, i) => {
+                if(h.toUpperCase().includes("SEKOLAH") || h.toUpperCase().includes("INSTITUSI")) iSchool = i;
+                if(h.toUpperCase().includes("DAERAH") || h.toUpperCase().includes("PPD")) iDistrict = i;
             });
-            if(idxSchool === -1) idxSchool = 2; // Fallback
-            if(idxDistrict === -1) idxDistrict = 1;
+            // Fallback default
+            if(iSchool === -1) iSchool = 2; 
+            if(iDistrict === -1) iDistrict = 1;
 
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
-                let cols = parseCSVRow(rows[i]);
-                let rowObj = {
-                    full: cols, headers: headers,
-                    school: cols[idxSchool] ? cols[idxSchool].replace(/"/g,'').trim() : "-",
-                    district: cols[idxDistrict] ? cols[idxDistrict].replace(/"/g,'').trim() : "-"
-                };
-                currentAdminData.push(rowObj);
+                let c = parseCSV(rows[i]);
+                adminData.push({ full:c, heads:heads, s:c[iSchool]||'-', d:c[iDistrict]||'-' });
             }
-            renderTable(currentAdminData);
+            renderTable(adminData);
             document.getElementById('loading_msg').classList.add('hidden');
             document.getElementById('table_area').classList.remove('hidden');
         });
     }
 
     function renderTable(data) {
-        const tbody = document.getElementById('data_tbody');
-        tbody.innerHTML = "";
-        data.forEach((row, index) => {
-            let tr = document.createElement('tr');
-            tr.innerHTML = `<td>${index+1}</td><td style="font-weight:600; color:var(--primary);">${row.school}</td><td>${row.district}</td><td><button class="btn-view" onclick='openDetail(${index})'>👁️ LIHAT</button></td>`;
-            tbody.appendChild(tr);
-        });
+        document.getElementById('data_tbody').innerHTML = data.map((r,i)=>`
+            <tr><td>${i+1}</td><td style="font-weight:600;color:var(--primary);">${r.s}</td>
+            <td><span style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">${r.d}</span></td>
+            <td><button class="btn-view" onclick='openDetail(${i})'>👁️ LIHAT</button></td></tr>
+        `).join('');
     }
 
     function filterTable() {
-        let term = document.getElementById('tableSearch').value.toUpperCase();
-        let filtered = currentAdminData.filter(d => d.school.toUpperCase().includes(term) || d.district.toUpperCase().includes(term));
-        renderTable(filtered);
+        let v = document.getElementById('tableSearch').value.toUpperCase();
+        renderTable(adminData.filter(r => r.s.toUpperCase().includes(v) || r.d.toUpperCase().includes(v)));
     }
 
-    function openDetail(index) {
-        const d = currentAdminData[index];
-        const container = document.getElementById('modal_content');
-        container.innerHTML = "";
-        let phone = "";
-
-        d.headers.forEach((h, i) => {
-            if(i===0) return;
-            let val = d.full[i] ? d.full[i].replace(/"/g,'') : "-";
-            if(h.toUpperCase().includes("TELEFON") || h.toUpperCase().includes("HP")) {
-                phone = val.replace(/[^0-9]/g, '');
-                if(!phone.startsWith('6')) phone = '6' + phone;
+    function openDetail(i) {
+        const d = adminData[i];
+        let h = "", ph = "";
+        d.heads.forEach((head, idx) => {
+            if(idx===0) return;
+            let val = d.full[idx] || "-";
+            if(head.toUpperCase().includes('TELEFON') || head.toUpperCase().includes('HP')) {
+                ph = val.replace(/[^0-9]/g,''); if(!ph.startsWith('6')) ph='6'+ph;
             }
-            if(val.startsWith("http")) val = `<a href="${val}" target="_blank" style="color:blue;">Buka Pautan</a>`;
-            container.innerHTML += `<div class="detail-row"><span class="label">${h}</span><span class="value">${val}</span></div>`;
+            if(val.startsWith('http')) val = `<a href="${val}" target="_blank" style="color:blue;">Buka Pautan</a>`;
+            h += `<div class="detail-row"><span class="label">${head}</span><span class="value">${val}</span></div>`;
         });
-
-        if(phone) container.innerHTML += `<div class="action-btns"><a href="https://wa.me/${phone}" target="_blank" class="btn-action btn-wa">💬 WHATSAPP</a><a href="tel:${phone}" class="btn-action btn-call">📞 CALL</a></div>`;
+        if(ph) h += `<div class="action-btns"><a href="https://wa.me/${ph}" target="_blank" class="btn-action btn-wa">💬 WHATSAPP</a><a href="tel:${ph}" class="btn-action btn-call">📞 CALL</a></div>`;
+        document.getElementById('modal_content').innerHTML = h;
         document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // 🔥 SMART CSV PARSER (Fixes comma issues)
-    function parseCSVRow(text) {
+    // 🔥 SMART PARSER (Fixes comma issues in School Name)
+    function parseCSV(text) {
         const matches = text.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
         if (!matches) return text.split(',');
         return matches.map(val => val.replace(/^"|"$/g, '').trim());
     }
 
-    // Start
     initSystem();
-
 </script>
 </body>
 </html>
