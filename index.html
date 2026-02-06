@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        /* --- 1. GENERAL STYLES --- */
+        /* --- 1. DESIGN SYSTEM --- */
         :root { --primary: #0f766e; --accent: #2dd4bf; --bg: #f8fafc; --white: #ffffff; --dark: #1e293b; }
         * { box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--dark); }
@@ -33,28 +33,33 @@
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none !important; }
 
-        /* --- 2. PUBLIC DASHBOARD (CARD GRID) --- */
+        /* --- 2. PUBLIC DASHBOARD (KAD & TAB) --- */
         .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .menu-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border: 1px solid #e2e8f0; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .menu-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
         .card-tag { position: absolute; top: 15px; right: 15px; font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; background: #f0fdfa; padding: 3px 8px; border-radius: 6px; }
-        .card-title { font-weight: 700; margin-top: 10px; font-size: 14px; line-height: 1.4; }
+        .card-title { font-weight: 700; margin-top: 10px; font-size: 13px; line-height: 1.4; min-height: 36px; display: flex; align-items: center; justify-content: center; }
         .stat-badge { background: #f1f5f9; color: #64748b; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-top: 15px; }
 
-        /* --- 3. PUBLIC PAGE VIEW (IFRAME) --- */
-        .split-layout { display: flex; gap: 30px; height: 80vh; }
-        .col-main { flex: 3; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; }
-        .col-side { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .side-card { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; }
-        .side-card:hover { border-color: var(--primary); }
-        
-        /* --- 4. ADMIN INTERFACE (NEW) --- */
-        .admin-header { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .cat-tabs { display: flex; gap: 10px; margin-top: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { padding: 10px 25px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 12px; color: #64748b; white-space: nowrap; transition:0.3s; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* TAB STYLES (COMMON) */
+        .cat-tabs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .tab-btn { padding: 10px 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 12px; color: #64748b; white-space: nowrap; transition:0.3s; }
+        .tab-btn:hover { background: #e2e8f0; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
 
+        /* --- 3. PUBLIC PAGE VIEW (DETAIL) --- */
+        .split-layout { display: flex; gap: 30px; height: 1000px; } /* Fixed height frame */
+        .col-main { flex: 3; background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; height: 100%; }
+        .col-side { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .side-card { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; }
+        .side-card:hover { border-color: var(--primary); transform: scale(1.02); }
+        .btn-share { display: block; margin-top: 10px; padding: 10px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1px solid #e2e8f0; }
+        .btn-share:hover { background: #e2e8f0; }
+
+        /* --- 4. ADMIN INTERFACE --- */
+        .admin-header { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        
         .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .sub-card { background: white; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; color: #475569; transition: 0.2s; }
         .sub-card:hover { border-color: var(--primary); color: var(--primary); background: #f0fdfa; }
@@ -105,13 +110,18 @@
                 <span style="background:#f1f5f9; padding:5px 15px; border-radius:20px; font-size:11px; color:#64748b;">Data Langsung (Live)</span>
             </div>
 
-            <div style="margin-bottom:20px; font-weight:700; font-size:18px; color:var(--dark);">SENARAI PERTANDINGAN</div>
+            <div style="margin-bottom:20px;">
+                <div style="font-weight:700; font-size:18px; color:var(--dark); margin-bottom:15px;">SENARAI PERTANDINGAN</div>
+                <div class="cat-tabs" id="public_tabs">
+                    </div>
+            </div>
+
             <div id="grid_container" class="grid-menu">
                 </div>
         </div>
 
         <div id="view_page" class="hidden">
-            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI</button>
+            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI KE MENU</button>
             <div class="split-layout">
                 <div class="col-main">
                     <iframe id="frame_borang" src="" width="100%" height="100%" frameborder="0"></iframe>
@@ -123,9 +133,11 @@
                         <div id="page_stat" style="font-size:48px; font-weight:800; line-height:1.2;">0</div>
                         <div style="font-size:10px; background:rgba(255,255,255,0.2); padding:5px; border-radius:20px; margin-top:10px;">KLIK UNTUK ANALISIS</div>
                     </div>
+                    
                     <div class="side-card">
-                        <div style="font-weight:700; font-size:13px;">FOLDER DRIVE</div>
-                        <a id="link_drive" href="#" target="_blank" style="display:block; margin-top:10px; padding:10px; background:#1e293b; color:white; text-decoration:none; border-radius:8px; font-size:12px;">📂 BUKA FOLDER</a>
+                        <div style="font-weight:700; font-size:13px;">DOKUMEN & INFO</div>
+                        <a id="link_drive" href="#" target="_blank" class="btn-share" style="background:#1e293b; color:white;">📂 FOLDER DRIVE</a>
+                        <button onclick="shareLink()" class="btn-share">🔗 SALIN LINK PERTANDINGAN</button>
                     </div>
                 </div>
             </div>
@@ -136,7 +148,7 @@
             <div id="admin_login_ui" style="text-align:center; padding:50px;">
                 <div style="background:white; max-width:400px; margin:0 auto; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
                     <h3>PENGURUSAN DATA</h3>
-                    <p style="color:#64748b; font-size:13px; margin-bottom:20px;">Sila log masuk untuk mengakses data peserta.</p>
+                    <p style="color:#64748b; font-size:13px; margin-bottom:20px;">Halaman ini khas untuk Urusetia JPNT sahaja.</p>
                     <button onclick="loginGoogle()" style="background:#4285F4; color:white; border:none; padding:12px 25px; border-radius:50px; font-weight:600; cursor:pointer;">🔑 Log Masuk Google</button>
                 </div>
             </div>
@@ -177,7 +189,7 @@
         <div class="modal-card">
             <div class="modal-head">
                 <h3 style="margin:0;">ANALISIS PENYERTAAN</h3>
-                <button onclick="document.getElementById('public_stats_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px;">✕</button>
+                <button onclick="document.getElementById('public_stats_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">✕</button>
             </div>
             <div class="modal-body">
                 <div style="height:300px;"><canvas id="chart_daerah"></canvas></div>
@@ -194,7 +206,7 @@
         <div class="modal-card">
             <div class="modal-head">
                 <h3 style="margin:0;">BUTIRAN PENYERTAAN</h3>
-                <button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px;">✕</button>
+                <button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">✕</button>
             </div>
             <div class="modal-body" id="modal_content"></div>
         </div>
@@ -202,7 +214,7 @@
 
 <script>
     // =================================================================
-    // 🔥 CONFIG FIREBASE (MASUKKAN API KEY ANDA)
+    // 🔥 CONFIG FIREBASE
     // =================================================================
     const firebaseConfig = {
         apiKey: "AIzaSyBXqVEgI1EMzXnmKl4uOaf-npykNn4TDeg",
@@ -219,12 +231,10 @@
     const provider = new firebase.auth.GoogleAuthProvider();
 
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
-    
-    // Warna untuk Chart
     const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
     // =================================================================
-    // 🛠️ DATABASE PENUH (DIGUNAKAN OLEH PUBLIC & ADMIN)
+    // 🛠️ DATABASE PENUH
     // =================================================================
     const DATABASE = [
         // MUZIK
@@ -254,38 +264,79 @@
         { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
         { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
         { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ (SR)", form: "#", drive: "#", csv: "" },
-        { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA (SM)", form: "#", drive: "#", csv: "" }
+        { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ (SR) - NESTLE", form: "#", drive: "#", csv: "" },
+        { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA (SM) - NESTLE", form: "#", drive: "#", csv: "" }
     ];
 
     // =================================================================
-    // 🚀 LOGIC PUBLIC (DASHBOARD & STATS)
+    // 🚀 LOGIC UTAMA (INIT)
     // =================================================================
     
     function initSystem() {
+        // 1. Check URL dulu (Direct Link) ?page=5
+        const params = new URLSearchParams(window.location.search);
+        const directPage = params.get('page');
+
+        if(directPage && DATABASE[directPage]) {
+            bukaPage(parseInt(directPage));
+        } else {
+            renderPublicTabs("SEMUA"); // Default Load
+        }
+    }
+
+    // =================================================================
+    // 🌍 PUBLIC DASHBOARD LOGIC (TABS & GRID)
+    // =================================================================
+    function renderPublicTabs(activeCat) {
+        const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
-        grid.innerHTML = "";
         
-        DATABASE.forEach((item, index) => {
+        // Tab Buttons
+        const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
+        tabContainer.innerHTML = "";
+        categories.forEach(cat => {
+            let btn = document.createElement('button');
+            btn.className = `tab-btn ${cat === activeCat ? 'active' : ''}`;
+            btn.innerText = cat;
+            btn.onclick = () => renderPublicTabs(cat);
+            tabContainer.appendChild(btn);
+        });
+
+        // Filter Data
+        grid.innerHTML = "";
+        let filteredData = DATABASE;
+        if(activeCat !== "SEMUA") filteredData = DATABASE.filter(i => i.cat === activeCat);
+
+        // Render Cards
+        filteredData.forEach((item) => {
+            let originalIndex = DATABASE.indexOf(item);
             let card = document.createElement('div');
             card.className = 'menu-card';
-            card.onclick = () => bukaPage(index);
+            card.onclick = () => bukaPage(originalIndex);
+            
+            let icon = "🏆";
+            if(item.cat === "MUZIK") icon = "🎵";
+            if(item.cat === "TARI") icon = "💃";
+            if(item.cat === "TEATER") icon = "🎭";
+            if(item.cat === "SENI VISUAL") icon = "🎨";
+
             card.innerHTML = `
                 <div class="card-tag">${item.sub}</div>
-                <div style="font-size:30px; margin-bottom:10px;">🏆</div>
+                <div style="font-size:30px; margin-bottom:10px;">${icon}</div>
                 <div class="card-title">${item.title}</div>
-                <div class="stat-badge" id="mini_${index}">Loading...</div>
+                <div class="stat-badge" id="mini_${originalIndex}">Loading...</div>
             `;
             grid.appendChild(card);
-            fetchSimpleData(item.csv, `mini_${index}`);
+            fetchSimpleData(item.csv, `mini_${originalIndex}`);
         });
     }
 
-    // Paparan Navigasi
+    // Navigation & URL Handling
     function bukaHome() {
         document.getElementById('view_dashboard').classList.remove('hidden');
         document.getElementById('view_page').classList.add('hidden');
         document.getElementById('view_admin').classList.add('hidden');
+        history.pushState(null, null, window.location.pathname); // Clear URL params
     }
 
     function bukaAdmin() {
@@ -303,13 +354,21 @@
         document.getElementById('frame_borang').src = d.form;
         document.getElementById('link_drive').href = d.drive;
         fetchSimpleData(d.csv, 'page_stat');
+        
+        // Update URL Address Bar (e.g. ?page=3)
+        const newUrl = `${window.location.pathname}?page=${index}`;
+        history.pushState(null, null, newUrl);
+    }
+
+    function shareLink() {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link Pautan Telah Disalin!\nBoleh paste di WhatsApp/Telegram.");
     }
 
     function fetchSimpleData(url, elementId) {
-        if(!url) { document.getElementById(elementId).innerText = "0"; return; }
+        if(!url) { document.getElementById(elementId).innerText = "-"; return; }
         fetch(url).then(r=>r.text()).then(t=>{ 
-            let c=t.trim().split('\n').length-1; 
-            if(c<0) c=0;
+            let c=t.trim().split('\n').length-1; if(c<0)c=0;
             document.getElementById(elementId).innerText = c + (elementId.startsWith('mini') ? " Peserta" : ""); 
             if(elementId.startsWith('mini')) calcTotal();
         }).catch(()=>{});
@@ -324,45 +383,41 @@
         document.getElementById('grand_total').innerText = total;
     }
 
-    // Modal Analisis Public
+    // Modal Public Pie Chart
     let chartInstance = null;
     function bukaModalStatistik() {
         if(currentIndex === null) return;
         const d = DATABASE[currentIndex];
         if(!d.csv) return;
-        
         document.getElementById('public_stats_modal').style.display='flex';
+        
         fetch(d.csv).then(r=>r.text()).then(txt => {
             const rows = txt.trim().split('\n');
             const stats = {}; const list = [];
-            
-            // Asumsi: Col 1=Daerah, Col 2=Sekolah
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
                 let cols = parseCSVRow(rows[i]);
-                let da = cols[1] || "Lain";
-                let sc = cols[2] || "-";
+                // Asumsi Col 1 = Daerah, Col 2 = Sekolah
+                let da = cols[1] || "Lain"; let sc = cols[2] || "-";
                 stats[da] = (stats[da]||0)+1;
                 list.push({s:sc, d:da});
             }
-
             const tbody = document.getElementById('public_list_body'); tbody.innerHTML='';
             list.forEach((x,i)=>tbody.innerHTML+=`<tr><td>${i+1}</td><td>${x.s}</td><td>${x.d}</td></tr>`);
-
+            
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
             chartInstance = new Chart(ctx, {
                 type: 'pie',
                 data: { labels: Object.keys(stats), datasets: [{ data: Object.values(stats), backgroundColor: chartColors }] },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{position:'right'}} }
             });
         });
     }
 
     // =================================================================
-    // 🔒 LOGIC ADMIN (LOGIN & TAB TABLE)
+    // 🔒 ADMIN LOGIC
     // =================================================================
-    
     function loginGoogle() { auth.signInWithPopup(provider).catch(e => alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(() => location.reload()); }
 
@@ -374,34 +429,30 @@
                 document.getElementById('user_display').innerText = user.email;
                 document.getElementById('btn_auth').innerHTML = `🔓 ${user.email.split('@')[0]}`;
                 document.getElementById('btn_auth').classList.add('logged-in');
-                renderCategoryTabs();
-            } else {
-                alert("Akses Ditolak."); auth.signOut();
-            }
+                renderAdminCategoryTabs();
+            } else { alert("Akses Ditolak."); auth.signOut(); }
         }
     });
 
-    const CATEGORIES = ["MUZIK", "TARI", "TEATER", "SENI VISUAL"];
-    let currentAdminData = [];
-
-    function renderCategoryTabs() {
+    function renderAdminCategoryTabs() {
         const container = document.getElementById('category_tabs');
         container.innerHTML = "";
-        CATEGORIES.forEach((cat, index) => {
+        const cats = ["MUZIK", "TARI", "TEATER", "SENI VISUAL"];
+        cats.forEach((cat, index) => {
             let btn = document.createElement('button');
             btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
             btn.innerText = cat;
             btn.onclick = () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#category_tabs .tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                renderSubCategories(cat);
+                renderAdminSubCategories(cat);
             };
             container.appendChild(btn);
         });
-        renderSubCategories(CATEGORIES[0]);
+        renderAdminSubCategories(cats[0]);
     }
 
-    function renderSubCategories(cat) {
+    function renderAdminSubCategories(cat) {
         const container = document.getElementById('sub_category_area');
         container.innerHTML = "";
         document.getElementById('table_area').classList.add('hidden');
@@ -420,9 +471,9 @@
         });
     }
 
+    let currentAdminData = [];
     function loadAdminTable(item) {
         if(!item.csv) { alert("Data belum tersedia."); return; }
-        
         document.getElementById('loading_msg').classList.remove('hidden');
         document.getElementById('table_area').classList.add('hidden');
         document.getElementById('data_tbody').innerHTML = "";
@@ -432,7 +483,7 @@
             const headers = parseCSVRow(rows[0]);
             currentAdminData = [];
 
-            // Auto-detect columns
+            // Auto Detect Columns
             let idxSchool = -1, idxDistrict = -1;
             headers.forEach((h, i) => {
                 const header = h.toUpperCase();
@@ -446,14 +497,12 @@
                 if(!rows[i].trim()) continue;
                 let cols = parseCSVRow(rows[i]);
                 let rowObj = {
-                    full: cols,
-                    headers: headers,
+                    full: cols, headers: headers,
                     school: cols[idxSchool] ? cols[idxSchool].replace(/"/g,'').trim() : "-",
                     district: cols[idxDistrict] ? cols[idxDistrict].replace(/"/g,'').trim() : "-"
                 };
                 currentAdminData.push(rowObj);
             }
-
             renderTable(currentAdminData);
             document.getElementById('loading_msg').classList.add('hidden');
             document.getElementById('table_area').classList.remove('hidden');
@@ -465,32 +514,17 @@
         tbody.innerHTML = "";
         data.forEach((row, index) => {
             let tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${index+1}</td>
-                <td style="font-weight:600; color:var(--primary);">${row.school}</td>
-                <td><span style="background:#f1f5f9; padding:3px 8px; border-radius:4px; font-size:11px;">${row.district}</span></td>
-                <td><button class="btn-view" onclick='openDetail(${index})'>👁️ LIHAT</button></td>
-            `;
+            tr.innerHTML = `<td>${index+1}</td><td style="font-weight:600; color:var(--primary);">${row.school}</td><td>${row.district}</td><td><button class="btn-view" onclick='openDetail(${index})'>👁️ LIHAT</button></td>`;
             tbody.appendChild(tr);
         });
     }
 
     function filterTable() {
         let term = document.getElementById('tableSearch').value.toUpperCase();
-        let filtered = currentAdminData.filter(d => 
-            d.school.toUpperCase().includes(term) || d.district.toUpperCase().includes(term)
-        );
+        let filtered = currentAdminData.filter(d => d.school.toUpperCase().includes(term) || d.district.toUpperCase().includes(term));
         renderTable(filtered);
     }
 
-    // 🔥 SMART PARSER (SAMA UTK SEMUA)
-    function parseCSVRow(text) {
-        const matches = text.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-        if (!matches) return text.split(',');
-        return matches.map(val => val.replace(/^"|"$/g, '').trim());
-    }
-
-    // Detail Modal (WhatsApp)
     function openDetail(index) {
         const d = currentAdminData[index];
         const container = document.getElementById('modal_content');
@@ -498,25 +532,28 @@
         let phone = "";
 
         d.headers.forEach((h, i) => {
-            if(i===0) return; // Skip Timestamp
+            if(i===0) return;
             let val = d.full[i] ? d.full[i].replace(/"/g,'') : "-";
-            
             if(h.toUpperCase().includes("TELEFON") || h.toUpperCase().includes("HP")) {
                 phone = val.replace(/[^0-9]/g, '');
                 if(!phone.startsWith('6')) phone = '6' + phone;
             }
             if(val.startsWith("http")) val = `<a href="${val}" target="_blank" style="color:blue;">Buka Pautan</a>`;
-
             container.innerHTML += `<div class="detail-row"><span class="label">${h}</span><span class="value">${val}</span></div>`;
         });
 
-        if(phone) {
-            container.innerHTML += `<div class="action-btns"><a href="https://wa.me/${phone}" target="_blank" class="btn-action btn-wa">💬 WHATSAPP</a><a href="tel:${phone}" class="btn-action btn-call">📞 CALL</a></div>`;
-        }
+        if(phone) container.innerHTML += `<div class="action-btns"><a href="https://wa.me/${phone}" target="_blank" class="btn-action btn-wa">💬 WHATSAPP</a><a href="tel:${phone}" class="btn-action btn-call">📞 CALL</a></div>`;
         document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // Run Init
+    // 🔥 SMART CSV PARSER (Fixes comma issues)
+    function parseCSVRow(text) {
+        const matches = text.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+        if (!matches) return text.split(',');
+        return matches.map(val => val.replace(/^"|"$/g, '').trim());
+    }
+
+    // Start
     initSystem();
 
 </script>
