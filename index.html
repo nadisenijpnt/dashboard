@@ -3,199 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Kesenian JPNT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>NADI SENI JPNT - Portal Pertandingan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS SAMA MACAM SEBELUM NI (TEMA CYBER TEAL) --- */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: #f0f8f8; color: #333; scroll-behavior: smooth; }
+        /* --- DESIGN ASAS --- */
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: #f4fbfb; color: #333; }
         
-        /* Header & Nav */
-        header { background: linear-gradient(135deg, #002b2b 0%, #004d4d 100%); color: white; padding: 40px 20px; text-align: center; position: relative; overflow: hidden; }
-        header h1 { margin: 0; font-size: 32px; text-transform: uppercase; background: linear-gradient(90deg, #e0f7fa, #00e5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(0, 229, 255, 0.4); }
-        .navbar { background-color: #003333; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid #004d4d; }
-        .nav-item { color: #e0f2f1; padding: 18px 22px; cursor: pointer; border: none; background: none; font-weight: 600; transition: 0.3s; font-family: 'Poppins'; }
-        .nav-item:hover { color: #00e5ff; }
+        /* HEADER */
+        header { 
+            background: linear-gradient(135deg, #004d4d 0%, #00251a 100%); 
+            color: white; padding: 25px 20px; text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        header h1 { margin: 0; font-size: 26px; letter-spacing: 2px; text-transform: uppercase; color: #00e5ff; cursor: pointer; }
+        header p { margin: 5px 0 0; color: #b2dfdb; font-size: 12px; letter-spacing: 1px; }
 
-        /* Container & Cards */
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; animation: fadeIn 0.8s ease-out; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-        .card { background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #e8e8e8; }
+        /* --- MENU NAVIGASI BERTINGKAT --- */
+        .navbar {
+            background-color: #003333; border-bottom: 3px solid #00e5ff; text-align: center;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            white-space: nowrap; overflow-x: auto;
+        }
+
+        /* Level 1: Kategori Utama */
+        .dropdown { display: inline-block; position: relative; }
+        .dropbtn {
+            background-color: #003333; color: white; padding: 15px 20px; font-size: 14px; 
+            border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600;
+            text-transform: uppercase; transition: 0.3s;
+        }
+        .dropdown:hover .dropbtn { background-color: #00e5ff; color: #003333; }
+
+        /* Level 2: Sub-Kategori (Dropdown) */
+        .dropdown-content {
+            display: none; position: absolute; background-color: white; min-width: 230px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 1001; text-align: left;
+            border-top: 3px solid #004d4d; border-radius: 0 0 5px 5px;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .sub-dropdown { position: relative; }
+        .sub-dropbtn {
+            padding: 12px 16px; color: #004d4d; display: block; text-decoration: none; 
+            font-size: 13px; font-weight: bold; border-bottom: 1px solid #eee; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .sub-dropbtn:hover { background-color: #e0f2f1; color: #00695c; }
+        .arrow { font-size: 10px; }
+
+        /* Level 3: Tajuk Pertandingan (Flyout) */
+        .sub-dropdown-content {
+            display: none; position: absolute; left: 100%; top: 0; 
+            background-color: #004d4d; min-width: 300px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.3); z-index: 1002;
+            border-left: 2px solid #00e5ff; border-radius: 0 5px 5px 5px;
+        }
+        .sub-dropdown:hover .sub-dropdown-content { display: block; }
+
+        .sub-dropdown-content a {
+            color: #e0f7fa; padding: 10px 15px; text-decoration: none; display: block;
+            font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); transition: 0.2s;
+        }
+        .sub-dropdown-content a:hover { background-color: #00e5ff; color: #003333; font-weight: bold; }
+
+        /* --- DASHBOARD GRID & PAGE --- */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 15px; min-height: 80vh; }
+        .hidden { display: none; }
+
+        .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .menu-card { 
+            background: white; border-radius: 10px; border: 1px solid #eee; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 3px 5px rgba(0,0,0,0.05); overflow: hidden; position: relative;
+        }
+        .menu-card:hover { transform: translateY(-5px); border-color: #00e5ff; box-shadow: 0 10px 20px rgba(0,229,255,0.15); }
+        .tag-sub { position: absolute; top: 10px; right: 10px; background: #004d4d; color: white; padding: 3px 8px; font-size: 9px; border-radius: 4px; }
+        .card-body { padding: 20px; text-align: center; }
+        .card-title { font-weight: 700; color: #003333; margin-top: 15px; margin-bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: center; font-size: 13px; text-transform: uppercase; }
+        .badge { background: #e0f7fa; color: #006064; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+
+        /* --- PAGE PERTANDINGAN --- */
+        .btn-back { margin-bottom: 15px; background: none; border: none; color: #004d4d; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
+        .col-left { flex: 3; min-width: 320px; }
+        .col-right { flex: 1; min-width: 250px; }
         
-        /* Grid System */
-        .grid-split { display: flex; gap: 30px; flex-wrap: wrap; }
-        .col-left { flex: 7; min-width: 300px; }
-        .col-right { flex: 3; min-width: 280px; }
+        .form-box { background: white; padding: 10px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .info-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); text-align: center; margin-bottom: 20px; }
+        .btn-download { display: block; padding: 15px; background: #004d4d; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; }
+        .btn-download:hover { background: #00e5ff; color: #003333; }
 
-        /* Stats Box Design */
-        .stats-counter-box { background: #e0f7fa; padding:20px; text-align:center; border-radius:8px; color:#006064; border: 1px solid #b2ebf2; }
-        .stats-number { font-size: 36px; font-weight: bold; color: #00838f; }
-
-        /* Buttons */
-        .btn-download { display: block; width: 100%; padding: 15px; margin-top: 10px; background: linear-gradient(45deg, #00897b, #00e5ff); color: white; text-align: center; text-decoration: none; font-weight: 700; border-radius: 50px; box-sizing: border-box; }
-
-        /* Responsive */
-        @media (max-width: 768px) { .grid-split { flex-direction: column; } .navbar { flex-direction: column; } }
+        @media (max-width: 768px) {
+            .navbar { padding-bottom: 5px; }
+            .sub-dropdown-content { position: static; min-width: 100%; border-left: none; background: #003333; }
+            .split-layout { flex-direction: column-reverse; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>DASHBOARD KESENIAN JPNT</h1>
+    <header onclick="bukaHome()">
+        <h1>NADI SENI JPNT</h1>
         <p>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</p>
     </header>
 
-    <div class="navbar">
-        <button class="nav-item" onclick="bukaPage('home')">UTAMA</button>
-        <button class="nav-item" onclick="bukaPage('fasus')">FASUS</button>
-        <button class="nav-item" style="color:#00e5ff;" onclick="bukaPage('home'); document.getElementById('analisa').scrollIntoView();">ANALISA DATA</button>
-    </div>
+    <nav class="navbar" id="main_navbar">
+        <div class="dropdown">
+            <button class="dropbtn" onclick="bukaHome()">🏠 UTAMA</button>
+        </div>
+        </nav>
 
     <div class="container">
-
-        <div id="home" class="page-section active">
-            <div class="card" style="text-align: center; background: #e0f2f1;">
-                <h2>🏆 Analisa Keseluruhan</h2>
-                <p>Data diambil terus dari pengkalan data Google Sheet.</p>
-                
-                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <div style="flex:1; background:white; padding:20px; border-radius:10px;">
-                        <h3>Total Penyertaan</h3>
-                        <p id="grandTotal" style="font-size:50px; font-weight:800; color:#004d4d; margin:0;">Loading...</p>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    <canvas id="grafKeseluruhan"></canvas> </div>
+        <div id="view_dashboard">
+            <div style="text-align: center; margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #00e5ff;">
+                <h2 style="margin:0; color:#004d4d;">STATISTIK KESELURUHAN</h2>
+                <h1 id="grand_total" style="font-size: 50px; margin: 5px 0; color: #00e5ff;">...</h1>
+                <p style="font-size: 12px; color: #777;">Jumlah penyertaan sekolah setakat ini (Live)</p>
             </div>
+            <div id="grid_container" class="grid-menu"></div>
         </div>
 
-        <div id="fasus" class="page-section">
-            <h2 style="border-left: 5px solid #00e5ff; padding-left: 15px; color:#004d4d;">🎵 FASUS: Simfoni & Puisi Lagu</h2>
-            
-            <div class="grid-split">
-                <div class="col-left card">
-                    <h3>📝 Borang Pendaftaran</h3>
-                    <iframe id="frame_fasus" src="" width="100%" height="800" frameborder="0"></iframe>
-                </div>
-
-                <div class="col-right">
-                    <div class="card">
-                        <h3>📂 Muat Turun</h3>
-                        <a id="btn_konsep_fasus" href="#" class="btn-download">📥 KERTAS KONSEP</a>
-                    </div>
-
-                    <div class="card">
-                        <h3>📊 Live Penyertaan</h3>
-                        <div class="stats-counter-box">
-                            <span id="count_fasus" class="stats-number">0</span><br>
-                            <span style="font-size:12px;">SEKOLAH BERDAFTAR</span>
+        <div id="view_page" class="hidden">
+            <button class="btn-back" onclick="bukaHome()">⬅ KEMBALI KE MENU UTAMA</button>
+            <div class="split-layout">
+                <div class="col-left">
+                    <h2 id="page_title" style="color: #004d4d; border-bottom: 3px solid #00e5ff; padding-bottom: 10px; margin-top:0;">Tajuk</h2>
+                    <div class="form-box">
+                        <div style="text-align:right; margin-bottom:5px;">
+                            <a id="link_newtab" href="#" target="_blank" style="font-size:11px; text-decoration:none; color:#00695c;">🔗 Buka Borang di Tab Baru</a>
                         </div>
-                        <p style="font-size:12px; color:#666; margin-top:10px;">*Data dikemaskini setiap kali page dibuka.</p>
+                        <iframe id="frame_borang" src="" width="100%" height="1200px" frameborder="0"></iframe>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div class="info-box" style="background:#003333; color:white;">
+                        <span style="font-size:11px; opacity:0.8; letter-spacing:1px;">PENYERTAAN SEMASA</span>
+                        <h1 id="page_stat" style="font-size:50px; margin:10px 0; color:#00e5ff;">0</h1>
+                        <p style="font-size:10px;">Data dikemaskini secara automatik</p>
+                    </div>
+                    <div class="info-box">
+                        <h4 style="margin-top:0;">DOKUMEN</h4>
+                        <a id="link_drive" href="#" target="_blank" class="btn-download">📂 GOOGLE DRIVE</a>
+                        <p style="font-size:11px; color:#777; margin-top:10px;">Syarat & Kertas Konsep</p>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
         // =================================================================
-        // 1. RUANG CONFIG (CIKGU EDIT SINI JE UNTUK TAHUN DEPAN)
+        // 🛠️ DATABASE LENGKAP - SILA ISI LINK DI SINI
+        // Saya telah senaraikan semua 23 pertandingan ikut gambar Cikgu.
+        // Copy dari Excel -> Paste dalam tanda ""
         // =================================================================
         
-        const DATABASE = {
-            "FASUS": {
-                // Link Google Form (Viewform)
-                form: "https://docs.google.com/forms/d/e/1FAIpQLSdc.../viewform?embedded=true", 
-                
-                // Link Download
-                download: "https://drive.google.com/...", 
-                
-                // Link CSV dari Google Sheet (Publish to Web > CSV)
-                // PASTIKAN COLUMN A IALAH NAMA PERTANDINGAN/DAERAH UTK GRAF
-                sheetCsv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ.../pub?output=csv" 
+        const DATABASE = [
+            // --- MUZIK: FASUS ---
+            { 
+                kategori: "MUZIK", sub_kategori: "FASUS", tajuk: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", 
+                form: "",  // <-- PASTE LINK FORM (KOLUM D)
+                drive: "", // <-- PASTE LINK DRIVE (KOLUM F)
+                csv: ""    // <-- PASTE LINK CSV (KOLUM G)
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "FASUS", tajuk: "SAYEMBARA PUISI LAGU (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+
+            // --- MUZIK: FERAS ---
+            { 
+                kategori: "MUZIK", sub_kategori: "FERAS", tajuk: "PERTANDINGAN KOIR (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "FERAS", tajuk: "PERTANDINGAN ENSEMBLE REKORDER & GENDERANG (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "FERAS", tajuk: "PERTANDINGAN ENSEMBLE KIBOD MUSIC TIME (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "FERAS", tajuk: "PERTANDINGAN KOIR (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+
+            // --- MUZIK: GENTA SUARA ---
+            { 
+                kategori: "MUZIK", sub_kategori: "GENTA SUARA", tajuk: "NYANYIAN SOLO (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "GENTA SUARA", tajuk: "KOIR (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "GENTA SUARA", tajuk: "NYANYIAN SOLO (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "MUZIK", sub_kategori: "GENTA SUARA", tajuk: "KOIR (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+
+            // --- TARI: TA'SEEM ---
+            { 
+                kategori: "TARI", sub_kategori: "TA'SEEM", tajuk: "TARIAN RAMPAIAN TRADISIONAL (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TARI", sub_kategori: "TA'SEEM", tajuk: "TARIAN ETNIK/RAKYAT SOLO (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TARI", sub_kategori: "TA'SEEM", tajuk: "TARI PENCAK (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TARI", sub_kategori: "TA'SEEM", tajuk: "TARIAN RAMPAIAN TRADISIONAL DUO (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+
+            // --- TEATER: FLLASH ---
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "SAYEMBARA TEATER (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "PERTANDINGAN FILEM PENDEK (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "PERTANDINGAN MONOLOG (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "SAYEMBARA TEATER (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "PERTANDINGAN FILEM PENDEK (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "TEATER", sub_kategori: "FLLASH", tajuk: "PERTANDINGAN MONOLOG (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+
+            // --- SENI VISUAL: ASEV ---
+            { 
+                kategori: "VISUAL", sub_kategori: "ASEV", tajuk: "PERTANDINGAN SENI CETAKAN (SR)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "VISUAL", sub_kategori: "ASEV", tajuk: "PERTANDINGAN BUSANA (SM)", 
+                form: "", drive: "", csv: "" 
+            },
+            { 
+                kategori: "VISUAL", sub_kategori: "ASEV", tajuk: "INT. HIGH SCHOOL ARTS FESTIVAL (IFAC-JAPAN)", 
+                form: "", drive: "", csv: "" 
             }
-        };
+        ];
 
         // =================================================================
-        // 2. FUNGSI UPDATE DATA AUTOMATIK (JANGAN UBAH BAWAH NI)
+        // ⚙️ ENJIN SISTEM (JANGAN UBAH BAGIAN INI)
         // =================================================================
+        
+        function initSystem() {
+            const navbar = document.getElementById('main_navbar');
+            const grid = document.getElementById('grid_container');
+            const uniqueCats = [...new Set(DATABASE.map(item => item.kategori))];
 
-        // Setup awal bila website loading
-        window.onload = function() {
-            // Masukkan link ke dalam HTML
-            document.getElementById('frame_fasus').src = DATABASE.FASUS.form;
-            document.getElementById('btn_konsep_fasus').href = DATABASE.FASUS.download;
-            
-            // Tarik Data Statistik
-            kiraStatistik(DATABASE.FASUS.sheetCsv, 'count_fasus');
-        };
+            uniqueCats.forEach(cat => {
+                // Layer 1: Kategori (MUZIK, TARI...)
+                let dropdown = document.createElement('div');
+                dropdown.className = 'dropdown';
+                let btn = document.createElement('button');
+                btn.className = 'dropbtn';
+                btn.innerText = cat + " ▼";
+                dropdown.appendChild(btn);
 
-        function bukaPage(pageName) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageName).classList.add('active');
-        }
+                // Layer 2: Sub-Kategori (FASUS, FERAS...)
+                let content = document.createElement('div');
+                content.className = 'dropdown-content';
+                const catItems = DATABASE.filter(item => item.kategori === cat);
+                const uniqueSubs = [...new Set(catItems.map(item => item.sub_kategori))];
 
-        // FUNGSI POWER: Tarik CSV & Buat Graf
-        function kiraStatistik(csvUrl, elementId) {
-            fetch(csvUrl)
-            .then(response => response.text())
-            .then(data => {
-                const rows = data.split('\n');
-                const total = rows.length - 1; // Tolak 1 (Header)
-                
-                // 1. Update Nombor Teks
-                document.getElementById(elementId).innerText = total;
-                document.getElementById('grandTotal').innerText = total; // Contoh total semua
+                uniqueSubs.forEach(sub => {
+                    let subDiv = document.createElement('div');
+                    subDiv.className = 'sub-dropdown';
+                    let subBtn = document.createElement('div');
+                    subBtn.className = 'sub-dropbtn';
+                    subBtn.innerHTML = `${sub} <span class='arrow'>▶</span>`;
+                    subDiv.appendChild(subBtn);
 
-                // 2. Proses Data untuk Graf (Kira ikut Column B contohnya: Daerah)
-                let statistikDaerah = {};
-                rows.forEach((row, index) => {
-                    if (index === 0) return; // Skip header
-                    const cols = row.split(','); // Pecahkan ikut koma
-                    const daerah = cols[1] ? cols[1].trim() : "Lain-lain"; // Ambil column ke-2
+                    // Layer 3: Tajuk (Flyout)
+                    let subContent = document.createElement('div');
+                    subContent.className = 'sub-dropdown-content';
                     
-                    if (statistikDaerah[daerah]) {
-                        statistikDaerah[daerah]++;
-                    } else {
-                        statistikDaerah[daerah] = 1;
-                    }
+                    DATABASE.forEach((item, index) => {
+                        if(item.kategori === cat && item.sub_kategori === sub) {
+                            // Masuk Menu
+                            let link = document.createElement('a');
+                            link.href = "#";
+                            link.innerText = item.tajuk.replace("PERTANDINGAN ", "").replace("SAYEMBARA ", ""); // Ringkaskan nama dalam menu
+                            link.onclick = (e) => { e.preventDefault(); bukaPage(index); };
+                            subContent.appendChild(link);
+                            
+                            // Masuk Dashboard Grid
+                            addToGrid(item, index, grid);
+                        }
+                    });
+
+                    subDiv.appendChild(subContent);
+                    content.appendChild(subDiv);
                 });
-
-                // 3. Lukis Graf (Pie Chart)
-                lukisGraf(statistikDaerah);
-            })
-            .catch(err => console.log("Gagal tarik data:", err));
-        }
-
-        function lukisGraf(dataObj) {
-            const ctx = document.getElementById('grafKeseluruhan').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut', // Jenis Graf: pie, bar, line, doughnut
-                data: {
-                    labels: Object.keys(dataObj),
-                    datasets: [{
-                        label: 'Jumlah Sekolah',
-                        data: Object.values(dataObj),
-                        backgroundColor: [
-                            '#00e5ff', '#00b8d4', '#00838f', '#006064', '#80deea', '#b2ebf2'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
-                }
+                dropdown.appendChild(content);
+                navbar.appendChild(dropdown);
             });
         }
-    </script>
 
+        function addToGrid(item, index, gridContainer) {
+            let card = document.createElement('div');
+            card.className = 'menu-card';
+            card.onclick = () => bukaPage(index);
+            card.innerHTML = `
+                <span class="tag-sub">${item.sub_kategori}</span>
+                <div class="card-body">
+                    <div style="font-size:10px; color:#888; font-weight:bold;">${item.kategori}</div>
+                    <div class="card-title">${item.tajuk.replace("PERTANDINGAN ", "").replace("SAYEMBARA ", "")}</div>
+                    <span class="badge" id="mini_stat_${index}">Loading...</span>
+                </div>
+            `;
+            gridContainer.appendChild(card);
+            fetchData(item.csv, `mini_stat_${index}`);
+        }
+
+        function bukaHome() {
+            document.getElementById('view_dashboard').classList.remove('hidden');
+            document.getElementById('view_page').classList.add('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function bukaPage(index) {
+            const data = DATABASE[index];
+            document.getElementById('view_dashboard').classList.add('hidden');
+            document.getElementById('view_page').classList.remove('hidden');
+            window.scrollTo(0,0);
+
+            document.getElementById('page_title').innerText = data.tajuk;
+            document.getElementById('frame_borang').src = data.form;
+            document.getElementById('link_newtab').href = data.form;
+            document.getElementById('link_drive').href = data.drive;
+            
+            document.getElementById('page_stat').innerText = "...";
+            fetchData(data.csv, 'page_stat');
+        }
+
+        function fetchData(url, elementId) {
+            if(!url || !url.includes("http")) {
+                document.getElementById(elementId).innerText = "-";
+                return;
+            }
+            fetch(url).then(r => r.text()).then(txt => {
+                let count = txt.trim().split('\n').length - 1;
+                if(count < 0) count = 0;
+                document.getElementById(elementId).innerText = count;
+                if(elementId.startsWith('mini')) calculateGrandTotal();
+            }).catch(() => document.getElementById(elementId).innerText = "0");
+        }
+
+        function calculateGrandTotal() {
+            let total = 0;
+            document.querySelectorAll('.badge').forEach(b => {
+                let val = parseInt(b.innerText);
+                if(!isNaN(val)) total += val;
+            });
+            document.getElementById('grand_total').innerText = total;
+        }
+
+        initSystem();
+    </script>
 </body>
 </html>
