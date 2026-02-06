@@ -11,40 +11,48 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        /* --- DESIGN SYSTEM --- */
-        :root { --primary: #0f766e; --accent: #2dd4bf; --dark: #111827; --white: #ffffff; }
+        /* --- 1. TEMA WARNA & ASAS --- */
+        :root { 
+            --primary: #0f766e; /* Teal Gelap */
+            --accent: #2dd4bf;  /* Teal Terang */
+            --dark: #111827; 
+            --white: #ffffff; 
+            --bg: #f3f4f6;
+        }
         * { box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: #f8fafc; color: var(--dark); }
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--dark); }
         
         /* HEADER */
-        header { background: var(--white); padding: 15px 40px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 1000; }
+        header { background: var(--white); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 1000; }
         .logo-area { cursor: pointer; }
         .logo-area h1 { margin: 0; font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-        .logo-area p { margin: 0; font-size: 11px; color: #6b7280; font-weight: 500; text-transform: uppercase; }
+        .logo-area p { margin: 0; font-size: 11px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
 
         /* NAVIGASI */
         .navbar { display: flex; gap: 10px; align-items: center; }
         .nav-btn { background: transparent; border: none; font-family: 'Poppins'; font-size: 13px; font-weight: 600; color: #4b5563; cursor: pointer; padding: 10px 20px; transition: 0.3s; border-radius: 50px; text-transform: uppercase; }
-        .nav-btn:hover { background-color: var(--primary); color: white; transform: translateY(-1px); }
+        .nav-btn:hover { background-color: var(--primary); color: white; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
 
         .btn-admin { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; padding: 8px 15px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
         .btn-admin.logged-in { background: #dcfce7; color: #166534; border-color: #bbf7d0; } 
         .btn-admin:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
 
-        /* DROPDOWN */
+        /* DROPDOWN MENU */
         .dropdown { position: relative; display: inline-block; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 240px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-radius: 12px; z-index: 1001; padding: 10px; border: 1px solid #e2e8f0; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 240px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-radius: 12px; z-index: 1001; padding: 10px; border: 1px solid #e2e8f0; animation: fadeIn 0.2s; }
         .dropdown:hover .dropdown-content { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         .sub-group { padding: 5px; border-bottom: 1px solid #f1f5f9; }
-        .sub-link { display: block; padding: 8px; color: #334155; text-decoration: none; font-size: 12px; font-weight: 500; border-radius: 6px; cursor: pointer; }
-        .sub-link:hover { background: #f0fdfa; color: var(--primary); }
+        .sub-link { display: block; padding: 8px 12px; color: #334155; text-decoration: none; font-size: 12px; font-weight: 500; border-radius: 6px; cursor: pointer; transition:0.2s; }
+        .sub-link:hover { background: #f0fdfa; color: var(--primary); padding-left: 15px; }
 
-        /* LAYOUT */
+        /* LAYOUT & CONTAINER */
         .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none; }
         
-        /* DASHBOARD */
-        .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        /* DASHBOARD (GRID) */
+        .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; position: relative; overflow: hidden; }
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .menu-card { background: var(--white); border-radius: 16px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; transition: 0.3s; display: flex; flex-direction: column; position: relative; }
         .menu-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--accent); }
@@ -52,37 +60,47 @@
         .card-body { padding: 25px; text-align: center; }
         .stat-badge { background: #f0fdfa; color: #0f766e; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #ccfbf1; }
 
-        /* ADMIN PANEL UI */
-        .admin-panel { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .login-box { max-width: 400px; margin: 0 auto; padding: 40px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; text-align: center; }
-        .btn-google { background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-size: 14px; }
+        /* ADMIN PANEL */
+        .admin-panel { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; min-height: 500px; }
+        .login-box { max-width: 400px; margin: 50px auto; padding: 40px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; text-align: center; }
+        .btn-google { background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-size: 14px; transition: 0.2s; }
+        .btn-google:hover { background: #357ae8; transform: scale(1.02); }
         
         /* ADMIN DATA TABLE */
-        .selector-box { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .select-input { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; min-width: 200px; }
-        .search-input { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; }
+        .selector-box { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .select-input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; min-width: 250px; font-family: 'Poppins'; outline: none; }
+        .search-input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex-grow: 1; font-family: 'Poppins'; outline: none; }
+        
         .data-table-wrapper { overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 600px; overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
-        .data-table th { background: #f1f5f9; padding: 12px; text-align: left; font-weight: 700; color: #475569; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #e2e8f0; }
-        .data-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
-        .data-table tr:hover { background: #f8fafc; }
+        .data-table th { background: #f1f5f9; padding: 15px; text-align: left; font-weight: 700; color: #475569; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #e2e8f0; }
+        .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        .data-table tr:hover { background: #f0fdfa; }
 
-        /* PAGE & HELPERS */
-        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; }
+        /* PAGE PERTANDINGAN */
+        .btn-back { background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 50px; font-weight: 600; color: #64748b; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .btn-back:hover { border-color: var(--primary); color: var(--primary); }
         .split-layout { display: flex; gap: 30px; flex-wrap: wrap; }
         .col-left { flex: 3; min-width: 350px; }
         .col-right { flex: 1; min-width: 300px; }
-        .form-wrapper { background: white; border-radius: 16px; overflow: hidden; height: 1200px; border: 1px solid #e2e8f0; }
-        .stat-box { background: linear-gradient(145deg, #0f766e, #115e59); color: white; padding: 30px; border-radius: 16px; text-align: center; cursor: pointer; margin-bottom: 20px; }
+        .form-wrapper { background: white; border-radius: 16px; overflow: hidden; height: 1200px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        
+        .stat-box { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); color: white; padding: 30px; border-radius: 16px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .stat-box:hover { transform: scale(1.02); box-shadow: 0 15px 30px -5px rgba(15, 118, 110, 0.4); }
+        
         .download-box { background: white; padding: 25px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; }
-        .btn-dl { display: block; width: 100%; padding: 12px; background: #1e293b; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 15px; }
-        .btn-sheet { background: #10b981; color: white; text-decoration: none; padding: 8px 15px; border-radius: 6px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-dl { display: block; width: 100%; padding: 12px; background: #1e293b; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 15px; transition: 0.2s; }
+        .btn-dl:hover { background: var(--primary); }
+        .btn-sheet { background: #10b981; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition:0.2s; }
+        .btn-sheet:hover { background: #059669; }
 
         /* MODAL */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 900px; max-height: 90vh; border-radius: 20px; overflow-y: auto; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s; }
+        .modal-content { background: white; width: 100%; max-width: 900px; max-height: 90vh; border-radius: 20px; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px; }
+        .chart-wrapper { background: #f8fafc; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; height: 350px; display: flex; align-items: center; justify-content: center; }
 
-        @media (max-width: 900px) { header { flex-direction: column; gap: 15px; } .navbar { flex-wrap: wrap; justify-content: center; } .split-layout { flex-direction: column-reverse; } .selector-box { flex-direction: column; } }
+        @media (max-width: 900px) { header { flex-direction: column; gap: 15px; } .navbar { flex-wrap: wrap; justify-content: center; width: 100%; } .split-layout { flex-direction: column-reverse; } .analysis-grid { grid-template-columns: 1fr; } .selector-box { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -103,18 +121,19 @@
 
         <div id="view_dashboard">
             <div class="hero-stat">
-                <h2 style="margin:0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Jumlah Penyertaan Keseluruhan</h2>
-                <h1 id="grand_total" style="font-size: 72px; font-weight: 800; color: var(--primary); margin: 10px 0;">...</h1>
-                <p style="font-size: 12px; color: #94a3b8; background: #f1f5f9; display: inline-block; padding: 5px 15px; border-radius: 20px;">Data masa nyata</p>
+                <h2 style="margin:0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 2px;">Jumlah Penyertaan Keseluruhan</h2>
+                <h1 id="grand_total" style="font-size: 72px; font-weight: 800; color: var(--primary); margin: 10px 0; letter-spacing: -2px;">...</h1>
+                <p style="font-size: 12px; color: #94a3b8; background: #f1f5f9; display: inline-block; padding: 5px 15px; border-radius: 20px;">Dikemaskini secara masa nyata (Live)</p>
             </div>
+            <div style="margin-bottom: 20px; font-weight: 700; color: #334155; font-size: 18px;">SENARAI PERTANDINGAN</div>
             <div id="grid_container" class="grid-menu"></div>
         </div>
 
         <div id="view_page" class="hidden">
-            <button class="nav-btn" style="margin-bottom:20px;" onclick="bukaHome()">← KEMBALI</button>
+            <button class="btn-back" onclick="bukaHome()">← KEMBALI KE MENU</button>
             <div class="split-layout">
                 <div class="col-left">
-                    <h2 id="page_title" style="margin:0 0 20px 0; color:var(--dark);">Tajuk</h2>
+                    <h2 id="page_title" style="margin:0 0 20px 0; color:var(--dark); font-weight: 700;">Tajuk</h2>
                     <div class="form-wrapper">
                         <iframe id="frame_borang" src="" width="100%" height="100%" frameborder="0"></iframe>
                     </div>
@@ -124,67 +143,68 @@
                         <div style="font-size:24px; margin-bottom:10px;">📊</div>
                         <div class="stat-label">PENYERTAAN SEMASA</div>
                         <div class="stat-number" id="page_stat">0</div>
-                        <div style="font-size:10px; opacity:0.8; margin-top:10px;">KLIK UNTUK ANALISIS</div>
+                        <div style="font-size:10px; opacity:0.8; margin-top:10px; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:20px; display:inline-block;">KLIK UNTUK ANALISIS</div>
                     </div>
                     <div class="download-box">
-                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155;">DOKUMEN</h4>
-                        <a id="link_drive" href="#" target="_blank" class="btn-dl">📂 GOOGLE DRIVE</a>
+                        <h4 style="margin:0; font-size: 13px; font-weight: 800; color: #334155;">BAHAN PERTANDINGAN</h4>
+                        <p style="font-size: 11px; color: #64748b; margin-top: 5px;">Syarat & Kertas Konsep</p>
+                        <a id="link_drive" href="#" target="_blank" class="btn-dl">📂 BUKA FOLDER DRIVE</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="view_admin" class="hidden">
-            <button class="nav-btn" style="margin-bottom:20px;" onclick="bukaHome()">← KEMBALI</button>
+            <button class="btn-back" onclick="bukaHome()">← KEMBALI KE UTAMA</button>
             <div class="admin-panel">
                 
                 <div id="admin_login_ui">
                     <div class="login-box">
-                        <h3>AKSES PENGURUS DATA</h3>
-                        <p style="font-size:12px; color:#64748b; margin-bottom:20px;">Log masuk untuk melihat butiran pendaftaran sekolah.</p>
+                        <h3 style="color:var(--primary); margin-bottom:10px;">AKSES ADMIN</h3>
+                        <p style="font-size:12px; color:#64748b; margin-bottom:30px;">Sila log masuk menggunakan akaun Google yang sah untuk melihat data sensitif.</p>
                         <button class="btn-google" onclick="loginGoogle()">🔑 LOG MASUK (GOOGLE)</button>
                     </div>
                 </div>
 
                 <div id="admin_data_ui" class="hidden">
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:15px; margin-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:20px; margin-bottom:25px;">
                         <div style="text-align:left;">
-                            <h2 style="margin:0;">PANEL ADMIN</h2>
-                            <p id="user_display" style="margin:0; font-size:12px; color:var(--primary);">Selamat datang...</p>
+                            <h2 style="margin:0; color:var(--dark);">PANEL PENGURUSAN DATA</h2>
+                            <p id="user_display" style="margin:5px 0 0; font-size:12px; color:var(--primary); font-weight:600;">...</p>
                         </div>
-                        <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#ef4444; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">KELUAR</button>
+                        <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#ef4444; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:12px;">LOG KELUAR</button>
                     </div>
 
                     <div class="selector-box">
                         <select id="comp_selector" class="select-input" onchange="loadTableData()">
-                            <option value="">-- PILIH PERTANDINGAN --</option>
+                            <option value="">-- SILA PILIH PERTANDINGAN --</option>
                         </select>
                         <input type="text" id="tableSearch" class="search-input" placeholder="🔎 Cari Nama Sekolah, Guru, atau No Tel..." onkeyup="filterTable()">
                     </div>
 
-                    <div id="loading_msg" style="display:none; color:#64748b; margin:20px;">Sedang memuat turun data...</div>
+                    <div id="loading_msg" style="display:none; color:#64748b; margin:20px;">Sedang memuat turun data dari pelayan...</div>
 
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead id="data_thead">
-                                <tr><th>#</th><th>TIMESTAMP</th><th>NAMA SEKOLAH</th><th>NAMA GURU / BUTIRAN</th></tr>
+                                <tr><th>#</th><th>DATA BELUM DIPILIH</th></tr>
                             </thead>
                             <tbody id="data_tbody">
-                                <tr><td colspan="4" style="text-align:center; padding:30px;">Sila pilih pertandingan di atas.</td></tr>
+                                <tr><td colspan="2" style="text-align:center; padding:40px; color:#94a3b8;">Sila pilih salah satu pertandingan di menu atas untuk memaparkan data.</td></tr>
                             </tbody>
                         </table>
                     </div>
                     
                     <div style="margin-top:20px; text-align:right;">
-                        <a id="btn_open_sheet" href="#" target="_blank" class="btn-sheet" style="display:none; background:#2563eb;">📄 BUKA SHEET ASAL (EDIT)</a>
+                        <a id="btn_open_sheet" href="#" target="_blank" class="btn-sheet" style="display:none;">📄 BUKA GOOGLE SHEET (EDIT)</a>
                     </div>
                 </div>
 
                 <div id="access_denied_ui" class="hidden">
                     <div class="login-box" style="border-color:#fee2e2; background:#fef2f2;">
                         <h3 style="color:#ef4444;">AKSES DITOLAK 🚫</h3>
-                        <p style="font-size:12px;">Email <b id="denied_email"></b> tiada dalam senarai admin.</p>
-                        <button onclick="logoutGoogle()" style="margin-top:10px; cursor:pointer;">Cuba Akaun Lain</button>
+                        <p style="font-size:12px;">Maaf, email <b id="denied_email"></b> tidak mempunyai kebenaran untuk mengakses halaman ini.</p>
+                        <button onclick="logoutGoogle()" style="margin-top:20px; cursor:pointer; padding:10px 20px; border:1px solid #ef4444; background:white; color:#ef4444; border-radius:6px;">Log Keluar</button>
                     </div>
                 </div>
             </div>
@@ -194,19 +214,33 @@
 
     <div id="stats_modal" class="modal-overlay">
         <div class="modal-content">
-            <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
-                <h3>ANALISIS RINGKAS</h3><button onclick="document.getElementById('stats_modal').style.display='none'" style="cursor:pointer; border:none; background:none; font-size:20px;">✕</button>
+            <div style="padding:20px 30px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; color:var(--dark);">ANALISIS PENYERTAAN</h3>
+                <button onclick="document.getElementById('stats_modal').style.display='none'" style="cursor:pointer; border:none; background:none; font-size:24px; color:#94a3b8;">&times;</button>
             </div>
-            <div class="analysis-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:20px;">
-                <div><h4>CARTA DAERAH</h4><div style="height:300px;"><canvas id="chart_daerah"></canvas></div></div>
-                <div><h4>SENARAI BERDAFTAR</h4><div style="height:300px; overflow-y:auto; border:1px solid #e2e8f0;"><table class="school-table" style="width:100%;"><thead><tr><th>#</th><th>Sekolah</th></tr></thead><tbody id="list_body"></tbody></table></div></div>
+            <div class="analysis-grid">
+                <div>
+                    <h4 style="font-size:12px; margin-bottom:15px; color:#64748b; font-weight:700;">PECAHAN MENGIKUT DAERAH</h4>
+                    <div class="chart-wrapper">
+                        <canvas id="chart_daerah"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:12px; margin-bottom:15px; color:#64748b; font-weight:700;">SENARAI SEKOLAH YANG TELAH MENDAFTAR</h4>
+                    <div class="data-table-wrapper" style="height:350px;">
+                        <table class="data-table">
+                            <thead><tr><th width="50">#</th><th>SEKOLAH</th><th>DAERAH</th></tr></thead>
+                            <tbody id="list_body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         // =================================================================
-        // 🔥 CONFIG FIREBASE (INI YANG CIKGU BAGI TADI)
+        // 🔥 1. CONFIG FIREBASE
         // =================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyBXqVEgI1EMzXnmKl4uOaf-npykNn4TDeg",
@@ -218,21 +252,34 @@
             measurementId: "G-S0FSJYL6E4"
         };
         
-        // Initialize Firebase
+        // Init Firebase
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // 🔒 SENARAI EMAIL ADMIN (SILA ISI EMAIL CIKGU DI SINI)
+        // 🔒 SENARAI EMAIL ADMIN (Masukkan email cikgu di sini)
         const ALLOWED_ADMINS = [
-            "naimullahkhalid@gmail.com",  // <--- EMAIL 1
-            "unit.kesenian@gmail.com"   // <--- EMAIL 2
+            "naimullahkhalid@gmail.com",  // <--- EMAIL UTAMA CIKGU
+            "unit.kesenian@gmail.com"     // Boleh tambah email lain
+        ];
+
+        // 🎨 TEMA WARNA CARTA (MENARIK & CERIA)
+        const chartColors = [
+            '#14b8a6', // Teal
+            '#3b82f6', // Blue
+            '#8b5cf6', // Violet
+            '#f59e0b', // Amber
+            '#ec4899', // Pink
+            '#10b981', // Emerald
+            '#6366f1', // Indigo
+            '#f97316'  // Orange
         ];
 
         // =================================================================
-        // 🛠️ DATABASE LENGKAP
+        // 🛠️ DATABASE PERTANDINGAN LENGKAP
         // =================================================================
         const DATABASE = [
+            // MUZIK
             { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", sheet: "https://docs.google.com/spreadsheets/d/1qCjiMQln2Qc0TS-vlqCmgSivLWxRbT_cKchbg0rX1BA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
             { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", sheet: "https://docs.google.com/spreadsheets/d/1QPJT6cLTGkOuqmiJvVnl4ahBCBmJoFtwgy7OM7Yb7Ls/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
             { cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", sheet: "https://docs.google.com/spreadsheets/d/1lGT06n1XYYEUwab4IkBIewgd4upykPioA4igynIuHrM/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
@@ -243,24 +290,28 @@
             { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SR)", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", sheet: "https://docs.google.com/spreadsheets/d/1tRAe0VluRcv3W1HR6TIZt6Gomm-L24T9XcHnu5dK90A/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
             { cat: "MUZIK", sub: "GENTA SUARA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", sheet: "https://docs.google.com/spreadsheets/d/1KoBy60UR1B0srN5xLz5dI0zFgjC8xPEAz88rJtfa2pE/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
             { cat: "MUZIK", sub: "GENTA SUARA", title: "KOIR (SM)", form: "https://forms.gle/NksdkKXuiu8uEhBy7", sheet: "https://docs.google.com/spreadsheets/d/1NFPf0spN9qaveQy-nKmFHGMh6XjBsV5EENagFQwHw5o/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
+            // TARI
             { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", sheet: "https://docs.google.com/spreadsheets/d/1viKSXLmpeWQd5q47D65X5vtmolCvlNgZFoSNIRF77ho/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
             { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", sheet: "https://docs.google.com/spreadsheets/d/1U55Lv368iW3VFbnDienH_Hs30gxC66W5H4KnuIMdNEg/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
             { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", sheet: "https://docs.google.com/spreadsheets/d/1Rgi0iJAQtJj_nMHAJQUX2oMUhHBYL7NeVlo4uNrMwkw/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
             { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", sheet: "https://docs.google.com/spreadsheets/d/1PhbnKhaFRsVOVxWFG5gaK5VXAAQeLX7hNIq-OA9w-50/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
+            // TEATER
             { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", sheet: "https://docs.google.com/spreadsheets/d/1dkUKieSlaj_Y647iOcnp7A2MBhcJDSrcnJsjmba_8jE/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
             { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", sheet: "https://docs.google.com/spreadsheets/d/1RbH6MHpP4e8uSQ7rBaUeybu5C_0AxY48TCmlLH3ntjs/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
             { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", sheet: "https://docs.google.com/spreadsheets/d/1NosQKr5059qHaBGyUdyKo_-CYW8QOOFP1s-AfdJ7zbA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
             { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", sheet: "https://docs.google.com/spreadsheets/d/10kTGTOAjzPOlPOZYJIDL8sQ_McXLpqlc6eAYi_2TMCo/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
             { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", sheet: "https://docs.google.com/spreadsheets/d/1dOqDL-sTiw8aCRuYA1lzaPdSA_9vKov65EveCS9RrOA/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
             { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", sheet: "https://docs.google.com/spreadsheets/d/16MwFNnYBEFXIU0ISBcs7tdQJx1MJBgmOMqiqWpFJr7k/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
+            // VISUAL
             { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", sheet: "https://docs.google.com/spreadsheets/d/1DLhXc-ZPkeJbkwoa5kVIBDJmBqCOHUYcGpTN4R-dwIg/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
             { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", sheet: "https://docs.google.com/spreadsheets/d/1yEE06IJv5oX3Oc5Fxo-VpveQ7twdxXsp3uOCzdRjOQU/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
             { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", sheet: "https://docs.google.com/spreadsheets/d/1GaA5_xXqksfKLACJO4YBbhI5lDkTGnhacvGuFmBxOO0/edit?usp=sharing", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f?usp=drive_link", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" },
+            // NESTLE (PLACEHOLDER)
             { cat: "SENI VISUAL", sub: "NESTLE", title: "KRAF KOLAJ KOKO KRUNCH (SR)", form: "#", sheet: "#", drive: "#", csv: "" },
             { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA BAHAN TERBUANG (SM)", form: "#", sheet: "#", drive: "#", csv: "" }
         ];
 
-        // 1. INIT
+        // 1. INIT SYSTEM (MENU & DASHBOARD)
         function initSystem() {
             const navbar = document.getElementById('nav_menu');
             const grid = document.getElementById('grid_container');
@@ -274,7 +325,7 @@
                 const catItems = DATABASE.filter(item => item.cat === cat);
                 [...new Set(catItems.map(i => i.sub))].forEach(sub => {
                     let group = document.createElement('div'); group.className='sub-group';
-                    group.innerHTML = `<div class="sub-link" style="font-weight:800; color:#2dd4bf;">${sub}</div>`;
+                    group.innerHTML = `<div class="sub-link" style="font-weight:800; color:#2dd4bf; cursor:default;">${sub}</div>`;
                     DATABASE.forEach((item, index) => {
                         if(item.cat === cat && item.sub === sub) {
                             let link = document.createElement('a'); link.className='sub-link'; link.innerText = item.title;
@@ -300,12 +351,12 @@
 
         function addToGrid(item, index, container) {
             let div = document.createElement('div'); div.className='menu-card'; div.onclick=()=>bukaPage(index);
-            div.innerHTML=`<span class="tag">${item.sub}</span><div class="card-body"><div class="stat-badge">${item.cat}</div><div style="font-weight:700; margin-top:10px;">${item.title}</div><div id="mini_${index}" style="font-size:12px; color:#888;">Loading...</div></div>`;
+            div.innerHTML=`<span class="tag">${item.sub}</span><div class="card-body"><div class="stat-badge">${item.cat}</div><div style="font-weight:700; margin-top:10px; font-size:14px;">${item.title}</div><div id="mini_${index}" style="font-size:12px; color:#9ca3af; margin-top:5px;">Loading...</div></div>`;
             container.appendChild(div);
             fetchData(item.csv, `mini_${index}`);
         }
 
-        // 2. AUTHENTICATION & ADMIN
+        // 2. AUTHENTICATION (FIREBASE)
         function checkAuthAndRedirect() {
             bukaHome(); document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden');
             auth.onAuthStateChanged((user) => {
@@ -316,13 +367,13 @@
             });
         }
 
-        function loginGoogle() { auth.signInWithPopup(provider).then(()=>checkAuthAndRedirect()).catch(e=>alert(e.message)); }
-        function logoutGoogle() { auth.signOut().then(()=>showLoginScreen()); }
+        function loginGoogle() { auth.signInWithPopup(provider).then(()=>checkAuthAndRedirect()).catch(e=>alert("Ralat Login: "+e.message)); }
+        function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
         function showLoginScreen() { document.getElementById('admin_login_ui').classList.remove('hidden'); document.getElementById('admin_data_ui').classList.add('hidden'); document.getElementById('access_denied_ui').classList.add('hidden'); document.getElementById('btn_admin_top').classList.remove('logged-in'); }
-        function showAdminPanel(user) { document.getElementById('admin_login_ui').classList.add('hidden'); document.getElementById('admin_data_ui').classList.remove('hidden'); document.getElementById('access_denied_ui').classList.add('hidden'); document.getElementById('user_display').innerText=user.email; document.getElementById('btn_admin_top').classList.add('logged-in'); }
+        function showAdminPanel(user) { document.getElementById('admin_login_ui').classList.add('hidden'); document.getElementById('admin_data_ui').classList.remove('hidden'); document.getElementById('access_denied_ui').classList.add('hidden'); document.getElementById('user_display').innerText="Log Masuk: "+user.email; document.getElementById('btn_admin_top').classList.add('logged-in'); }
         function showAccessDenied(user) { document.getElementById('admin_login_ui').classList.add('hidden'); document.getElementById('admin_data_ui').classList.add('hidden'); document.getElementById('access_denied_ui').classList.remove('hidden'); document.getElementById('denied_email').innerText=user.email; }
 
-        // 3. ADMIN DATA TABLE LOGIC
+        // 3. ADMIN TABLE LOGIC (REGEX PARSER)
         function loadTableData() {
             const idx = document.getElementById('comp_selector').value;
             const tbody = document.getElementById('data_tbody');
@@ -330,10 +381,9 @@
             const loading = document.getElementById('loading_msg');
             const btnSheet = document.getElementById('btn_open_sheet');
 
-            if(idx === "") { tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;">Sila pilih pertandingan.</td></tr>`; return; }
-            
+            if(idx === "") { tbody.innerHTML=`<tr><td colspan="2" style="text-align:center; padding:30px;">Sila pilih pertandingan.</td></tr>`; return; }
             const data = DATABASE[idx];
-            if(!data.csv) { alert("Data tiada."); return; }
+            if(!data.csv) { alert("Data CSV belum tersedia."); return; }
 
             loading.style.display='block'; tbody.innerHTML=''; btnSheet.href=data.sheet; btnSheet.style.display='inline-flex';
 
@@ -341,6 +391,7 @@
                 const rows = txt.trim().split('\n');
                 let headCols = rows[0].split(',');
                 let headHtml = `<tr><th>#</th>`;
+                // Hadkan kolum kepada 6 pertama supaya tak serabut
                 for(let i=0; i<Math.min(headCols.length, 6); i++) headHtml += `<th>${headCols[i].replace(/"/g,'')}</th>`;
                 headHtml += `</tr>`;
                 thead.innerHTML = headHtml;
@@ -369,35 +420,55 @@
             }
         }
 
-        // 4. NAVIGATION & HELPERS
+        // 4. NAVIGASI & HELPERS
         function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); }
+        let currentIndex = null;
         function bukaPage(i) { 
-            const d = DATABASE[i]; document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); document.getElementById('view_page').classList.remove('hidden'); 
+            currentIndex = i; const d = DATABASE[i]; 
+            document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); document.getElementById('view_page').classList.remove('hidden'); 
             document.getElementById('page_title').innerText=d.title; document.getElementById('frame_borang').src=d.form; document.getElementById('link_drive').href=d.drive; fetchData(d.csv,'page_stat'); 
         }
-        function fetchData(url, eid) { if(!url) return; fetch(url).then(r=>r.text()).then(t=>{let c=t.trim().split('\n').length-1; document.getElementById(eid).innerText=c<0?0:c; if(eid.startsWith('mini'))calcTotal();}).catch(()=>{}); }
+        function fetchData(url, eid) { 
+            if(!url) return; 
+            fetch(url).then(r=>r.text()).then(t=>{ let c=t.trim().split('\n').length-1; document.getElementById(eid).innerText = (c<0?0:c); if(eid.startsWith('mini'))calcTotal(); }).catch(()=>{}); 
+        }
         function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e=>{let v=parseInt(e.innerText); if(!isNaN(v))t+=v;}); document.getElementById('grand_total').innerText=t; }
-        
-        let chartInstance=null;
+
+        // 5. MODAL ANALISIS (AWAM - CHART.JS)
+        let chartPie = null;
         function bukaModalStatistik() {
-            /* (Logic Modal Analisis Awam - Sama seperti sebelum ini) */
-             if(currentIndex === null) return;
+            if(currentIndex === null) return;
             const data = DATABASE[currentIndex];
-            if(!data.csv) return;
+            if(!data.csv) { alert("Tiada Data."); return; }
             document.getElementById('stats_modal').style.display='flex';
-            fetch(data.csv).then(r=>r.text()).then(t=>{
-                const r=t.trim().split('\n').map(x=>x.split(','));
-                const stats={}; const list=[];
-                for(let i=1;i<r.length;i++){
-                    let c=r[i]; if(c.length<3)continue;
-                    let d=c[1].replace(/"/g,'').trim()||"Lain"; let s=c[2].replace(/"/g,'').trim();
-                    list.push({n:s,d:d}); stats[d]=(stats[d]||0)+1;
+            document.getElementById('list_body').innerHTML = '<tr><td colspan="3">Sedang memuatkan...</td></tr>';
+
+            fetch(data.csv).then(r=>r.text()).then(txt => {
+                const rows = txt.trim().split('\n');
+                const stats = {}; const list = [];
+                // ASUMSI: Col 1=Daerah, Col 2=Sekolah (Ubah index jika perlu)
+                for(let i=1; i<rows.length; i++) {
+                    let cols = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    if(!cols || cols.length < 2) cols = rows[i].split(',');
+                    let d = cols[1] ? cols[1].replace(/"/g,'').trim() : "Lain"; 
+                    let s = cols[2] ? cols[2].replace(/"/g,'').trim() : "-";
+                    list.push({n:s, d:d}); 
+                    stats[d] = (stats[d]||0)+1;
                 }
-                const tb=document.getElementById('list_body'); tb.innerHTML='';
-                list.forEach((x,k)=>tb.innerHTML+=`<tr><td>${k+1}</td><td>${x.n}</td></tr>`);
-                const ctx=document.getElementById('chart_daerah');
-                if(chartInstance)chartInstance.destroy();
-                chartInstance=new Chart(ctx,{type:'pie',data:{labels:Object.keys(stats),datasets:[{data:Object.values(stats),backgroundColor:['#0f766e','#2dd4bf','#99f6e4']}]}});
+                
+                const tbody = document.getElementById('list_body'); tbody.innerHTML = '';
+                list.forEach((x,k)=>tbody.innerHTML+=`<tr><td>${k+1}</td><td><b>${x.n}</b></td><td><span style="font-size:10px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${x.d}</span></td></tr>`);
+
+                const ctx = document.getElementById('chart_daerah').getContext('2d');
+                if(chartPie) chartPie.destroy();
+                chartPie = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(stats),
+                        datasets: [{ data: Object.values(stats), backgroundColor: chartColors, borderWidth: 2, borderColor: '#ffffff' }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { family: 'Poppins', size: 11 } } } } }
+                });
             });
         }
 
