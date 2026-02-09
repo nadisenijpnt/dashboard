@@ -43,30 +43,20 @@
         .hero-banner {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             border-radius: 16px; padding: 30px; color: white; margin-bottom: 0;
-            display: flex; flex-direction: column; /* Mobile first stack */
-            gap: 20px;
+            display: flex; flex-direction: column; gap: 20px;
             box-shadow: var(--shadow-md); position: relative; overflow: visible;
             padding-bottom: 90px;
         }
-        
-        /* Desktop Adjustment for Hero */
-        @media (min-width: 768px) {
-            .hero-banner { flex-direction: row; justify-content: space-between; align-items: center; }
-        }
-
-        .hero-text h2 { margin: 0; font-size: 24px; }
-        .hero-text p { margin: 5px 0 0; opacity: 0.9; font-size: 13px; }
+        @media (min-width: 768px) { .hero-banner { flex-direction: row; justify-content: space-between; align-items: center; } }
 
         .hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .hero-search { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 8px; font-size: 13px; outline: none; backdrop-filter: blur(5px); min-width: 200px; transition: 0.3s; flex-grow: 1; }
         .hero-search::placeholder { color: rgba(255,255,255,0.8); }
-        .hero-search:focus { background: rgba(255,255,255,0.3); }
         
         .btn-hero-action { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 8px; font-size: 14px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.2s; display: flex; align-items: center; gap: 5px; }
         .btn-hero-action:hover { background: rgba(255,255,255,0.4); }
 
-        /* STATS CARDS */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: -50px; margin-bottom: 40px; position: relative; z-index: 10; padding: 0 5px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: -50px; margin-bottom: 40px; position: relative; z-index: 10; padding: 0 5px; }
         .stat-card { background: var(--surface); padding: 25px; border-radius: 16px; box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: space-between; border-left: 5px solid transparent; transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-5px); }
         .stat-info h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
@@ -76,45 +66,59 @@
         .c-red { border-color: #ef4444; } .c-red .stat-icon { background: #fef2f2; color: #ef4444; }
         .c-orange { border-color: #f97316; } .c-orange .stat-icon { background: #fff7ed; color: #f97316; }
 
-        /* PUBLIC CARDS */
+        /* CARDS */
         .filter-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px; scrollbar-width: none; }
         .filter-pill { background: var(--surface); padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-sm); }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        
         .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
         
-        .event-card.closed { opacity: 0.7; background: #f9fafb; border-color: #e5e7eb; filter: grayscale(100%); cursor: not-allowed; }
-        .event-card.closed.admin-access { cursor: pointer; filter: grayscale(0%); border: 2px dashed #3b82f6; opacity: 1; }
-        .event-card.closed:hover { transform: none; box-shadow: none; }
-        .event-card.closed.admin-access:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        /* STATE: CLOSED */
+        .event-card.closed { opacity: 0.6; background: #f9fafb; border-color: #e5e7eb; filter: grayscale(100%); cursor: not-allowed; }
+        .event-card.closed:hover { transform: none; box-shadow: none; border-color: #e5e7eb; }
+        /* STATE: ADMIN ACCESS (Walaupun tutup, admin boleh nampak sikit beza) */
+        .event-card.closed.admin-access { cursor: pointer; filter: grayscale(0%); border: 1px dashed #3b82f6; opacity: 1; background: #eff6ff; }
+        .event-card.closed.admin-access:hover { transform: translateY(-2px); border-color: #3b82f6; }
 
         .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        
         .status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
         .status-open { color: var(--primary); background: var(--primary-light); }
         .status-closed { color: var(--danger); background: #fee2e2; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; }
         .status-open .status-dot { background: var(--primary); animation: pulse 1.5s infinite; }
         .status-closed .status-dot { background: var(--danger); }
+
         .card-title { font-weight: 700; font-size: 13px; line-height: 1.4; color: var(--text-main); margin-bottom: 15px; min-height: 40px; display: flex; align-items: center; }
         .progress-mini { background: var(--bg-body); height: 6px; border-radius: 10px; overflow: hidden; margin-top: 5px; }
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-        /* --- ADMIN TOOLBAR --- */
+        /* BUTTON DAFTAR DISABLED */
+        .btn-daftar { text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; transition:0.2s; }
+        .btn-daftar.disabled { background: #9ca3af; cursor: not-allowed; opacity: 0.7; pointer-events: none; } /* Greyed out */
+
+        /* TOAST NOTIFICATION */
+        #toast_box {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: #1f2937; color: white; padding: 12px 25px; border-radius: 50px;
+            font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 3000;
+        }
+        #toast_box.show { transform: translateX(-50%) translateY(0); }
+        #toast_box i { color: #f87171; font-size: 16px; }
+
+        /* ADMIN TOOLBAR */
         .admin-toolbar { background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
         .toolbar-top { display: flex; gap: 10px; flex-wrap: wrap; }
         .toolbar-bottom { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        
         .search-group { display: flex; flex: 1; gap: 0; min-width: 250px; }
         .search-group input { flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-right: none; border-top-left-radius: 8px; border-bottom-left-radius: 8px; outline: none; font-family: 'Inter'; font-size: 13px; }
-        .search-group input:focus { border-color: var(--accent); z-index: 2; }
         .btn-search { background: var(--text-main); color: white; border: 1px solid var(--text-main); padding: 0 20px; font-weight: 600; font-size: 12px; cursor: pointer; border-top-right-radius: 8px; border-bottom-right-radius: 8px; transition: 0.2s; white-space: nowrap; }
-        .btn-search:hover { background: #000; }
-        
         .btn-print-doc { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-        .btn-print-doc:hover { background: var(--primary-dark); }
         .filter-select { padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none; flex-grow: 1; }
         
         /* TABLE & MODALS */
@@ -130,14 +134,12 @@
         .modal-body { padding: 20px; overflow-y: auto; background: white; }
         .list-container { margin-top: 20px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-height: 250px; overflow-y: auto; }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .stats-grid { margin-top: 20px; grid-template-columns: 1fr; }
             .hero-search, .btn-hero-action { width: 100%; justify-content: center; }
             .toolbar-bottom { flex-direction: column; align-items: stretch; }
             .search-group { width: 100%; }
             .btn-print-doc { justify-content: center; }
-            
             .table-wrapper thead { display: none; }
             .table-wrapper tbody, .table-wrapper tr, .table-wrapper td { display: block; width: 100%; }
             .table-wrapper tr { margin-bottom: 15px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
@@ -149,6 +151,8 @@
     </style>
 </head>
 <body>
+
+    <div id="toast_box"><i class="fa-solid fa-circle-exclamation"></i> <span>Maaf, pendaftaran ini telah ditutup.</span></div>
 
     <header>
         <div class="brand" onclick="bukaHome()">
@@ -168,7 +172,9 @@
                 <div class="hero-text">
                     <h2>Analisis Penyertaan</h2>
                     <p>Statistik pendaftaran dan rekod semasa.</p>
-                    <div id="status_note" style="font-size:10px; margin-top:5px; color:rgba(255,255,255,0.7); display:none;">Mengemaskini status pertandingan...</div>
+                    <div id="status_note" style="font-size:10px; margin-top:8px; color:rgba(255,255,255,0.8); background:rgba(0,0,0,0.2); padding:5px 10px; border-radius:20px; display:inline-block;">
+                        <i class="fa-solid fa-sync fa-spin"></i> Mengemaskini status...
+                    </div>
                 </div>
                 <div class="hero-actions">
                     <input type="text" class="hero-search" placeholder="Cari pertandingan..." onkeyup="searchPublicEvents(this.value)">
@@ -194,15 +200,18 @@
                 <div style="width:60px; height:60px; background:var(--primary-light); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 20px;"><i class="fa-solid fa-pen-nib"></i></div>
                 <h2 id="page_title" style="margin:0 0 10px;">Tajuk Program</h2>
                 <div id="page_status_alert" style="margin-bottom:20px;"></div>
+                
                 <div style="background:var(--bg-body); padding:20px; border-radius:12px; display:inline-block; min-width:200px; margin-bottom:30px;">
                     <div id="page_stat" style="font-size:40px; font-weight:800; color:var(--primary); line-height:1;">0</div>
                     <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Penyertaan</div>
                 </div>
+                
                 <div style="margin-bottom:30px;">
                     <button onclick="bukaModalStatistik()" style="background:white; border:1px solid var(--border); padding:10px 20px; border-radius:50px; font-weight:600; font-size:13px; color:var(--text-main); cursor:pointer; box-shadow:var(--shadow-sm);">
                         <i class="fa-solid fa-chart-pie" style="color:var(--accent); margin-right:5px;"></i> Analisis Daerah <span style="font-size:10px; color:#ef4444;">(Admin)</span>
                     </button>
                 </div>
+
                 <div id="action_buttons" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
             </div>
         </div>
@@ -285,7 +294,7 @@
 
     const STATUS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPYuJun2bWLKxoClbhmmJBYpasTCCzNy1D34ZlYo9QANrneIIPED319ZNW395bUXEFu1jwa2n9P5u_/pub?gid=1685909911&single=true&output=csv";
 
-    // SEMUA DEFAULT 'OPEN' SUPAYA TIDAK TERSANGKUT JIKA GOOGLE DELAY
+    // SEMUA DEFAULT 'OPEN'
     let DATABASE = [
         { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv", status: "OPEN" },
         { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv", status: "OPEN" },
@@ -315,6 +324,14 @@
     let currentUser = null;
     let isAdmin = false;
 
+    // --- FUNGSI TOAST (NOTIFIKASI) ---
+    function showToast(msg) {
+        const toast = document.getElementById('toast_box');
+        toast.querySelector('span').innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
     function searchPublicEvents(query) {
         let filter = query.toUpperCase();
         let cards = document.querySelectorAll('.event-card');
@@ -328,8 +345,7 @@
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
         
-        // PAPARKAN NOTIS SEDANG UPDATE
-        document.getElementById('status_note').style.display = 'block';
+        document.getElementById('status_note').style.display = 'inline-block';
         await syncStatusFromSheet();
         document.getElementById('status_note').style.display = 'none';
 
@@ -338,41 +354,44 @@
         document.getElementById('total_events').innerText = DATABASE.length;
     }
 
-    // --- FUNGSI SYNC STATUS YANG DIPERBAIKI ---
+    // --- FUNGSI SYNC STATUS (SMART MATCHING) ---
+    function cleanStr(str) {
+        if(!str) return "";
+        // BUANG perkataan "PERTANDINGAN" dan semua simbol
+        return str.toUpperCase().replace("PERTANDINGAN", "").replace(/[^A-Z0-9]/g, "");
+    }
+
     async function syncStatusFromSheet() {
         try {
-            // Anti-Cache: Tambah timestamp
+            // Anti-Cache: Timestamp
             const res = await fetch(STATUS_SHEET_URL + '&t=' + Date.now());
             const text = await res.text();
             const rows = parseCSV(text);
             
-            // 1. RESET SEMUA KEPADA OPEN DAHULU (Supaya tak sangkut Closed)
+            // Default semua OPEN dulu
             DATABASE.forEach(d => d.status = "OPEN");
 
-            // 2. Loop CSV dan Update jika "OFF"
             for(let i=1; i<rows.length; i++) {
-                // Kolum C (Tajuk) dan Kolum D (Status)
-                let sheetTitle = cleanStr(rows[i][2]); 
-                let status = rows[i][3]; 
+                let sheetTitleRaw = rows[i][2]; // Col C
+                let status = rows[i][3]; // Col D
                 
-                if(sheetTitle && status && status.toUpperCase() === 'OFF') {
-                    // Cari item dalam DB yang namanya SAMA (walaupun ada beza sikit)
-                    let item = DATABASE.find(d => cleanStr(d.title).includes(sheetTitle) || sheetTitle.includes(cleanStr(d.title)));
+                if(sheetTitleRaw && status && status.toUpperCase().trim() === 'OFF') {
+                    // Smart Matching Logic
+                    let sheetTitleClean = cleanStr(sheetTitleRaw);
+                    
+                    let item = DATABASE.find(d => {
+                        let dbTitleClean = cleanStr(d.title);
+                        return dbTitleClean.includes(sheetTitleClean) || sheetTitleClean.includes(dbTitleClean);
+                    });
                     
                     if(item) {
-                        item.status = "CLOSED"; // Hanya tutup jika betul-betul OFF
+                        item.status = "CLOSED";
                     }
                 }
             }
         } catch(e) {
             console.error("Gagal sync status:", e);
         }
-    }
-
-    // Helper untuk bersihkan teks (buang simbol/jarak) supaya matching tepat
-    function cleanStr(str) {
-        if(!str) return "";
-        return str.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
     }
 
     function renderDashboardLayout(activeCat) {
@@ -405,7 +424,7 @@
             card.className = `event-card ${!isOpen ? 'closed' : ''} ${isClosedButAdmin ? 'admin-access' : ''}`;
             
             card.onclick = () => {
-                if (isOpen || isAdmin) { bukaPage(idx); } else { alert("Maaf, pendaftaran bagi acara ini telah ditutup."); }
+                if (isOpen || isAdmin) { bukaPage(idx); } else { showToast("Pendaftaran telah ditutup."); }
             };
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
@@ -434,7 +453,54 @@
         });
     }
 
-    // --- AUTH & LOGIC ---
+    function bukaPage(idx) {
+        document.getElementById('view_dashboard').classList.add('hidden');
+        document.getElementById('view_page').classList.remove('hidden');
+        const d = DATABASE[idx];
+        let isOpen = d.status === 'OPEN';
+        
+        // Block Public from URL Access
+        if(!isOpen && !isAdmin) { showToast("Akses ditolak. Borang ditutup."); bukaHome(); return; }
+
+        document.getElementById('page_title').innerText = d.title;
+        document.getElementById('action_buttons').innerHTML = '';
+        
+        let btnState = isOpen ? '' : 'disabled';
+        let btnText = isOpen ? 'Daftar Sekarang' : 'Pendaftaran Ditutup';
+        let btnClick = isOpen ? '' : 'onclick="showToast(\'Pendaftaran telah ditutup.\'); return false;"';
+        
+        // ADMIN BOLEH TENGOK, TAPI BUTTON TETAP DISABLED KALAU TUTUP (KECUALI FOLDER INFO)
+        // Jika nak Admin boleh daftar juga, buang 'disabled' class untuk admin. Tapi default 'disabled'.
+        
+        let html = `
+            <a href="${d.form}" target="_blank" class="btn-daftar ${btnState}" ${btnClick}>
+                <i class="fa-solid fa-check-circle"></i> ${btnText}
+            </a>
+            <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
+                <i class="fa-brands fa-google-drive"></i> Folder Info
+            </a>`;
+            
+        document.getElementById('action_buttons').innerHTML = html;
+        
+        if(!isOpen) {
+             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> MAAF, PENDAFTARAN BAGI ACARA INI TELAH DITUTUP.</div>`;
+        } else {
+             document.getElementById('page_status_alert').innerHTML = "";
+        }
+
+        fetchCount(d.csv, 'page_stat', null);
+        currentIndex = idx;
+        history.pushState(null, null, `?page=${idx}`);
+        window.scrollTo(0,0);
+    }
+
+    // --- OTHER FUNCTIONS (SAME AS BEFORE) ---
+    function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); history.pushState(null, null, window.location.pathname); }
+    function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
+    function fetchCount(url, txtId, barId) { if(!url) { document.getElementById(txtId).innerText="0"; return; } fetch(url).then(r=>r.text()).then(t=>{ let c = t.trim().split('\n').length-1; if(c<0)c=0; document.getElementById(txtId).innerText = c; if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; } if(txtId.startsWith('mini')) calcTotal(); }).catch(()=>{ document.getElementById(txtId).innerText="0"; }); }
+    function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0); document.getElementById('grand_total').innerText = t; document.getElementById('total_records_display').innerText = t; }
+    function parseCSV(text) { let result=[]; let cell=''; let inQuote=false; for(let i=0;i<text.length;i++){ let char=text[i]; if(char==='"') inQuote=!inQuote; else if(char===','&&!inQuote){ result.push(cell.trim()); cell=''; } else cell+=char; } result.push(cell.trim()); return result.map(v=>v.replace(/^"|"$/g,'').trim()); }
+    
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
@@ -447,10 +513,8 @@
             document.getElementById('user_display').innerText = user.email;
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i> <span>${user.email.split('@')[0]}</span>`;
             document.getElementById('btn_auth').classList.add('active');
-            
             const activeTab = document.querySelector('.filter-pill.active');
             if(activeTab) renderDashboardLayout(activeTab.innerText);
-
         } else {
             isAdmin = false;
             currentUser = null;
@@ -541,7 +605,7 @@
     let currentIndex = null;
 
     function bukaModalStatistik() {
-        if(!isAdmin) { alert("Fungsi ini untuk Admin sahaja."); return; }
+        if(!isAdmin) { showToast("Fungsi ini hanya untuk Admin."); return; }
         if(currentIndex===null) return;
         const d = DATABASE[currentIndex];
         document.getElementById('public_stats_modal').style.display='flex';
@@ -565,40 +629,6 @@
         });
     }
 
-    function bukaPage(idx) {
-        document.getElementById('view_dashboard').classList.add('hidden');
-        document.getElementById('view_page').classList.remove('hidden');
-        const d = DATABASE[idx];
-        let isOpen = d.status === 'OPEN';
-        
-        if(!isOpen && !isAdmin) { alert("Akses ditolak."); bukaHome(); return; }
-
-        document.getElementById('page_title').innerText = d.title;
-        document.getElementById('action_buttons').innerHTML = '';
-        
-        if(isOpen || isAdmin) {
-            let adminMsg = !isOpen && isAdmin ? '<div style="margin-bottom:10px; color:blue; font-size:12px;">(Mod Admin: Anda boleh melihat pautan walaupun ditutup)</div>' : '';
-            document.getElementById('action_buttons').innerHTML = `${adminMsg} <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a> <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
-            document.getElementById('page_status_alert').innerHTML = "";
-        }
-        
-        if(!isOpen) {
-             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN DITUTUP</div>`;
-        }
-
-        fetchCount(d.csv, 'page_stat', null);
-        currentIndex = idx;
-        history.pushState(null, null, `?page=${idx}`);
-        window.scrollTo(0,0);
-    }
-
-    function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); history.pushState(null, null, window.location.pathname); }
-    function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
-    
-    function fetchCount(url, txtId, barId) { if(!url) { document.getElementById(txtId).innerText="0"; return; } fetch(url).then(r=>r.text()).then(t=>{ let c = t.trim().split('\n').length-1; if(c<0)c=0; document.getElementById(txtId).innerText = c; if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; } if(txtId.startsWith('mini')) calcTotal(); }).catch(()=>{ document.getElementById(txtId).innerText="0"; }); }
-    function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0); document.getElementById('grand_total').innerText = t; document.getElementById('total_records_display').innerText = t; }
-    function parseCSV(text) { let result=[]; let cell=''; let inQuote=false; for(let i=0;i<text.length;i++){ let char=text[i]; if(char==='"') inQuote=!inQuote; else if(char===','&&!inQuote){ result.push(cell.trim()); cell=''; } else cell+=char; } result.push(cell.trim()); return result.map(v=>v.replace(/^"|"$/g,'').trim()); }
-    
     function openDetail(i) {
         const d = adminData.rows[i];
         document.getElementById('modal_school_name').innerText = d.s;
