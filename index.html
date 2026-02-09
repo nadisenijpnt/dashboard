@@ -45,17 +45,12 @@
             border-radius: 16px; padding: 30px; color: white; margin-bottom: 0;
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: var(--shadow-md); position: relative; overflow: visible;
-            padding-bottom: 90px; /* Ruang untuk kad statistics */
+            padding-bottom: 90px;
         }
-
         .hero-actions { display: flex; align-items: center; gap: 5px; }
-        
-        .hero-search {
-            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 8px; font-size: 13px; outline: none; backdrop-filter: blur(5px); width: 200px; transition: 0.3s;
-        }
+        .hero-search { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 8px; font-size: 13px; outline: none; backdrop-filter: blur(5px); width: 200px; transition: 0.3s; }
         .hero-search::placeholder { color: rgba(255,255,255,0.7); }
         .hero-search:focus { background: rgba(255,255,255,0.3); width: 220px; }
-
         .hero-actions button { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.2s; }
         .hero-actions button:hover { background: rgba(255,255,255,0.3); }
 
@@ -65,44 +60,66 @@
         .stat-info h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
         .stat-info .num { font-size: 36px; font-weight: 800; color: var(--text-main); line-height: 1; margin-top: 5px; }
         .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-
         .c-blue { border-color: #3b82f6; } .c-blue .stat-icon { background: #eff6ff; color: #3b82f6; }
         .c-red { border-color: #ef4444; } .c-red .stat-icon { background: #fef2f2; color: #ef4444; }
         .c-orange { border-color: #f97316; } .c-orange .stat-icon { background: #fff7ed; color: #f97316; }
 
-        /* FILTER & CARDS */
+        /* PUBLIC CARDS */
         .filter-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px; scrollbar-width: none; }
         .filter-pill { background: var(--surface); padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-sm); }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
-
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
         .event-card.closed { opacity: 0.7; background: #f9fafb; border-color: #e5e7eb; cursor: not-allowed; filter: grayscale(100%); }
-        
         .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        
         .status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
         .status-open { color: var(--primary); background: var(--primary-light); }
         .status-closed { color: var(--danger); background: #fee2e2; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; }
         .status-open .status-dot { background: var(--primary); animation: pulse 1.5s infinite; }
         .status-closed .status-dot { background: var(--danger); }
-
         .card-title { font-weight: 700; font-size: 14px; line-height: 1.4; color: var(--text-main); margin-bottom: 15px; min-height: 40px; }
         .progress-mini { background: var(--bg-body); height: 6px; border-radius: 10px; overflow: hidden; margin-top: 5px; }
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
-
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-        /* ADMIN & TABLES */
-        .admin-toolbar { background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border: 1px solid var(--border); }
-        .search-box { flex: 1; min-width: 200px; position: relative; }
-        .search-box input { width: 100%; padding: 10px 10px 10px 35px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-body); font-family: 'Inter'; font-size: 13px; outline: none; }
-        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px; }
-        .filter-select { padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none; }
+        /* --- ADMIN TOOLBAR (NEW) --- */
+        .admin-toolbar { 
+            background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; 
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 15px;
+        }
         
+        .toolbar-top { display: flex; gap: 10px; flex-wrap: wrap; }
+        .toolbar-bottom { display: flex; gap: 10px; align-items: center; }
+
+        /* INPUT GROUP: SEARCH + BTN */
+        .search-group { display: flex; flex: 1; gap: 0; }
+        .search-group input { 
+            flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-right: none;
+            border-top-left-radius: 8px; border-bottom-left-radius: 8px; outline: none; font-family: 'Inter'; font-size: 13px;
+        }
+        .search-group input:focus { border-color: var(--accent); z-index: 2; }
+        .btn-search {
+            background: var(--text-main); color: white; border: 1px solid var(--text-main);
+            padding: 0 20px; font-weight: 600; font-size: 12px; cursor: pointer;
+            border-top-right-radius: 8px; border-bottom-right-radius: 8px; transition: 0.2s;
+        }
+        .btn-search:hover { background: #000; }
+
+        /* PRINT BUTTON */
+        .btn-print-doc {
+            background: var(--primary); color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+        }
+        .btn-print-doc:hover { background: var(--primary-dark); }
+
+        .filter-select { padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none; }
+        
+        /* TABLE */
         .table-wrapper { background: var(--surface); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
         table { width: 100%; border-collapse: collapse; }
         th { background: #f9fafb; padding: 12px 15px; text-align: left; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
@@ -120,6 +137,8 @@
             .hero-banner { flex-direction: column; text-align: center; gap: 15px; padding-bottom: 30px; }
             .hero-search { width: 100%; }
             .stats-grid { grid-template-columns: 1fr; margin-top: 20px; }
+            .toolbar-bottom { flex-direction: column; width: 100%; }
+            .search-group, .btn-print-doc { width: 100%; }
             .table-wrapper thead { display: none; }
             .table-wrapper tbody, .table-wrapper tr, .table-wrapper td { display: block; width: 100%; }
             .table-wrapper tr { margin-bottom: 15px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
@@ -159,18 +178,9 @@
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card c-blue">
-                    <div class="stat-info"><h3>PENYERTAAN</h3><div class="num" id="grand_total">0</div></div>
-                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-                </div>
-                <div class="stat-card c-red">
-                    <div class="stat-info"><h3>ACARA</h3><div class="num" id="total_events">0</div></div>
-                    <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
-                </div>
-                <div class="stat-card c-orange">
-                    <div class="stat-info"><h3>REKOD</h3><div class="num" id="total_records_display">0</div></div>
-                    <div class="stat-icon"><i class="fa-solid fa-file-contract"></i></div>
-                </div>
+                <div class="stat-card c-blue"><div class="stat-info"><h3>PENYERTAAN</h3><div class="num" id="grand_total">0</div></div><div class="stat-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="stat-card c-red"><div class="stat-info"><h3>ACARA</h3><div class="num" id="total_events">0</div></div><div class="stat-icon"><i class="fa-solid fa-trophy"></i></div></div>
+                <div class="stat-card c-orange"><div class="stat-info"><h3>REKOD</h3><div class="num" id="total_records_display">0</div></div><div class="stat-icon"><i class="fa-solid fa-file-contract"></i></div></div>
             </div>
 
             <div style="margin-bottom:15px;"><h3 style="margin:0; font-size:16px;">Senarai Program</h3></div>
@@ -179,27 +189,20 @@
         </div>
 
         <div id="view_page" class="hidden">
-            <button onclick="bukaHome()" style="background:none; border:none; font-weight:600; color:var(--text-muted); cursor:pointer; margin-bottom:20px; display:flex; align-items:center; gap:5px;">
-                <i class="fa-solid fa-arrow-left"></i> Kembali
-            </button>
+            <button onclick="bukaHome()" style="background:none; border:none; font-weight:600; color:var(--text-muted); cursor:pointer; margin-bottom:20px; display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
             <div class="event-card" style="max-width:800px; margin:0 auto; padding:40px; text-align:center; cursor:default;">
-                <div style="width:60px; height:60px; background:var(--primary-light); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 20px;">
-                    <i class="fa-solid fa-pen-nib"></i>
-                </div>
+                <div style="width:60px; height:60px; background:var(--primary-light); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 20px;"><i class="fa-solid fa-pen-nib"></i></div>
                 <h2 id="page_title" style="margin:0 0 10px;">Tajuk Program</h2>
                 <div id="page_status_alert" style="margin-bottom:20px;"></div>
-                
                 <div style="background:var(--bg-body); padding:20px; border-radius:12px; display:inline-block; min-width:200px; margin-bottom:30px;">
                     <div id="page_stat" style="font-size:40px; font-weight:800; color:var(--primary); line-height:1;">0</div>
                     <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Penyertaan</div>
                 </div>
-                
                 <div style="margin-bottom:30px;">
                     <button onclick="bukaModalStatistik()" style="background:white; border:1px solid var(--border); padding:10px 20px; border-radius:50px; font-weight:600; font-size:13px; color:var(--text-main); cursor:pointer; box-shadow:var(--shadow-sm);">
                         <i class="fa-solid fa-chart-pie" style="color:var(--accent); margin-right:5px;"></i> Analisis Daerah <span style="font-size:10px; color:#ef4444;">(Admin)</span>
                     </button>
                 </div>
-
                 <div id="action_buttons" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
             </div>
         </div>
@@ -216,13 +219,23 @@
                     <div><h2 style="margin:0;">Data Peserta</h2><p id="user_display" style="margin:0; font-size:12px;">...</p></div>
                     <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#dc2626; padding:8px 15px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">KELUAR</button>
                 </div>
+                
                 <div class="admin-toolbar">
-                    <div class="search-box"><i class="fa-solid fa-search"></i><input type="text" id="tableSearch" placeholder="Cari..." onkeyup="filterAdminData()"></div>
-                    <select id="filter_category" class="filter-select" onchange="renderAdminSubOptions()"><option value="ALL">Semua Kategori</option><option value="MUZIK">Muzik</option><option value="TARI">Tari</option><option value="TEATER">Teater</option><option value="SENI VISUAL">Seni Visual</option></select>
-                    <select id="filter_sub" class="filter-select" style="min-width:150px;" onchange="handleSubChange()"><option value="">Pilih Acara...</option></select>
-                    <select id="filter_district" class="filter-select" onchange="filterAdminData()"><option value="">Semua Daerah</option><option value="BESUT">Besut</option><option value="MARANG">Marang</option><option value="KUALA NERUS">Kuala Nerus</option><option value="KUALA TERENGGANU">K. Terengganu</option><option value="HULU TERENGGANU">H. Terengganu</option><option value="SETIU">Setiu</option><option value="DUNGUN">Dungun</option><option value="KEMAMAN">Kemaman</option></select>
-                    <button onclick="window.print()" class="filter-select" style="background:#1f2937; color:white;">Cetak</button>
+                    <div class="toolbar-top">
+                        <select id="filter_category" class="filter-select" onchange="renderAdminSubOptions()"><option value="ALL">Semua Kategori</option><option value="MUZIK">Muzik</option><option value="TARI">Tari</option><option value="TEATER">Teater</option><option value="SENI VISUAL">Seni Visual</option></select>
+                        <select id="filter_sub" class="filter-select" style="flex:1; min-width:200px;" onchange="handleSubChange()"><option value="">Pilih Acara...</option></select>
+                        <select id="filter_district" class="filter-select" onchange="filterAdminData()"><option value="">Semua Daerah</option><option value="BESUT">Besut</option><option value="MARANG">Marang</option><option value="KUALA NERUS">Kuala Nerus</option><option value="KUALA TERENGGANU">K. Terengganu</option><option value="HULU TERENGGANU">H. Terengganu</option><option value="SETIU">Setiu</option><option value="DUNGUN">Dungun</option><option value="KEMAMAN">Kemaman</option></select>
+                    </div>
+                    
+                    <div class="toolbar-bottom">
+                        <div class="search-group">
+                            <input type="text" id="tableSearch" placeholder="Cari Sekolah / Guru..." onkeyup="filterAdminData()">
+                            <button class="btn-search" onclick="filterAdminData()"><i class="fa-solid fa-magnifying-glass"></i> CARI</button>
+                        </div>
+                        <button onclick="printAdminDoc()" class="btn-print-doc"><i class="fa-solid fa-print"></i> CETAK SENARAI</button>
+                    </div>
                 </div>
+
                 <div id="loading_msg" class="hidden" style="text-align:center; padding:40px;">Sedang memproses...</div>
                 <div id="table_area" class="table-wrapper hidden">
                     <table class="data-table"><thead><tr><th width="5%">#</th><th>Sekolah</th><th>Daerah</th><th>Tindakan</th></tr></thead><tbody id="data_tbody"></tbody></table>
@@ -243,7 +256,7 @@
                 <div style="margin-top:15px; font-weight:700; font-size:12px; color:var(--text-muted);">SENARAI SEKOLAH TERLIBAT:</div>
                 <div class="list-container">
                     <table class="data-table">
-                        <thead style="position:sticky; top:0; z-index:10;"><tr><th>#</th><th>Nama Sekolah</th><th>Daerah</th></tr></thead>
+                        <thead style="position:sticky; top:0; z-index:10;"><tr><th>#</th><th style="text-align:left;">Nama Sekolah</th><th>Daerah</th></tr></thead>
                         <tbody id="public_list_body"></tbody>
                     </table>
                 </div>
@@ -271,10 +284,7 @@
 
     Chart.register(ChartDataLabels);
 
-    /* --- PENTING: UBAH STATUS DI SINI (OPEN / CLOSED) ---
-       Kerana ini adalah sistem tanpa database backend, anda perlu ubah 
-       kod ini secara manual dan 'Save' fail HTML ini untuk update status.
-    */
+    // MANUAL STATUS TOGGLE HERE
     const DATABASE = [
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
@@ -340,19 +350,16 @@
             let countId = `mini_${idx}`;
             let card = document.createElement('div');
             let isOpen = item.status === 'OPEN';
-            let statusClass = isOpen ? 'status-open' : 'status-closed';
-            let statusText = isOpen ? 'DIBUKA' : 'DITUTUP';
             
             card.className = `event-card ${!isOpen ? 'closed' : ''}`;
-            if(isOpen) { card.onclick = () => bukaPage(idx); } 
-            else { card.onclick = () => alert("Pendaftaran bagi acara ini telah ditutup."); }
+            if(isOpen) { card.onclick = () => bukaPage(idx); } else { card.onclick = () => alert("Pendaftaran ditutup."); }
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
             
             card.innerHTML = `
                 <i class="fa-solid ${iconClass} watermark-icon"></i>
                 <div class="card-top">
-                    <div class="status-badge ${statusClass}"><div class="status-dot"></div> ${statusText}</div>
+                    <div class="status-badge ${isOpen?'status-open':'status-closed'}"><div class="status-dot"></div> ${isOpen?'DIBUKA':'DITUTUP'}</div>
                     <div style="font-size:10px; font-weight:700; color:#9ca3af;">${item.sub}</div>
                 </div>
                 <div class="card-title">${item.title}</div>
@@ -369,122 +376,15 @@
         });
     }
 
-    // --- UPDATED: RESTRICTED BUTTON LOGIC ---
+    // --- ADMIN LOGIC ---
     let currentUser = null;
-
-    function bukaModalStatistik() {
-        if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
-            alert("Maaf, fungsi 'Analisis Daerah' hanya untuk Pentadbir (Admin) yang telah log masuk.");
-            return;
-        }
-
-        if(currentIndex===null) return;
-        const d = DATABASE[currentIndex];
-        document.getElementById('public_stats_modal').style.display='flex';
-        
-        // Fetch logic remains the same
-        fetch(d.csv).then(r=>r.text()).then(t=>{
-            const rows = t.trim().split('\n');
-            const stats = {}; let listHtml = "";
-            let iDistrict = 1; let iSchool = 2;
-            for(let i=1; i<rows.length; i++) {
-                if(!rows[i].trim()) continue;
-                let c = parseCSV(rows[i]);
-                let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
-                da = da.replace(/"/g, '').trim().toUpperCase();
-                stats[da] = (stats[da]||0)+1;
-                listHtml += `<tr><td>${i}</td><td>${sc}</td><td>${da}</td></tr>`;
-            }
-            document.getElementById('public_list_body').innerHTML = listHtml;
-            const ctx = document.getElementById('chart_daerah').getContext('2d');
-            if(chartInstance) chartInstance.destroy();
-            const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
-            chartInstance = new Chart(ctx, { 
-                type: 'bar',
-                data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } 
-            });
-        });
-    }
-
-    function bukaPage(idx) {
-        document.getElementById('view_dashboard').classList.add('hidden');
-        document.getElementById('view_page').classList.remove('hidden');
-        const d = DATABASE[idx];
-        let isOpen = d.status === 'OPEN';
-        document.getElementById('page_title').innerText = d.title;
-        document.getElementById('action_buttons').innerHTML = '';
-        if(isOpen) {
-            document.getElementById('action_buttons').innerHTML = `
-                <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
-                    <i class="fa-solid fa-check-circle"></i> Daftar Sekarang
-                </a>
-                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
-                    <i class="fa-brands fa-google-drive"></i> Folder Info
-                </a>`;
-            document.getElementById('page_status_alert').innerHTML = "";
-        } else {
-            document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN TELAH DITUTUP</div>`;
-            document.getElementById('action_buttons').innerHTML = `
-                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
-                    <i class="fa-brands fa-google-drive"></i> Folder Info
-                </a>`;
-        }
-        fetchCount(d.csv, 'page_stat', null);
-        currentIndex = idx;
-        history.pushState(null, null, `?page=${idx}`);
-        window.scrollTo(0,0);
-    }
-
-    function bukaHome() {
-        document.getElementById('view_dashboard').classList.remove('hidden');
-        document.getElementById('view_page').classList.add('hidden');
-        document.getElementById('view_admin').classList.add('hidden');
-        history.pushState(null, null, window.location.pathname);
-    }
-    
-    function bukaAdmin() {
-        document.getElementById('view_dashboard').classList.add('hidden');
-        document.getElementById('view_page').classList.add('hidden');
-        document.getElementById('view_admin').classList.remove('hidden');
-    }
-
-    function fetchCount(url, txtId, barId) {
-        if(!url) { document.getElementById(txtId).innerText="0"; return; }
-        fetch(url).then(r=>r.text()).then(t=>{
-            let c = t.trim().split('\n').length-1; if(c<0)c=0;
-            document.getElementById(txtId).innerText = c;
-            if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; }
-            if(txtId.startsWith('mini')) calcTotal();
-        }).catch(()=>{ document.getElementById(txtId).innerText="0"; });
-    }
-
-    function calcTotal() {
-        let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0);
-        document.getElementById('grand_total').innerText = t;
-        document.getElementById('total_records_display').innerText = t;
-    }
-
-    function parseCSV(text) {
-        let result = []; let cell = ''; let inQuote = false;
-        for (let i = 0; i < text.length; i++) {
-            let char = text[i];
-            if (char === '"') inQuote = !inQuote;
-            else if (char === ',' && !inQuote) { result.push(cell.trim()); cell = ''; }
-            else cell += char;
-        }
-        result.push(cell.trim());
-        return result.map(v => v.replace(/^"|"$/g, '').trim());
-    }
-
-    let chartInstance;
-    let currentIndex = null;
+    let adminData = { heads: [], rows: [] };
 
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
-        currentUser = user; // SAVE CURRENT USER STATE
+        currentUser = user;
         if(user && ALLOWED_ADMINS.includes(user.email)) {
             document.getElementById('admin_login_ui').classList.add('hidden');
             document.getElementById('admin_dashboard_ui').classList.remove('hidden');
@@ -501,7 +401,6 @@
         const subSelect = document.getElementById('filter_sub');
         subSelect.innerHTML = '<option value="">Pilih Acara...</option>';
         let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
-        
         filtered.forEach((item) => {
             let option = document.createElement('option');
             let globalIdx = DATABASE.indexOf(item);
@@ -509,14 +408,9 @@
             option.innerText = item.title;
             subSelect.appendChild(option);
         });
-
-        if(subSelect.options.length > 1) {
-            subSelect.selectedIndex = 1;
-            handleSubChange();
-        }
+        if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
     }
 
-    let adminData = { heads: [], rows: [] };
     function handleSubChange() {
         const idx = document.getElementById('filter_sub').value;
         if(idx === "") { document.getElementById('table_area').classList.add('hidden'); return; }
@@ -530,7 +424,7 @@
         fetch(item.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const heads = parseCSV(rows[0]);
-            adminData = { heads: heads, rows: [] };
+            adminData = { heads: heads, rows: [], title: item.title }; // Simpan tajuk utk cetak
             let iSchool = 2; let iDistrict = 1;
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
@@ -560,6 +454,133 @@
             <td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
         `).join('');
     }
+
+    // --- FUNGSI CETAK DOKUMEN CANTIK ---
+    function printAdminDoc() {
+        if(!adminData.rows || adminData.rows.length === 0) { alert("Sila pilih acara dan pastikan ada data."); return; }
+        
+        // Dapatkan data yang sedang dipaparkan (filtered)
+        const search = document.getElementById('tableSearch').value.toUpperCase();
+        const district = document.getElementById('filter_district').value.toUpperCase();
+        const dataToPrint = adminData.rows.filter(r => {
+            return (r.s.toUpperCase().includes(search) || r.d.toUpperCase().includes(search)) && (district === "" || r.d.toUpperCase().includes(district));
+        });
+
+        let printWindow = window.open('', '', 'height=800,width=1000');
+        let d = new Date();
+        let dateStr = d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        let html = `
+        <html><head><title>Senarai Penyertaan - ${adminData.title}</title>
+        <style>
+            body { font-family: 'Arial', sans-serif; padding: 40px; }
+            .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 20px; }
+            .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; }
+            .header h2 { margin: 5px 0 0; font-size: 16px; font-weight: normal; }
+            .meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; }
+            table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; text-transform: uppercase; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            @media print { @page { margin: 20mm; } }
+        </style>
+        </head><body>
+            <div class="header">
+                <h1>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</h1>
+                <h2>JABATAN PENDIDIKAN NEGERI TERENGGANU</h2>
+                <h3 style="margin: 15px 0 0; font-size: 14px;">SENARAI PENYERTAAN: ${adminData.title}</h3>
+            </div>
+            <div class="meta">
+                <span><strong>Tarikh Cetakan:</strong> ${dateStr}</span>
+                <span><strong>Jumlah Rekod:</strong> ${dataToPrint.length}</span>
+            </div>
+            <table>
+                <thead><tr><th width="5%">BIL</th><th>NAMA SEKOLAH</th><th width="20%">DAERAH</th></tr></thead>
+                <tbody>
+        `;
+        
+        dataToPrint.forEach((row, index) => {
+            html += `<tr><td style="text-align:center;">${index+1}</td><td>${row.s}</td><td>${row.d}</td></tr>`;
+        });
+
+        html += `</tbody></table></body></html>`;
+        
+        printWindow.document.write(html);
+        printWindow.document.close();
+        setTimeout(() => { printWindow.print(); }, 500);
+    }
+
+    // --- MODAL & CHART ---
+    let chartInstance;
+    let currentIndex = null;
+
+    function bukaModalStatistik() {
+        if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
+            alert("Fungsi ini untuk Admin sahaja."); return;
+        }
+        if(currentIndex===null) return;
+        const d = DATABASE[currentIndex];
+        document.getElementById('public_stats_modal').style.display='flex';
+        
+        fetch(d.csv).then(r=>r.text()).then(t=>{
+            const rows = t.trim().split('\n');
+            const stats = {}; let listHtml = "";
+            let iDistrict = 1; let iSchool = 2;
+            for(let i=1; i<rows.length; i++) {
+                if(!rows[i].trim()) continue;
+                let c = parseCSV(rows[i]);
+                let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
+                da = da.replace(/"/g, '').trim().toUpperCase();
+                stats[da] = (stats[da]||0)+1;
+                // ALIGN LEFT HERE
+                listHtml += `<tr><td style="text-align:center;">${i}</td><td style="text-align:left;">${sc}</td><td style="text-align:center;">${da}</td></tr>`;
+            }
+            document.getElementById('public_list_body').innerHTML = listHtml;
+            
+            const ctx = document.getElementById('chart_daerah').getContext('2d');
+            if(chartInstance) chartInstance.destroy();
+            const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
+            chartInstance = new Chart(ctx, { 
+                type: 'bar', data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } 
+            });
+        });
+    }
+
+    function bukaPage(idx) {
+        document.getElementById('view_dashboard').classList.add('hidden');
+        document.getElementById('view_page').classList.remove('hidden');
+        const d = DATABASE[idx];
+        let isOpen = d.status === 'OPEN';
+        document.getElementById('page_title').innerText = d.title;
+        document.getElementById('action_buttons').innerHTML = '';
+        if(isOpen) {
+            document.getElementById('action_buttons').innerHTML = `<a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a> <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+            document.getElementById('page_status_alert').innerHTML = "";
+        } else {
+            document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN DITUTUP</div>`;
+            document.getElementById('action_buttons').innerHTML = `<a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+        }
+        fetchCount(d.csv, 'page_stat', null);
+        currentIndex = idx;
+        history.pushState(null, null, `?page=${idx}`);
+        window.scrollTo(0,0);
+    }
+
+    function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); history.pushState(null, null, window.location.pathname); }
+    function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
+    
+    function fetchCount(url, txtId, barId) {
+        if(!url) { document.getElementById(txtId).innerText="0"; return; }
+        fetch(url).then(r=>r.text()).then(t=>{
+            let c = t.trim().split('\n').length-1; if(c<0)c=0;
+            document.getElementById(txtId).innerText = c;
+            if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; }
+            if(txtId.startsWith('mini')) calcTotal();
+        }).catch(()=>{ document.getElementById(txtId).innerText="0"; });
+    }
+    function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0); document.getElementById('grand_total').innerText = t; document.getElementById('total_records_display').innerText = t; }
+    function parseCSV(text) { let result=[]; let cell=''; let inQuote=false; for(let i=0;i<text.length;i++){ let char=text[i]; if(char==='"') inQuote=!inQuote; else if(char===','&&!inQuote){ result.push(cell.trim()); cell=''; } else cell+=char; } result.push(cell.trim()); return result.map(v=>v.replace(/^"|"$/g,'').trim()); }
     
     function openDetail(i) {
         const d = adminData.rows[i];
