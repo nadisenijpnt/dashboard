@@ -112,11 +112,11 @@
         .split-list { flex: 1; min-width: 0; }
         .list-container { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-height: 300px; overflow-y: auto; }
         
-        /* 🔥 TOAST NOTIFICATION CSS (BARU) 🔥 */
+        /* TOAST NOTIFICATION CSS */
         .toast-box {
             visibility: hidden;
             min-width: 280px;
-            background-color: #1f2937; /* Dark Grey */
+            background-color: #1f2937;
             color: #fff;
             text-align: center;
             border-radius: 50px;
@@ -133,11 +133,7 @@
             transition: opacity 0.3s, bottom 0.3s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .toast-box.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        .toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -330,8 +326,9 @@
     }
 
     const DATABASE = [
-        // STATUS BORANG
+        // SAYA TUTUP 1 ITEM UTK DEMO (Admin masih boleh masuk)
         { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+        
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
@@ -373,7 +370,11 @@
         document.getElementById('total_events').innerText = DATABASE.length;
     }
 
+    /* 🔥 LOGIC ADMIN OVERRIDE 🔥 */
+    let currentCategory = "SEMUA"; // Simpan kategori semasa
+
     function renderDashboardLayout(activeCat) {
+        currentCategory = activeCat; // Update kategori semasa
         const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
         const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
@@ -400,12 +401,16 @@
             
             card.className = `event-card ${!isOpen ? 'closed' : ''}`;
             
-            // GUNA FUNGSI TOAST DI SINI
-            if(isOpen) { 
-                card.onclick = () => bukaPage(idx); 
-            } else { 
-                card.onclick = () => showToast("⚠️ Pendaftaran bagi acara ini telah ditutup."); 
-            }
+            // --- LOGIC CLICK CARD ---
+            card.onclick = () => {
+                let isAdmin = currentUser && ALLOWED_ADMINS.includes(currentUser.email);
+                
+                if (isOpen || isAdmin) {
+                    bukaPage(idx);
+                } else {
+                    showToast("⚠️ Pendaftaran bagi acara ini telah ditutup.");
+                }
+            };
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
             
@@ -468,9 +473,20 @@
         document.getElementById('view_page').classList.remove('hidden');
         const d = DATABASE[idx];
         let isOpen = d.status === 'OPEN';
+        
+        // CHECK ADMIN STATUS AGAIN
+        let isAdmin = currentUser && ALLOWED_ADMINS.includes(currentUser.email);
+
         document.getElementById('page_title').innerText = d.title;
         document.getElementById('action_buttons').innerHTML = '';
-        if(isOpen) {
+        
+        // JIKA OPEN ATAU ADMIN -> BOLEH NAMPAK LINK BORANG
+        if(isOpen || isAdmin) {
+            let statusMsg = "";
+            if(!isOpen && isAdmin) {
+                statusMsg = `<div style="background:#fee2e2; color:#b91c1c; padding:10px; border-radius:8px; font-weight:700; font-size:12px; margin-bottom:15px; display:inline-block;"><i class="fa-solid fa-lock-open"></i> Mod Admin: Akses Khas (Acara Ditutup)</div>`;
+            }
+
             document.getElementById('action_buttons').innerHTML = `
                 <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
                     <i class="fa-solid fa-check-circle"></i> Daftar Sekarang
@@ -478,7 +494,7 @@
                 <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
                     <i class="fa-brands fa-google-drive"></i> Folder Info
                 </a>`;
-            document.getElementById('page_status_alert').innerHTML = "";
+            document.getElementById('page_status_alert').innerHTML = statusMsg;
         } else {
             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN TELAH DITUTUP</div>`;
             document.getElementById('action_buttons').innerHTML = `
@@ -540,7 +556,7 @@
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
-        currentUser = user; // SAVE CURRENT USER STATE
+        currentUser = user;
         if(user && ALLOWED_ADMINS.includes(user.email)) {
             document.getElementById('admin_login_ui').classList.add('hidden');
             document.getElementById('admin_dashboard_ui').classList.remove('hidden');
@@ -550,6 +566,8 @@
         } else {
             currentUser = null;
         }
+        // RE-RENDER DASHBOARD UNTUK UPDATE CLICKABILITY
+        renderDashboardLayout(currentCategory);
     });
 
     function renderAdminSubOptions() {
@@ -557,7 +575,6 @@
         const subSelect = document.getElementById('filter_sub');
         subSelect.innerHTML = '<option value="">Pilih Acara...</option>';
         let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
-        
         filtered.forEach((item) => {
             let option = document.createElement('option');
             let globalIdx = DATABASE.indexOf(item);
@@ -565,11 +582,7 @@
             option.innerText = item.title;
             subSelect.appendChild(option);
         });
-
-        if(subSelect.options.length > 1) {
-            subSelect.selectedIndex = 1;
-            handleSubChange();
-        }
+        if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
     }
 
     let adminData = { heads: [], rows: [] };
@@ -611,10 +624,7 @@
     function renderTable(data) {
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tiada rekod.</td></tr>`; return; }
-        tbody.innerHTML = data.map((r,i)=> `
-            <tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td>
-            <td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
-        `).join('');
+        tbody.innerHTML = data.map((r,i)=> `<tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td><td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>`).join('');
     }
     
     function openDetail(i) {
