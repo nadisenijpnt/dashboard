@@ -71,7 +71,13 @@
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-        .event-card.closed { opacity: 0.7; background: #f9fafb; border-color: #e5e7eb; cursor: not-allowed; filter: grayscale(100%); }
+        
+        /* CLOSED STATE */
+        .event-card.closed { opacity: 0.7; background: #f9fafb; border-color: #e5e7eb; filter: grayscale(100%); cursor: not-allowed; }
+        .event-card.closed.admin-access { cursor: pointer; filter: grayscale(0%); border: 2px dashed #3b82f6; opacity: 1; }
+        .event-card.closed:hover { transform: none; box-shadow: none; }
+        .event-card.closed.admin-access:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
         .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
         .status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
@@ -85,41 +91,19 @@
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-        /* --- ADMIN TOOLBAR (NEW) --- */
-        .admin-toolbar { 
-            background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; 
-            box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        
+        /* --- ADMIN TOOLBAR --- */
+        .admin-toolbar { background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
         .toolbar-top { display: flex; gap: 10px; flex-wrap: wrap; }
         .toolbar-bottom { display: flex; gap: 10px; align-items: center; }
-
-        /* INPUT GROUP: SEARCH + BTN */
         .search-group { display: flex; flex: 1; gap: 0; }
-        .search-group input { 
-            flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-right: none;
-            border-top-left-radius: 8px; border-bottom-left-radius: 8px; outline: none; font-family: 'Inter'; font-size: 13px;
-        }
+        .search-group input { flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-right: none; border-top-left-radius: 8px; border-bottom-left-radius: 8px; outline: none; font-family: 'Inter'; font-size: 13px; }
         .search-group input:focus { border-color: var(--accent); z-index: 2; }
-        .btn-search {
-            background: var(--text-main); color: white; border: 1px solid var(--text-main);
-            padding: 0 20px; font-weight: 600; font-size: 12px; cursor: pointer;
-            border-top-right-radius: 8px; border-bottom-right-radius: 8px; transition: 0.2s;
-        }
+        .btn-search { background: var(--text-main); color: white; border: 1px solid var(--text-main); padding: 0 20px; font-weight: 600; font-size: 12px; cursor: pointer; border-top-right-radius: 8px; border-bottom-right-radius: 8px; transition: 0.2s; }
         .btn-search:hover { background: #000; }
-
-        /* PRINT BUTTON */
-        .btn-print-doc {
-            background: var(--primary); color: white; border: none; padding: 10px 20px;
-            border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px; white-space: nowrap;
-        }
+        .btn-print-doc { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
         .btn-print-doc:hover { background: var(--primary-dark); }
-
         .filter-select { padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none; }
         
-        /* TABLE */
         .table-wrapper { background: var(--surface); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
         table { width: 100%; border-collapse: collapse; }
         th { background: #f9fafb; padding: 12px 15px; text-align: left; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
@@ -185,6 +169,7 @@
 
             <div style="margin-bottom:15px;"><h3 style="margin:0; font-size:16px;">Senarai Program</h3></div>
             <div class="filter-scroll" id="public_tabs"></div>
+            <div id="loading_overlay" style="text-align:center; padding:20px; font-size:12px; color:#666;">Mengemaskini Status...</div>
             <div id="grid_container" class="event-grid"></div>
         </div>
 
@@ -226,7 +211,6 @@
                         <select id="filter_sub" class="filter-select" style="flex:1; min-width:200px;" onchange="handleSubChange()"><option value="">Pilih Acara...</option></select>
                         <select id="filter_district" class="filter-select" onchange="filterAdminData()"><option value="">Semua Daerah</option><option value="BESUT">Besut</option><option value="MARANG">Marang</option><option value="KUALA NERUS">Kuala Nerus</option><option value="KUALA TERENGGANU">K. Terengganu</option><option value="HULU TERENGGANU">H. Terengganu</option><option value="SETIU">Setiu</option><option value="DUNGUN">Dungun</option><option value="KEMAMAN">Kemaman</option></select>
                     </div>
-                    
                     <div class="toolbar-bottom">
                         <div class="search-group">
                             <input type="text" id="tableSearch" placeholder="Cari Sekolah / Guru..." onkeyup="filterAdminData()">
@@ -284,32 +268,38 @@
 
     Chart.register(ChartDataLabels);
 
-    // MANUAL STATUS TOGGLE HERE
-    const DATABASE = [
-        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
+    // --- PAUTAN KE SHEET STATUS (MASTER SWITCH) ---
+    const STATUS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPYuJun2bWLKxoClbhmmJBYpasTCCzNy1D34ZlYo9QANrneIIPED319ZNW395bUXEFu1jwa2n9P5u_/pub?gid=1685909911&single=true&output=csv";
+
+    // DEFAULT DATABASE (Status akan dikemaskini oleh Sheet)
+    let DATABASE = [
+        { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv", status: "OPEN" },
+        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv", status: "OPEN" },
+        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv", status: "OPEN" },
+        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv", status: "OPEN" },
+        { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv", status: "OPEN" },
+        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv", status: "OPEN" },
+        { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv", status: "OPEN" },
+        { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv", status: "OPEN" },
+        { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv", status: "OPEN" },
+        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv", status: "OPEN" }
     ];
+
+    let currentUser = null;
+    let isAdmin = false;
 
     function searchPublicEvents(query) {
         let filter = query.toUpperCase();
@@ -320,12 +310,44 @@
         });
     }
 
-    function initSystem() {
+    async function initSystem() {
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
+        
+        // SYNC STATUS FROM GOOGLE SHEET
+        await syncStatusFromSheet();
+
         if(page && DATABASE[page]) bukaPage(parseInt(page));
         else renderDashboardLayout("SEMUA");
         document.getElementById('total_events').innerText = DATABASE.length;
+    }
+
+    // --- FUNGSI BARU: SYNC STATUS ---
+    async function syncStatusFromSheet() {
+        try {
+            const res = await fetch(STATUS_SHEET_URL);
+            const text = await res.text();
+            const rows = parseCSV(text);
+            
+            // Loop through CSV rows (skip header)
+            // Assuming: Col C = TAJUK, Col D = STATUS
+            for(let i=1; i<rows.length; i++) {
+                let tajuk = rows[i][2]; // Col C
+                let status = rows[i][3]; // Col D
+                
+                if(tajuk && status) {
+                    // Cari item dalam DATABASE yang tajuknya sama
+                    let item = DATABASE.find(d => d.title.trim() === tajuk.trim());
+                    if(item) {
+                        item.status = status.toUpperCase() === 'ON' ? 'OPEN' : 'CLOSED';
+                    }
+                }
+            }
+            document.getElementById('loading_overlay').style.display = 'none';
+        } catch(e) {
+            console.error("Gagal sync status:", e);
+            document.getElementById('loading_overlay').innerText = "Gagal memuat turun status.";
+        }
     }
 
     function renderDashboardLayout(activeCat) {
@@ -349,18 +371,37 @@
             let idx = DATABASE.indexOf(item);
             let countId = `mini_${idx}`;
             let card = document.createElement('div');
-            let isOpen = item.status === 'OPEN';
             
-            card.className = `event-card ${!isOpen ? 'closed' : ''}`;
-            if(isOpen) { card.onclick = () => bukaPage(idx); } else { card.onclick = () => alert("Pendaftaran ditutup."); }
+            let isOpen = item.status === 'OPEN';
+            // Status Logic: Closed but Admin?
+            let isClosedButAdmin = !isOpen && isAdmin;
+            
+            let statusClass = isOpen ? 'status-open' : 'status-closed';
+            let statusText = isOpen ? 'DIBUKA' : 'DITUTUP';
+            
+            // Add classes
+            card.className = `event-card ${!isOpen ? 'closed' : ''} ${isClosedButAdmin ? 'admin-access' : ''}`;
+            
+            // Click Logic
+            card.onclick = () => {
+                if (isOpen || isAdmin) {
+                    bukaPage(idx);
+                } else {
+                    alert("Pendaftaran ditutup.");
+                }
+            };
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
-            
+            let adminLabel = isClosedButAdmin ? '<span style="font-size:9px; color:#3b82f6; display:block;">(Admin Access)</span>' : '';
+
             card.innerHTML = `
                 <i class="fa-solid ${iconClass} watermark-icon"></i>
                 <div class="card-top">
-                    <div class="status-badge ${isOpen?'status-open':'status-closed'}"><div class="status-dot"></div> ${isOpen?'DIBUKA':'DITUTUP'}</div>
-                    <div style="font-size:10px; font-weight:700; color:#9ca3af;">${item.sub}</div>
+                    <div class="status-badge ${statusClass}"><div class="status-dot"></div> ${statusText}</div>
+                    <div style="text-align:right;">
+                        <div style="font-size:10px; font-weight:700; color:#9ca3af;">${item.sub}</div>
+                        ${adminLabel}
+                    </div>
                 </div>
                 <div class="card-title">${item.title}</div>
                 <div>
@@ -376,22 +417,26 @@
         });
     }
 
-    // --- ADMIN LOGIC ---
-    let currentUser = null;
-    let adminData = { heads: [], rows: [] };
-
+    // --- ADMIN AUTH & LOGIC ---
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
         currentUser = user;
         if(user && ALLOWED_ADMINS.includes(user.email)) {
+            isAdmin = true;
             document.getElementById('admin_login_ui').classList.add('hidden');
             document.getElementById('admin_dashboard_ui').classList.remove('hidden');
             document.getElementById('user_display').innerText = user.email;
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i> <span>${user.email.split('@')[0]}</span>`;
             document.getElementById('btn_auth').classList.add('active');
+            
+            // Re-render dashboard to enable admin click on closed cards
+            const activeTab = document.querySelector('.filter-pill.active');
+            if(activeTab) renderDashboardLayout(activeTab.innerText);
+
         } else {
+            isAdmin = false;
             currentUser = null;
         }
     });
@@ -411,6 +456,7 @@
         if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
     }
 
+    let adminData = { heads: [], rows: [] };
     function handleSubChange() {
         const idx = document.getElementById('filter_sub').value;
         if(idx === "") { document.getElementById('table_area').classList.add('hidden'); return; }
@@ -424,7 +470,7 @@
         fetch(item.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const heads = parseCSV(rows[0]);
-            adminData = { heads: heads, rows: [], title: item.title }; // Simpan tajuk utk cetak
+            adminData = { heads: heads, rows: [], title: item.title }; 
             let iSchool = 2; let iDistrict = 1;
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
@@ -455,11 +501,8 @@
         `).join('');
     }
 
-    // --- FUNGSI CETAK DOKUMEN CANTIK ---
     function printAdminDoc() {
         if(!adminData.rows || adminData.rows.length === 0) { alert("Sila pilih acara dan pastikan ada data."); return; }
-        
-        // Dapatkan data yang sedang dipaparkan (filtered)
         const search = document.getElementById('tableSearch').value.toUpperCase();
         const district = document.getElementById('filter_district').value.toUpperCase();
         const dataToPrint = adminData.rows.filter(r => {
@@ -470,58 +513,22 @@
         let d = new Date();
         let dateStr = d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
 
-        let html = `
-        <html><head><title>Senarai Penyertaan - ${adminData.title}</title>
-        <style>
-            body { font-family: 'Arial', sans-serif; padding: 40px; }
-            .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 20px; }
-            .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; }
-            .header h2 { margin: 5px 0 0; font-size: 16px; font-weight: normal; }
-            .meta { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; }
-            table { width: 100%; border-collapse: collapse; font-size: 12px; }
-            th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-            th { background-color: #f2f2f2; text-transform: uppercase; }
-            tr:nth-child(even) { background-color: #f9f9f9; }
-            @media print { @page { margin: 20mm; } }
-        </style>
-        </head><body>
-            <div class="header">
-                <h1>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</h1>
-                <h2>JABATAN PENDIDIKAN NEGERI TERENGGANU</h2>
-                <h3 style="margin: 15px 0 0; font-size: 14px;">SENARAI PENYERTAAN: ${adminData.title}</h3>
-            </div>
-            <div class="meta">
-                <span><strong>Tarikh Cetakan:</strong> ${dateStr}</span>
-                <span><strong>Jumlah Rekod:</strong> ${dataToPrint.length}</span>
-            </div>
-            <table>
-                <thead><tr><th width="5%">BIL</th><th>NAMA SEKOLAH</th><th width="20%">DAERAH</th></tr></thead>
-                <tbody>
-        `;
-        
-        dataToPrint.forEach((row, index) => {
-            html += `<tr><td style="text-align:center;">${index+1}</td><td>${row.s}</td><td>${row.d}</td></tr>`;
-        });
-
+        let html = `<html><head><title>Senarai Penyertaan</title><style>body{font-family:'Arial';padding:40px;}.header{text-align:center;margin-bottom:30px;border-bottom:2px solid #000;padding-bottom:20px;}.header h1{margin:0;font-size:20px;}.header h2{margin:5px 0 0;font-size:16px;font-weight:normal;}.meta{display:flex;justify-content:space-between;margin-bottom:20px;font-size:12px;}table{width:100%;border-collapse:collapse;font-size:12px;}th,td{border:1px solid #000;padding:8px;text-align:left;}th{background-color:#f2f2f2;}@media print{@page{margin:20mm;}}</style></head><body><div class="header"><h1>UNIT PEMBANGUNAN BAKAT MURID (KESENIAN)</h1><h2>JABATAN PENDIDIKAN NEGERI TERENGGANU</h2><h3 style="margin:15px 0 0;font-size:14px;">SENARAI PENYERTAAN: ${adminData.title}</h3></div><div class="meta"><span><strong>Tarikh Cetakan:</strong> ${dateStr}</span><span><strong>Jumlah Rekod:</strong> ${dataToPrint.length}</span></div><table><thead><tr><th width="5%">BIL</th><th>NAMA SEKOLAH</th><th width="20%">DAERAH</th></tr></thead><tbody>`;
+        dataToPrint.forEach((row, index) => { html += `<tr><td style="text-align:center;">${index+1}</td><td>${row.s}</td><td>${row.d}</td></tr>`; });
         html += `</tbody></table></body></html>`;
-        
         printWindow.document.write(html);
         printWindow.document.close();
         setTimeout(() => { printWindow.print(); }, 500);
     }
 
-    // --- MODAL & CHART ---
     let chartInstance;
     let currentIndex = null;
 
     function bukaModalStatistik() {
-        if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
-            alert("Fungsi ini untuk Admin sahaja."); return;
-        }
+        if(!isAdmin) { alert("Fungsi ini untuk Admin sahaja."); return; }
         if(currentIndex===null) return;
         const d = DATABASE[currentIndex];
         document.getElementById('public_stats_modal').style.display='flex';
-        
         fetch(d.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const stats = {}; let listHtml = "";
@@ -532,18 +539,14 @@
                 let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 stats[da] = (stats[da]||0)+1;
-                // ALIGN LEFT HERE
+                // ALIGN LEFT DI SINI
                 listHtml += `<tr><td style="text-align:center;">${i}</td><td style="text-align:left;">${sc}</td><td style="text-align:center;">${da}</td></tr>`;
             }
             document.getElementById('public_list_body').innerHTML = listHtml;
-            
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
             const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
-            chartInstance = new Chart(ctx, { 
-                type: 'bar', data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } 
-            });
+            chartInstance = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } });
         });
     }
 
@@ -552,15 +555,23 @@
         document.getElementById('view_page').classList.remove('hidden');
         const d = DATABASE[idx];
         let isOpen = d.status === 'OPEN';
+        
+        // ADMIN OVERRIDE
+        if(!isOpen && !isAdmin) { alert("Akses ditolak."); bukaHome(); return; }
+
         document.getElementById('page_title').innerText = d.title;
         document.getElementById('action_buttons').innerHTML = '';
-        if(isOpen) {
-            document.getElementById('action_buttons').innerHTML = `<a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a> <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+        
+        if(isOpen || isAdmin) {
+            let adminMsg = !isOpen && isAdmin ? '<div style="margin-bottom:10px; color:blue; font-size:12px;">(Mod Admin: Anda boleh melihat pautan walaupun ditutup)</div>' : '';
+            document.getElementById('action_buttons').innerHTML = `${adminMsg} <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a> <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
             document.getElementById('page_status_alert').innerHTML = "";
-        } else {
-            document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN DITUTUP</div>`;
-            document.getElementById('action_buttons').innerHTML = `<a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
         }
+        
+        if(!isOpen) {
+             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN DITUTUP</div>`;
+        }
+
         fetchCount(d.csv, 'page_stat', null);
         currentIndex = idx;
         history.pushState(null, null, `?page=${idx}`);
@@ -570,15 +581,7 @@
     function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); history.pushState(null, null, window.location.pathname); }
     function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
     
-    function fetchCount(url, txtId, barId) {
-        if(!url) { document.getElementById(txtId).innerText="0"; return; }
-        fetch(url).then(r=>r.text()).then(t=>{
-            let c = t.trim().split('\n').length-1; if(c<0)c=0;
-            document.getElementById(txtId).innerText = c;
-            if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; }
-            if(txtId.startsWith('mini')) calcTotal();
-        }).catch(()=>{ document.getElementById(txtId).innerText="0"; });
-    }
+    function fetchCount(url, txtId, barId) { if(!url) { document.getElementById(txtId).innerText="0"; return; } fetch(url).then(r=>r.text()).then(t=>{ let c = t.trim().split('\n').length-1; if(c<0)c=0; document.getElementById(txtId).innerText = c; if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; } if(txtId.startsWith('mini')) calcTotal(); }).catch(()=>{ document.getElementById(txtId).innerText="0"; }); }
     function calcTotal() { let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0); document.getElementById('grand_total').innerText = t; document.getElementById('total_records_display').innerText = t; }
     function parseCSV(text) { let result=[]; let cell=''; let inQuote=false; for(let i=0;i<text.length;i++){ let char=text[i]; if(char==='"') inQuote=!inQuote; else if(char===','&&!inQuote){ result.push(cell.trim()); cell=''; } else cell+=char; } result.push(cell.trim()); return result.map(v=>v.replace(/^"|"$/g,'').trim()); }
     
@@ -600,7 +603,7 @@
     }
 
     initSystem();
-    renderAdminSubOptions();
+    // No need to call renderAdminSubOptions manually, auth listener handles flow
 </script>
 </body>
 </html>
