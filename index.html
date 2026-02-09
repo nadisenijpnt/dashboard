@@ -70,11 +70,9 @@
         .filter-pill { background: var(--surface); padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-sm); }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        
         .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
         
-        /* CLOSED STATE */
         .event-card.closed { opacity: 0.6; background: #f9fafb; border-color: #e5e7eb; filter: grayscale(100%); cursor: not-allowed; }
         .event-card.closed:hover { transform: none; box-shadow: none; border-color: #e5e7eb; }
         .event-card.closed.admin-access { cursor: pointer; filter: grayscale(0%); border: 1px dashed #3b82f6; opacity: 1; background: #eff6ff; }
@@ -93,17 +91,10 @@
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-        /* BUTTON DAFTAR DISABLED */
         .btn-daftar { text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; transition:0.2s; }
         .btn-daftar.disabled { background: #9ca3af; cursor: not-allowed; opacity: 0.7; pointer-events: none; }
 
-        /* TOAST NOTIFICATION */
-        #toast_box {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: #1f2937; color: white; padding: 12px 25px; border-radius: 50px;
-            font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 3000;
-        }
+        #toast_box { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1f2937; color: white; padding: 12px 25px; border-radius: 50px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 3000; }
         #toast_box.show { transform: translateX(-50%) translateY(0); }
         #toast_box i { color: #f87171; font-size: 16px; }
 
@@ -143,6 +134,17 @@
             .table-wrapper td::before { content: attr(data-label); font-weight: 700; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
             .table-wrapper td:first-child { text-align: left; display: block; padding-bottom: 10px; border-bottom: 1px solid var(--bg-body); margin-bottom: 10px; }
             .table-wrapper td:first-child::before { display: none; }
+            
+            /* --- PEMBAIKAN KHAS MOBILE: NAMA SEKOLAH ALIGN LEFT --- */
+            /* Mengesan kolum sekolah (Biasanya row ke-2 dalam susunan mobile) */
+            .table-wrapper td[data-label="SEKOLAH"] {
+                display: block; /* Jadi blok supaya boleh susun atas-bawah */
+                text-align: left; /* Teks kiri */
+            }
+            .table-wrapper td[data-label="SEKOLAH"]::before {
+                display: block; /* Label di atas */
+                margin-bottom: 5px; /* Jarak dgn nama sekolah */
+            }
         }
     </style>
 </head>
@@ -193,18 +195,15 @@
                 <div style="width:60px; height:60px; background:var(--primary-light); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 20px;"><i class="fa-solid fa-pen-nib"></i></div>
                 <h2 id="page_title" style="margin:0 0 10px;">Tajuk Program</h2>
                 <div id="page_status_alert" style="margin-bottom:20px;"></div>
-                
                 <div style="background:var(--bg-body); padding:20px; border-radius:12px; display:inline-block; min-width:200px; margin-bottom:30px;">
                     <div id="page_stat" style="font-size:40px; font-weight:800; color:var(--primary); line-height:1;">0</div>
                     <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Penyertaan</div>
                 </div>
-                
                 <div style="margin-bottom:30px;">
                     <button onclick="bukaModalStatistik()" style="background:white; border:1px solid var(--border); padding:10px 20px; border-radius:50px; font-weight:600; font-size:13px; color:var(--text-main); cursor:pointer; box-shadow:var(--shadow-sm);">
                         <i class="fa-solid fa-chart-pie" style="color:var(--accent); margin-right:5px;"></i> Analisis Daerah <span style="font-size:10px; color:#ef4444;">(Admin)</span>
                     </button>
                 </div>
-
                 <div id="action_buttons" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
             </div>
         </div>
@@ -239,7 +238,7 @@
 
                 <div id="loading_msg" class="hidden" style="text-align:center; padding:40px;">Sedang memproses...</div>
                 <div id="table_area" class="table-wrapper hidden">
-                    <table class="data-table"><thead><tr><th width="5%">#</th><th>Sekolah</th><th>Daerah</th><th>Tindakan</th></tr></thead><tbody id="data_tbody"></tbody></table>
+                    <table class="data-table"><thead><tr><th width="5%">#</th><th>SEKOLAH</th><th>DAERAH</th><th>TINDAKAN</th></tr></thead><tbody id="data_tbody"></tbody></table>
                 </div>
             </div>
         </div>
@@ -285,27 +284,11 @@
 
     Chart.register(ChartDataLabels);
 
-    // --- SENARAI DATABASE YANG BOLEH DIEDIT MANUAL ---
-    // Cara guna: Cari "OPEN" dan tukar jadi "CLOSED" jika mahu tutup
+    // --- TETAPAN DATABASE (STATUS BORANG) ---
+    // UBAH "OPEN" KEPADA "CLOSED" UNTUK MENUTUP BORANG.
     const DATABASE = [
-        { 
-            status: "OPEN", // <-- UBAH SINI (OPEN / CLOSED)
-            cat: "MUZIK", 
-            sub: "FASUS", 
-            title: "SEIMFONI TRADISIONAL (SM)", 
-            form: "https://forms.gle/KQixYdJZHPoyt1nn9", 
-            drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", 
-            csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" 
-        },
-        { 
-            status: "OPEN", 
-            cat: "MUZIK", 
-            sub: "FASUS", 
-            title: "SAYEMBARA PUISI LAGU (SM)", 
-            form: "https://forms.gle/mMQvnVpka1kRiJpVA", 
-            drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", 
-            csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" 
-        },
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+        { status: "CLOSE", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
@@ -423,7 +406,6 @@
         const d = DATABASE[idx];
         let isOpen = d.status === 'OPEN';
         
-        // Block Public from URL Access
         if(!isOpen && !isAdmin) { showToast("Akses ditolak. Borang ditutup."); bukaHome(); return; }
 
         document.getElementById('page_title').innerText = d.title;
@@ -455,7 +437,7 @@
         window.scrollTo(0,0);
     }
 
-    // --- OTHER FUNCTIONS (SAME AS BEFORE) ---
+    // --- FUNGSI ASAL ---
     function bukaHome() { document.getElementById('view_dashboard').classList.remove('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.add('hidden'); history.pushState(null, null, window.location.pathname); }
     function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
     function fetchCount(url, txtId, barId) { if(!url) { document.getElementById(txtId).innerText="0"; return; } fetch(url).then(r=>r.text()).then(t=>{ let c = t.trim().split('\n').length-1; if(c<0)c=0; document.getElementById(txtId).innerText = c; if(barId) { let pct = Math.min((c/50)*100, 100); document.getElementById(barId).style.width = `${pct}%`; } if(txtId.startsWith('mini')) calcTotal(); }).catch(()=>{ document.getElementById(txtId).innerText="0"; }); }
@@ -476,17 +458,25 @@
             document.getElementById('btn_auth').classList.add('active');
             const activeTab = document.querySelector('.filter-pill.active');
             if(activeTab) renderDashboardLayout(activeTab.innerText);
+            
+            // --- INI PEMBAIKAN UNTUK DROPDOWN "ALL" ---
+            // Panggil renderAdminSubOptions sejurus selepas login berjaya
+            renderAdminSubOptions();
+
         } else {
             isAdmin = false;
             currentUser = null;
         }
     });
 
+    // --- FUNGSI DROPDOWN YANG DIBETULKAN ---
     function renderAdminSubOptions() {
         const cat = document.getElementById('filter_category').value;
         const subSelect = document.getElementById('filter_sub');
         subSelect.innerHTML = '<option value="">Pilih Acara...</option>';
+        
         let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
+        
         filtered.forEach((item) => {
             let option = document.createElement('option');
             let globalIdx = DATABASE.indexOf(item);
@@ -494,7 +484,10 @@
             option.innerText = item.title;
             subSelect.appendChild(option);
         });
-        if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
+        
+        // Hapus auto-select supaya user boleh lihat senarai penuh dahulu
+        // jika mahu auto-pilih, boleh uncomment di bawah:
+        // if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
     }
 
     let adminData = { heads: [], rows: [] };
@@ -537,8 +530,8 @@
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tiada rekod.</td></tr>`; return; }
         tbody.innerHTML = data.map((r,i)=> `
-            <tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td>
-            <td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
+            <tr><td>${i+1}</td><td data-label="SEKOLAH">${r.s}</td><td data-label="DAERAH">${r.d}</td>
+            <td data-label="TINDAKAN"><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
         `).join('');
     }
 
@@ -580,6 +573,7 @@
                 let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 stats[da] = (stats[da]||0)+1;
+                // ALIGN LEFT TABLE MODAL
                 listHtml += `<tr><td style="text-align:center;">${i}</td><td style="text-align:left;">${sc}</td><td style="text-align:center;">${da}</td></tr>`;
             }
             document.getElementById('public_list_body').innerHTML = listHtml;
