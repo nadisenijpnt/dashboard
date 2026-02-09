@@ -52,7 +52,6 @@
         .hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .hero-search { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 8px; font-size: 13px; outline: none; backdrop-filter: blur(5px); min-width: 200px; transition: 0.3s; flex-grow: 1; }
         .hero-search::placeholder { color: rgba(255,255,255,0.8); }
-        
         .btn-hero-action { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 8px; font-size: 14px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.2s; display: flex; align-items: center; gap: 5px; }
         .btn-hero-action:hover { background: rgba(255,255,255,0.4); }
 
@@ -75,23 +74,20 @@
         .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
         
-        /* STATE: CLOSED */
+        /* CLOSED STATE */
         .event-card.closed { opacity: 0.6; background: #f9fafb; border-color: #e5e7eb; filter: grayscale(100%); cursor: not-allowed; }
         .event-card.closed:hover { transform: none; box-shadow: none; border-color: #e5e7eb; }
-        /* STATE: ADMIN ACCESS (Walaupun tutup, admin boleh nampak sikit beza) */
         .event-card.closed.admin-access { cursor: pointer; filter: grayscale(0%); border: 1px dashed #3b82f6; opacity: 1; background: #eff6ff; }
         .event-card.closed.admin-access:hover { transform: translateY(-2px); border-color: #3b82f6; }
 
         .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        
         .status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
         .status-open { color: var(--primary); background: var(--primary-light); }
         .status-closed { color: var(--danger); background: #fee2e2; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; }
         .status-open .status-dot { background: var(--primary); animation: pulse 1.5s infinite; }
         .status-closed .status-dot { background: var(--danger); }
-
         .card-title { font-weight: 700; font-size: 13px; line-height: 1.4; color: var(--text-main); margin-bottom: 15px; min-height: 40px; display: flex; align-items: center; }
         .progress-mini { background: var(--bg-body); height: 6px; border-radius: 10px; overflow: hidden; margin-top: 5px; }
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
@@ -99,7 +95,7 @@
 
         /* BUTTON DAFTAR DISABLED */
         .btn-daftar { text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; transition:0.2s; }
-        .btn-daftar.disabled { background: #9ca3af; cursor: not-allowed; opacity: 0.7; pointer-events: none; } /* Greyed out */
+        .btn-daftar.disabled { background: #9ca3af; cursor: not-allowed; opacity: 0.7; pointer-events: none; }
 
         /* TOAST NOTIFICATION */
         #toast_box {
@@ -172,9 +168,6 @@
                 <div class="hero-text">
                     <h2>Analisis Penyertaan</h2>
                     <p>Statistik pendaftaran dan rekod semasa.</p>
-                    <div id="status_note" style="font-size:10px; margin-top:8px; color:rgba(255,255,255,0.8); background:rgba(0,0,0,0.2); padding:5px 10px; border-radius:20px; display:inline-block;">
-                        <i class="fa-solid fa-sync fa-spin"></i> Mengemaskini status...
-                    </div>
                 </div>
                 <div class="hero-actions">
                     <input type="text" class="hero-search" placeholder="Cari pertandingan..." onkeyup="searchPublicEvents(this.value)">
@@ -292,33 +285,48 @@
 
     Chart.register(ChartDataLabels);
 
-    const STATUS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPYuJun2bWLKxoClbhmmJBYpasTCCzNy1D34ZlYo9QANrneIIPED319ZNW395bUXEFu1jwa2n9P5u_/pub?gid=1685909911&single=true&output=csv";
-
-    // SEMUA DEFAULT 'OPEN'
-    let DATABASE = [
-        { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv", status: "OPEN" },
-        { cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv", status: "OPEN" },
-        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv", status: "OPEN" },
-        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv", status: "OPEN" },
-        { cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv", status: "OPEN" },
-        { cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv", status: "OPEN" },
-        { cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv", status: "OPEN" },
-        { cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv", status: "OPEN" },
-        { cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv", status: "OPEN" },
-        { cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv", status: "OPEN" }
+    // --- SENARAI DATABASE YANG BOLEH DIEDIT MANUAL ---
+    // Cara guna: Cari "OPEN" dan tukar jadi "CLOSED" jika mahu tutup
+    const DATABASE = [
+        { 
+            status: "CLOSED", // <-- UBAH SINI (OPEN / CLOSED)
+            cat: "MUZIK", 
+            sub: "FASUS", 
+            title: "SEIMFONI TRADISIONAL (SM)", 
+            form: "https://forms.gle/KQixYdJZHPoyt1nn9", 
+            drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", 
+            csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" 
+        },
+        { 
+            status: "OPEN", 
+            cat: "MUZIK", 
+            sub: "FASUS", 
+            title: "SAYEMBARA PUISI LAGU (SM)", 
+            form: "https://forms.gle/mMQvnVpka1kRiJpVA", 
+            drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", 
+            csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" 
+        },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", form: "https://forms.gle/caPZtPMd79VyKs4r9", drive: "https://drive.google.com/drive/folders/1xWMAqYscrdRtJh9bR6qwYKRCbQs4ZBos", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnDWEQ5YYQ6i6NcGZ4UT0qFZp_tnlJTbct1PrY8ZiL0FE4FDj047LqOTwGI1S2JZs_4NIVbFzpg01E/pub?gid=253030693&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SR) - GENTA", form: "https://forms.gle/tbD5KtRQHRfxgYLf6", drive: "https://drive.google.com/drive/folders/1G2DPmiX3X3EaglqOSZNDwBGBvQgxlq8H", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaQnxV25OoIhBHNIE2M5dGIcmXrv44CdFkv2-iQfk6Y4JD_w4BaDOdFzoCVrlbJhLzhzIbPvrj6Br5/pub?gid=2007862906&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", form: "https://forms.gle/NNzwfebqTb4KbDgt7", drive: "https://drive.google.com/drive/folders/1Vbq5OPY3FOFED7yHBjd4q6JF0_CM3bo4", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx58IPEc-vv0ufBwnMl4IE4w33Yu4PmpMoJOnqMUaohuSIElmIQUfUA58Xas9FyBcyelHpFernoq1R/pub?gid=314140766&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SM) - GENTA", form: "https://forms.gle/NksdkKXuiu8uEhBy7", drive: "https://drive.google.com/drive/folders/1OE6p4r5v9gY_dlKqzTULVhWqPNae9eMU", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEAZa7PCURxgzyIu6mFoMiwwa1u5Fw6T2Yc3DJNh9JcAYuVJz5XzSLJthwYuXsEJ1Q36abbmh-EIbx/pub?gid=428299184&single=true&output=csv" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN (SR)", form: "https://forms.gle/wDRYvVMLkYPVcNNY6", drive: "https://drive.google.com/drive/folders/1skj69UFgzVpdXyK--zsMFlGVuHNvVcRg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpc33eO29gAnBJOvTqYtZhW1gm6S-i_ZqBzjp0BlI5YjVYwKVRINKJxEWRJlxmo8bp1I7SUma6sJLl/pub?gid=1766610679&single=true&output=csv" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK SOLO (SR)", form: "https://forms.gle/Lu2UoB3Daqu4Ey1r8", drive: "https://drive.google.com/drive/folders/1aEOu_I6XaIzDKS0DCwrrcC4npSgr52QF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLg2uRtxafPykBsFBVDhdu_XyyaNM7Kdo9sQNEm8Q0c0V4sX_graaFapN7f47ZmMpYSjOs0Z6fUIqk/pub?gid=887063016&single=true&output=csv" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", form: "https://forms.gle/eBGMbb1kKKW1UZan8", drive: "https://drive.google.com/drive/folders/1NT9Jd-H1yGTWnM6t1CqOAqIxyCHPJIVC", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHuyPPCz5-1sAfAgXzBj0UepPoH2f85mbsclMEy21CWxt81YaVLEXbe7o0OeAAj2Jf5a20T-cJoLy3/pub?gid=1325506741&single=true&output=csv" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN DUO (SM)", form: "https://forms.gle/VDoSw2AokXxC9amX8", drive: "https://drive.google.com/drive/folders/1MMeTSY5QBfE7nZiFOpfMzmfrBlVbi2cg", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTCGkqfK8ng4WVbO0d59q9jrsOFVwV1mj4_xmfmhwEP4IUEFpXyq-K-FEsozBAIOS92bNm9vUfOYrfe/pub?gid=836915996&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", form: "https://forms.gle/fqrmxrJ4sU7VhP2NA", drive: "https://drive.google.com/drive/folders/1tm5s4yeiex3XJtZY3r8eeFf4vd8CLR_n", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuhTAeh-DnF1d4C_FD2qXsCThstByc5BDIiY3Mu_9DaQ4TOyR7ZI820j_hYC2biZ75guEpBPlbi9QB/pub?gid=403963652&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SR)", form: "https://forms.gle/Ydb8DfzDafyLjhQZ7", drive: "https://drive.google.com/drive/folders/1uEF3tr8N8j09Su7lS2vvJdd4-hliHKeZ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCaPEcywaG0hmSlbxNlDR7wYCMmDDz38EkcY_z8FVCm7hrOkxl1UIBpOpC72yehRmO-7h6CbjN9i7h/pub?gid=515405520&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SR)", form: "https://forms.gle/vWBuL9vV4gZ9uR1A8", drive: "https://drive.google.com/drive/folders/1DpHpzQv0TviwYxtQyN5ka0bDOtJ-7v58", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrWjg5JKEG3u7wuGlurzplsO4cUyKSSnd1r-vBbTNIVpjw4h8GTm3fe3V5ft_XxDubJX3xBlxULzpP/pub?gid=533035291&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", form: "https://forms.gle/nkGxFEbKSHeubqUP8", drive: "https://drive.google.com/drive/folders/1IIohADnx86I3_h8gU9kfFqV28p7cr6_S", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwu4OATLjdedRtOHcr7SWW9x6iXDWUlnNxGzf99mdWFhjEbQ4zUkm3olKgxz6q3HpWTtW7ToqW6ePq/pub?gid=2131384172&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "FILEM PENDEK (SM)", form: "https://forms.gle/2LuKJnfVW7T19Y6N6", drive: "https://drive.google.com/drive/folders/1TiHfmYhu8ssjrxbqWfVEwAFoTIwvS4eq", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0K7LWQs8NUvtYWiiaGDDGlezchrLD1hrRrdDyYQ7EJ_xwbh0_CWtOmr89POiCcOUyIodB4mnLGtl9/pub?gid=209262848&single=true&output=csv" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "MONOLOG (SM)", form: "https://forms.gle/HSSXEbysHY1AbHTt9", drive: "https://drive.google.com/drive/folders/1sHZD_sDpmhhy8z9LZ5vNVOQpSkJ3ymNF", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ26wvUkYm-XH_q4vNlpSu14-z_5ZsAhRCJak_Qm86z0IODZ2rvOJAo6rl5JAkPabjHkHIMBALXxUl3/pub?gid=1395475141&single=true&output=csv" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "SENI CETAKAN (SR)", form: "https://forms.gle/1tBGjxzqsPxSQaZV9", drive: "https://drive.google.com/drive/folders/10EbAVrX7EXF29Gbb62hstkLDDBQGIwSf", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1pzcqC945Gk88ZfoO2GYDTy5Dxog8LYJEO_pwR22TwXuV6SPg0T1NZ9rXhvkx2W8yB-LjiEpXdTOE/pub?gid=1553102662&single=true&output=csv" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "BUSANA (SM)", form: "https://forms.gle/1UtwNE8Cz3aUMS5DA", drive: "https://drive.google.com/drive/folders/1MB7iG9cZ02sfaZAoD9EuVtX8GcUwPk3l", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRuHv2axq369VII3Ac-KluGMNpMbn6OjvITnEbRhW2_K58hIZ4WgD0tqKrtdITCv-o987xoeK3hptLO/pub?gid=1117005446&single=true&output=csv" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
     ];
 
     let currentUser = null;
@@ -341,57 +349,13 @@
         });
     }
 
-    async function initSystem() {
+    function initSystem() {
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
         
-        document.getElementById('status_note').style.display = 'inline-block';
-        await syncStatusFromSheet();
-        document.getElementById('status_note').style.display = 'none';
-
         if(page && DATABASE[page]) bukaPage(parseInt(page));
         else renderDashboardLayout("SEMUA");
         document.getElementById('total_events').innerText = DATABASE.length;
-    }
-
-    // --- FUNGSI SYNC STATUS (SMART MATCHING) ---
-    function cleanStr(str) {
-        if(!str) return "";
-        // BUANG perkataan "PERTANDINGAN" dan semua simbol
-        return str.toUpperCase().replace("PERTANDINGAN", "").replace(/[^A-Z0-9]/g, "");
-    }
-
-    async function syncStatusFromSheet() {
-        try {
-            // Anti-Cache: Timestamp
-            const res = await fetch(STATUS_SHEET_URL + '&t=' + Date.now());
-            const text = await res.text();
-            const rows = parseCSV(text);
-            
-            // Default semua OPEN dulu
-            DATABASE.forEach(d => d.status = "OPEN");
-
-            for(let i=1; i<rows.length; i++) {
-                let sheetTitleRaw = rows[i][2]; // Col C
-                let status = rows[i][3]; // Col D
-                
-                if(sheetTitleRaw && status && status.toUpperCase().trim() === 'OFF') {
-                    // Smart Matching Logic
-                    let sheetTitleClean = cleanStr(sheetTitleRaw);
-                    
-                    let item = DATABASE.find(d => {
-                        let dbTitleClean = cleanStr(d.title);
-                        return dbTitleClean.includes(sheetTitleClean) || sheetTitleClean.includes(dbTitleClean);
-                    });
-                    
-                    if(item) {
-                        item.status = "CLOSED";
-                    }
-                }
-            }
-        } catch(e) {
-            console.error("Gagal sync status:", e);
-        }
     }
 
     function renderDashboardLayout(activeCat) {
@@ -468,9 +432,6 @@
         let btnState = isOpen ? '' : 'disabled';
         let btnText = isOpen ? 'Daftar Sekarang' : 'Pendaftaran Ditutup';
         let btnClick = isOpen ? '' : 'onclick="showToast(\'Pendaftaran telah ditutup.\'); return false;"';
-        
-        // ADMIN BOLEH TENGOK, TAPI BUTTON TETAP DISABLED KALAU TUTUP (KECUALI FOLDER INFO)
-        // Jika nak Admin boleh daftar juga, buang 'disabled' class untuk admin. Tapi default 'disabled'.
         
         let html = `
             <a href="${d.form}" target="_blank" class="btn-daftar ${btnState}" ${btnClick}>
