@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NADI SENI JPNT - Portal Data</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
@@ -75,13 +78,10 @@
         .data-table th { background: #f8fafc; text-align: left; padding: 15px; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; }
         
-        /* 🔥 WRAP TEXT (Supaya nama sekolah panjang turun bawah) */
-        .wrap-text { 
-            white-space: normal !important; 
-            word-wrap: break-word; 
-            max-width: 250px; 
-            line-height: 1.6;
-        }
+        .wrap-text { white-space: normal !important; word-wrap: break-word; max-width: 200px; line-height: 1.5; }
+
+        .btn-print { background: #10b981; color: white; padding: 10px 20px; border:none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .btn-print:hover { background: #059669; }
 
         /* --- 5. MODAL --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -104,7 +104,7 @@
 <body>
 
     <header>
-        <div class="logo-area" onclick="bukaHome()"><h1>PENDAFTARAN PERTANDINGAN - NADI SENI JPNT <span>JPNT</span></h1></div>
+        <div class="logo-area" onclick="bukaHome()"><h1>NADI SENI <span>JPNT</span></h1></div>
         <div class="nav-group">
             <button class="nav-btn" onclick="bukaHome()">UTAMA</button>
             <button class="nav-btn btn-login" id="btn_auth" onclick="bukaAdmin()">🔒 ADMIN</button>
@@ -164,10 +164,13 @@
                     <div class="cat-tabs" id="category_tabs"></div>
                 </div>
                 <div id="sub_category_area" class="sub-grid"></div>
+                
                 <div id="loading_msg" class="hidden" style="text-align:center; padding:30px; color:#64748b;">Sedang memuat turun data...</div>
+                
                 <div id="table_area" class="table-container hidden">
-                    <div style="padding:15px; border-bottom:1px solid #e2e8f0;">
-                        <input type="text" id="tableSearch" style="width:100%; border:none; outline:none;" placeholder="🔎 Cari Sekolah, Guru..." onkeyup="filterTable()">
+                    <div style="padding:15px; border-bottom:1px solid #e2e8f0; display:flex; gap:10px;">
+                        <input type="text" id="tableSearch" style="flex-grow:1; padding:10px; border:1px solid #e2e8f0; border-radius:8px; outline:none;" placeholder="🔎 Cari Sekolah, Guru..." onkeyup="filterTable()">
+                        <button onclick="printAdminData()" class="btn-print">🖨️ CETAK SENARAI</button>
                     </div>
                     <div style="overflow-x:auto;">
                         <table class="data-table"><thead><tr><th width="5%">#</th><th>SEKOLAH</th><th width="20%">DAERAH</th><th width="15%">TINDAKAN</th></tr></thead><tbody id="data_tbody"></tbody></table>
@@ -205,7 +208,9 @@
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
     const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
-    // DATABASE LENGKAP
+    // WAJIB REGISTER PLUGIN INI UTK KELUAR NOMBOR
+    Chart.register(ChartDataLabels);
+
     const DATABASE = [
         // MUZIK
         { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
@@ -238,7 +243,7 @@
         { cat: "SENI VISUAL", sub: "NESTLE", title: "ARCA (SM)", form: "#", drive: "#", csv: "" }
     ];
 
-    // --- INIT ---
+    // --- SYSTEM INIT ---
     function initSystem() {
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
@@ -319,7 +324,6 @@
         document.getElementById('grand_total').innerText = t;
     }
 
-    // 🔥 PARSER CSV V2 (NO SPLIT BY SPACE) - JANTUNG SISTEM
     function parseCSV(text) {
         let result = [];
         let cell = '';
@@ -331,10 +335,10 @@
             else { cell += char; }
         }
         result.push(cell.trim());
-        return result.map(v => v.replace(/^"|"$/g, '').trim()); // Clean quotes
+        return result.map(v => v.replace(/^"|"$/g, '').trim());
     }
 
-    // --- MODAL & STATS (FIXED COLUMN MAPPING) ---
+    // --- MODAL & STATS (FIXED COL) ---
     let chartInstance;
     let currentIndex = null;
     function bukaModalStatistik() {
@@ -346,20 +350,16 @@
             const stats = {}; const list = [];
             const headers = parseCSV(rows[0]);
             
-            // 🔥 COL B (1) = DAERAH, COL C (2) = SEKOLAH (HARDCODED AS REQUESTED)
-            let iSchool = 2;
-            let iDistrict = 1;
+            // HARDCODED COLUMNS
+            let iSchool = 2; let iDistrict = 1;
 
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
                 let c = parseCSV(rows[i]);
                 let da = c[iDistrict]||"Lain"; 
                 let sc = c[iSchool]||"-";
-                
-                // Cleanup Data
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 sc = sc.replace(/"/g, '').trim().toUpperCase();
-
                 stats[da] = (stats[da]||0)+1;
                 list.push({s:sc, d:da});
             }
@@ -370,11 +370,36 @@
             
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, { type:'pie', data:{labels:Object.keys(stats), datasets:[{data:Object.values(stats), backgroundColor:chartColors}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right', labels:{boxWidth:10, font:{size:10}}}}} });
+            
+            // CHART CONFIG WITH LABELS
+            chartInstance = new Chart(ctx, { 
+                type: 'pie', 
+                data: {
+                    labels: Object.keys(stats), 
+                    datasets: [{
+                        data: Object.values(stats), 
+                        backgroundColor: chartColors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: {
+                        legend: { position:'right', labels:{ boxWidth:12, font:{size:11} } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 14 },
+                            formatter: (value) => { return value > 0 ? value : ''; }
+                        }
+                    }
+                } 
+            });
         });
     }
 
-    // --- ADMIN LOGIC ---
+    // --- ADMIN ---
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
@@ -415,18 +440,25 @@
         fetch(item.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const heads = parseCSV(rows[0]);
+            adminData = []; // Store raw data for printing
+            
+            // STORE HEADERS & FULL ROWS FOR PRINTING
+            // Create specific object for template
             adminData = [];
             
-            // 🔥 COL B (1) = DAERAH, COL C (2) = SEKOLAH (HARDCODED AS REQUESTED)
-            let iSchool = 2;
-            let iDistrict = 1;
+            // HARDCODED COLUMNS
+            let iSchool = 2; let iDistrict = 1;
+
+            // Save Metadata for Printing
+            adminData.heads = heads;
+            adminData.rows = [];
 
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
                 let c = parseCSV(rows[i]);
-                adminData.push({ full:c, heads:heads, s:c[iSchool]||'-', d:c[iDistrict]||'-' });
+                adminData.rows.push({ full:c, s:c[iSchool]||'-', d:c[iDistrict]||'-' });
             }
-            renderTable(adminData);
+            renderTable(adminData.rows);
             document.getElementById('loading_msg').classList.add('hidden');
             document.getElementById('table_area').classList.remove('hidden');
         });
@@ -442,13 +474,13 @@
 
     function filterTable() {
         let v = document.getElementById('tableSearch').value.toUpperCase();
-        renderTable(adminData.filter(r => r.s.toUpperCase().includes(v) || r.d.toUpperCase().includes(v)));
+        renderTable(adminData.rows.filter(r => r.s.toUpperCase().includes(v) || r.d.toUpperCase().includes(v)));
     }
 
     function openDetail(i) {
-        const d = adminData[i];
+        const d = adminData.rows[i];
         let h = "", ph = "";
-        d.heads.forEach((head, idx) => {
+        adminData.heads.forEach((head, idx) => {
             if(idx===0) return;
             let val = d.full[idx] || "-";
             val = val.replace(/"/g, ''); 
@@ -462,6 +494,50 @@
         if(ph) h += `<div class="action-btns"><a href="https://wa.me/${ph}" target="_blank" class="btn-action btn-wa">💬 WHATSAPP</a><a href="tel:${ph}" class="btn-action btn-call">📞 CALL</a></div>`;
         document.getElementById('modal_content').innerHTML = h;
         document.getElementById('detail_modal').style.display = 'flex';
+    }
+
+    // 🔥 FUNGSI CETAK (PRINT)
+    function printAdminData() {
+        if(!adminData.rows || adminData.rows.length === 0) { alert("Tiada data untuk dicetak."); return; }
+
+        const selectedBtn = document.querySelector('.sub-card.selected');
+        const title = selectedBtn ? selectedBtn.innerText : "Senarai Peserta";
+
+        let printWindow = window.open('', '', 'height=600,width=800');
+        
+        let html = `<html><head><title>Cetak - ${title}</title>`;
+        html += `<style>
+            body { font-family: sans-serif; padding: 20px; }
+            h2 { text-align: center; margin-bottom: 20px; text-transform: uppercase; }
+            table { width: 100%; border-collapse: collapse; font-size: 10px; }
+            th, td { border: 1px solid #333; padding: 5px; text-align: left; vertical-align: top; }
+            th { background-color: #f2f2f2; }
+            @media print { @page { size: landscape; } }
+        </style></head><body>`;
+        
+        html += `<h2>${title}</h2>`;
+        html += `<table><thead><tr><th>#</th>`;
+        
+        // Headers (Skip Timestamp if index 0)
+        adminData.heads.forEach((h, i) => {
+            if(i !== 0) html += `<th>${h}</th>`;
+        });
+        html += `</tr></thead><tbody>`;
+
+        // Rows
+        adminData.rows.forEach((row, index) => {
+            html += `<tr><td>${index+1}</td>`;
+            row.full.forEach((cell, i) => {
+                if(i !== 0) html += `<td>${cell.replace(/"/g, '')}</td>`;
+            });
+            html += `</tr>`;
+        });
+
+        html += `</tbody></table></body></html>`;
+
+        printWindow.document.write(html);
+        printWindow.document.close();
+        printWindow.print();
     }
 
     initSystem();
