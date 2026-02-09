@@ -268,10 +268,8 @@
 
     Chart.register(ChartDataLabels);
 
-    // --- PAUTAN KE SHEET STATUS (MASTER SWITCH) ---
     const STATUS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPYuJun2bWLKxoClbhmmJBYpasTCCzNy1D34ZlYo9QANrneIIPED319ZNW395bUXEFu1jwa2n9P5u_/pub?gid=1685909911&single=true&output=csv";
 
-    // DEFAULT DATABASE (Status akan dikemaskini oleh Sheet)
     let DATABASE = [
         { cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv", status: "OPEN" },
         { cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv", status: "OPEN" },
@@ -314,7 +312,6 @@
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
         
-        // SYNC STATUS FROM GOOGLE SHEET
         await syncStatusFromSheet();
 
         if(page && DATABASE[page]) bukaPage(parseInt(page));
@@ -322,22 +319,24 @@
         document.getElementById('total_events').innerText = DATABASE.length;
     }
 
-    // --- FUNGSI BARU: SYNC STATUS ---
     async function syncStatusFromSheet() {
         try {
-            const res = await fetch(STATUS_SHEET_URL);
+            // FIX 1: ADD TIMESTAMP TO URL TO BUST CACHE
+            const res = await fetch(STATUS_SHEET_URL + '&t=' + Date.now());
             const text = await res.text();
             const rows = parseCSV(text);
             
-            // Loop through CSV rows (skip header)
-            // Assuming: Col C = TAJUK, Col D = STATUS
             for(let i=1; i<rows.length; i++) {
                 let tajuk = rows[i][2]; // Col C
                 let status = rows[i][3]; // Col D
                 
                 if(tajuk && status) {
-                    // Cari item dalam DATABASE yang tajuknya sama
-                    let item = DATABASE.find(d => d.title.trim() === tajuk.trim());
+                    // FIX 2: SMART MATCHING (Includes instead of Exact Match)
+                    let item = DATABASE.find(d => 
+                        tajuk.toUpperCase().includes(d.title.toUpperCase()) || 
+                        d.title.toUpperCase().includes(tajuk.toUpperCase())
+                    );
+                    
                     if(item) {
                         item.status = status.toUpperCase() === 'ON' ? 'OPEN' : 'CLOSED';
                     }
@@ -373,22 +372,14 @@
             let card = document.createElement('div');
             
             let isOpen = item.status === 'OPEN';
-            // Status Logic: Closed but Admin?
             let isClosedButAdmin = !isOpen && isAdmin;
-            
             let statusClass = isOpen ? 'status-open' : 'status-closed';
             let statusText = isOpen ? 'DIBUKA' : 'DITUTUP';
             
-            // Add classes
             card.className = `event-card ${!isOpen ? 'closed' : ''} ${isClosedButAdmin ? 'admin-access' : ''}`;
             
-            // Click Logic
             card.onclick = () => {
-                if (isOpen || isAdmin) {
-                    bukaPage(idx);
-                } else {
-                    alert("Pendaftaran ditutup.");
-                }
+                if (isOpen || isAdmin) { bukaPage(idx); } else { alert("Pendaftaran ditutup."); }
             };
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
@@ -417,7 +408,7 @@
         });
     }
 
-    // --- ADMIN AUTH & LOGIC ---
+    // --- AUTH & LOGIC ---
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
@@ -431,7 +422,6 @@
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i> <span>${user.email.split('@')[0]}</span>`;
             document.getElementById('btn_auth').classList.add('active');
             
-            // Re-render dashboard to enable admin click on closed cards
             const activeTab = document.querySelector('.filter-pill.active');
             if(activeTab) renderDashboardLayout(activeTab.innerText);
 
@@ -539,7 +529,6 @@
                 let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 stats[da] = (stats[da]||0)+1;
-                // ALIGN LEFT DI SINI
                 listHtml += `<tr><td style="text-align:center;">${i}</td><td style="text-align:left;">${sc}</td><td style="text-align:center;">${da}</td></tr>`;
             }
             document.getElementById('public_list_body').innerHTML = listHtml;
@@ -556,7 +545,6 @@
         const d = DATABASE[idx];
         let isOpen = d.status === 'OPEN';
         
-        // ADMIN OVERRIDE
         if(!isOpen && !isAdmin) { alert("Akses ditolak."); bukaHome(); return; }
 
         document.getElementById('page_title').innerText = d.title;
@@ -603,7 +591,6 @@
     }
 
     initSystem();
-    // No need to call renderAdminSubOptions manually, auth listener handles flow
 </script>
 </body>
 </html>
