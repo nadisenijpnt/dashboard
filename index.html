@@ -42,28 +42,16 @@
         /* HERO & STATS */
         .hero-banner {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            border-radius: 16px; padding: 30px; color: white; margin-bottom: 0; /* Buang margin bottom sebab kita guna padding */
+            border-radius: 16px; padding: 30px; color: white; margin-bottom: 0;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: var(--shadow-md); position: relative; overflow: visible; /* Biar nampak search bar klu lebih */
-            
-            /* --- UPDATE POSISI: TAMBAH PADDING BAWAH --- */
-            padding-bottom: 90px; 
+            box-shadow: var(--shadow-md); position: relative; overflow: visible;
+            padding-bottom: 90px; /* Ruang untuk kad statistics */
         }
 
         .hero-actions { display: flex; align-items: center; gap: 5px; }
         
-        /* --- KOTAK CARIAN BARU --- */
         .hero-search {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 13px;
-            outline: none;
-            backdrop-filter: blur(5px);
-            width: 200px;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 8px; font-size: 13px; outline: none; backdrop-filter: blur(5px); width: 200px; transition: 0.3s;
         }
         .hero-search::placeholder { color: rgba(255,255,255,0.7); }
         .hero-search:focus { background: rgba(255,255,255,0.3); width: 220px; }
@@ -71,17 +59,8 @@
         .hero-actions button { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.2s; }
         .hero-actions button:hover { background: rgba(255,255,255,0.3); }
 
-        /* --- STATS GRID: UPDATE POSISI --- */
-        .stats-grid { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; 
-            margin-top: -50px; /* Naik sikit je supaya overlap sikit */
-            margin-bottom: 40px; position: relative; z-index: 10; padding: 0 10px; 
-        }
-        .stat-card {
-            background: var(--surface); padding: 25px; border-radius: 16px;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: space-between;
-            border-left: 5px solid transparent; transition: transform 0.2s;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: -50px; margin-bottom: 40px; position: relative; z-index: 10; padding: 0 10px; }
+        .stat-card { background: var(--surface); padding: 25px; border-radius: 16px; box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: space-between; border-left: 5px solid transparent; transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-5px); }
         .stat-info h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
         .stat-info .num { font-size: 36px; font-weight: 800; color: var(--text-main); line-height: 1; margin-top: 5px; }
@@ -97,17 +76,11 @@
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
 
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .event-card {
-            background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s;
-        }
+        .event-card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; transition: 0.2s; }
         .event-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-        
-        /* CLOSED STATE STYLE */
         .event-card.closed { opacity: 0.7; background: #f9fafb; border-color: #e5e7eb; cursor: not-allowed; filter: grayscale(100%); }
-        .event-card.closed:hover { transform: none; box-shadow: none; border-color: #e5e7eb; }
-
-        .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         
+        .watermark-icon { position: absolute; bottom: -10px; right: -10px; font-size: 80px; opacity: 0.05; transform: rotate(-10deg); pointer-events: none; }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
         
         .status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
@@ -223,7 +196,7 @@
                 
                 <div style="margin-bottom:30px;">
                     <button onclick="bukaModalStatistik()" style="background:white; border:1px solid var(--border); padding:10px 20px; border-radius:50px; font-weight:600; font-size:13px; color:var(--text-main); cursor:pointer; box-shadow:var(--shadow-sm);">
-                        <i class="fa-solid fa-chart-pie" style="color:var(--accent); margin-right:5px;"></i> Analisis Daerah
+                        <i class="fa-solid fa-chart-pie" style="color:var(--accent); margin-right:5px;"></i> Analisis Daerah <span style="font-size:10px; color:#ef4444;">(Admin)</span>
                     </button>
                 </div>
 
@@ -298,13 +271,14 @@
 
     Chart.register(ChartDataLabels);
 
-    // --- DATABASE CONFIG: STATUS CHANGED TO CLOSED FOR DEMO ---
+    /* --- PENTING: UBAH STATUS DI SINI (OPEN / CLOSED) ---
+       Kerana ini adalah sistem tanpa database backend, anda perlu ubah 
+       kod ini secara manual dan 'Save' fail HTML ini untuk update status.
+    */
     const DATABASE = [
-        // SAYA UBAH 3 DI BAWAH JADI "CLOSED" UNTUK CONTOH VISUAL
-        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
-        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
-        { status: "CLOSED", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
-        
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SM)", form: "https://forms.gle/7HcFJMhjtJU9GJH97", drive: "https://drive.google.com/drive/folders/1nECbGOLljQhGgC3fypu0KQGGS1-kCIBk", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAjTsBwlwOxsqKtv7pM3U8J8EbgWsQn4FDZWPsBn31hpQEkgr2Tlr_HpKJAr2-c9uqzlI8-iZ-I9an/pub?gid=12154908&single=true&output=csv" },
@@ -327,17 +301,12 @@
         { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "IFAC JAPAN (MENENGAH)", form: "https://forms.gle/KTKNghm9C68txT548", drive: "https://drive.google.com/drive/folders/1C_zQ7C6wA25foKXsVzm7NBw_hHZMg0-f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRI4EW00Y7EWoT7kL2tOmohMG-1UbRapHvMJUOaPFsUetifwSbvq4Myt6bRR15FdZYsaA0fJrwLApNH/pub?gid=474159054&single=true&output=csv" }
     ];
 
-    // --- SEARCH FUNCTION ---
     function searchPublicEvents(query) {
         let filter = query.toUpperCase();
         let cards = document.querySelectorAll('.event-card');
         cards.forEach(card => {
             let title = card.querySelector('.card-title').innerText.toUpperCase();
-            if (title.indexOf(filter) > -1) {
-                card.style.display = "";
-            } else {
-                card.style.display = "none";
-            }
+            if (title.indexOf(filter) > -1) { card.style.display = ""; } else { card.style.display = "none"; }
         });
     }
 
@@ -375,11 +344,8 @@
             let statusText = isOpen ? 'DIBUKA' : 'DITUTUP';
             
             card.className = `event-card ${!isOpen ? 'closed' : ''}`;
-            if(isOpen) {
-                card.onclick = () => bukaPage(idx);
-            } else {
-                card.onclick = () => alert("Pendaftaran bagi acara ini telah ditutup.");
-            }
+            if(isOpen) { card.onclick = () => bukaPage(idx); } 
+            else { card.onclick = () => alert("Pendaftaran bagi acara ini telah ditutup."); }
 
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
             
@@ -400,6 +366,44 @@
             `;
             grid.appendChild(card);
             fetchCount(item.csv, countId, `bar_${idx}`);
+        });
+    }
+
+    // --- UPDATED: RESTRICTED BUTTON LOGIC ---
+    let currentUser = null;
+
+    function bukaModalStatistik() {
+        if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
+            alert("Maaf, fungsi 'Analisis Daerah' hanya untuk Pentadbir (Admin) yang telah log masuk.");
+            return;
+        }
+
+        if(currentIndex===null) return;
+        const d = DATABASE[currentIndex];
+        document.getElementById('public_stats_modal').style.display='flex';
+        
+        // Fetch logic remains the same
+        fetch(d.csv).then(r=>r.text()).then(t=>{
+            const rows = t.trim().split('\n');
+            const stats = {}; let listHtml = "";
+            let iDistrict = 1; let iSchool = 2;
+            for(let i=1; i<rows.length; i++) {
+                if(!rows[i].trim()) continue;
+                let c = parseCSV(rows[i]);
+                let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
+                da = da.replace(/"/g, '').trim().toUpperCase();
+                stats[da] = (stats[da]||0)+1;
+                listHtml += `<tr><td>${i}</td><td>${sc}</td><td>${da}</td></tr>`;
+            }
+            document.getElementById('public_list_body').innerHTML = listHtml;
+            const ctx = document.getElementById('chart_daerah').getContext('2d');
+            if(chartInstance) chartInstance.destroy();
+            const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
+            chartInstance = new Chart(ctx, { 
+                type: 'bar',
+                data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } 
+            });
         });
     }
 
@@ -475,53 +479,20 @@
 
     let chartInstance;
     let currentIndex = null;
-    function bukaModalStatistik() {
-        if(currentIndex===null) return;
-        const d = DATABASE[currentIndex];
-        document.getElementById('public_stats_modal').style.display='flex';
-        fetch(d.csv).then(r=>r.text()).then(t=>{
-            const rows = t.trim().split('\n');
-            const stats = {}; 
-            let listHtml = "";
-            let iDistrict = 1; let iSchool = 2;
-
-            for(let i=1; i<rows.length; i++) {
-                if(!rows[i].trim()) continue;
-                let c = parseCSV(rows[i]);
-                let da = c[iDistrict]||"Lain"; 
-                let sc = c[iSchool]||"-";
-                da = da.replace(/"/g, '').trim().toUpperCase();
-                stats[da] = (stats[da]||0)+1;
-                listHtml += `<tr><td>${i}</td><td>${sc}</td><td>${da}</td></tr>`;
-            }
-            
-            document.getElementById('public_list_body').innerHTML = listHtml;
-            const ctx = document.getElementById('chart_daerah').getContext('2d');
-            if(chartInstance) chartInstance.destroy();
-            const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
-
-            chartInstance = new Chart(ctx, { 
-                type: 'bar',
-                data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
-                options: { 
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
-                    plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } },
-                    scales: { x: { display: false }, y: { grid: { display: false } } }
-                } 
-            });
-        });
-    }
 
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
+        currentUser = user; // SAVE CURRENT USER STATE
         if(user && ALLOWED_ADMINS.includes(user.email)) {
             document.getElementById('admin_login_ui').classList.add('hidden');
             document.getElementById('admin_dashboard_ui').classList.remove('hidden');
             document.getElementById('user_display').innerText = user.email;
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i> <span>${user.email.split('@')[0]}</span>`;
             document.getElementById('btn_auth').classList.add('active');
+        } else {
+            currentUser = null;
         }
     });
 
