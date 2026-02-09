@@ -87,14 +87,10 @@
         .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; width: 0%; transition: width 1s ease; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-        /* --- ADMIN TOOLBAR (CARIAN SEBELAH CETAK) --- */
+        /* ADMIN TOOLBAR */
         .admin-toolbar { background: var(--surface); padding: 15px; border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border: 1px solid var(--border); }
-        
-        /* Container untuk Filter (Kiri) */
         .admin-filters { display: flex; gap: 10px; flex-grow: 1; flex-wrap: wrap; }
         .filter-select { padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none; flex: 1; min-width: 140px; }
-
-        /* Container untuk Cari & Cetak (Kanan - Rapat) */
         .admin-actions-group { display: flex; gap: 5px; align-items: center; }
         .search-box { position: relative; min-width: 200px; }
         .search-box input { width: 100%; padding: 10px 10px 10px 35px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-body); font-family: 'Inter'; font-size: 13px; outline: none; }
@@ -107,36 +103,53 @@
         td { padding: 12px 15px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text-main); vertical-align: middle; }
         tr:hover td { background: #f9fafb; }
 
-        /* --- MODAL SPLIT VIEW (GRAF KIRI, LIST KANAN) --- */
+        /* MODAL SPLIT VIEW */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        /* Lebarkan sikit modal untuk muat split view */
         .modal-box { background: var(--surface); width: 100%; max-width: 800px; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; box-shadow: var(--shadow-lg); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-header { background: var(--primary-dark); color: white; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        
         .modal-body-split { padding: 25px; background: white; display: flex; gap: 30px; overflow-y: auto; align-items: flex-start; }
-        .split-chart { flex: 1.2; min-width: 0; } /* Graf ambil ruang lebih sikit */
-        .split-list { flex: 1; min-width: 0; } /* List di sebelah kanan */
-        
+        .split-chart { flex: 1.2; min-width: 0; }
+        .split-list { flex: 1; min-width: 0; }
         .list-container { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-height: 300px; overflow-y: auto; }
         
+        /* 🔥 TOAST NOTIFICATION CSS (BARU) 🔥 */
+        .toast-box {
+            visibility: hidden;
+            min-width: 280px;
+            background-color: #1f2937; /* Dark Grey */
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px 20px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .toast-box.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .hero-banner { flex-direction: column; text-align: center; gap: 15px; padding-bottom: 30px; }
             .hero-search { width: 100%; }
             .stats-grid { grid-template-columns: 1fr; margin-top: 20px; }
-            
-            /* Admin Toolbar Mobile: Stack nicely */
             .admin-filters { width: 100%; }
             .admin-actions-group { width: 100%; justify-content: space-between; margin-top: 10px; }
             .search-box { flex-grow: 1; min-width: 0; }
-            
-            /* Modal Mobile: Kembali ke Atas-Bawah */
             .modal-body-split { flex-direction: column; gap: 20px; }
             .split-chart, .split-list { width: 100%; }
-            
-            /* Card Table */
             .table-wrapper thead { display: none; }
             .table-wrapper tbody, .table-wrapper tr, .table-wrapper td { display: block; width: 100%; }
             .table-wrapper tr { margin-bottom: 15px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
@@ -148,6 +161,8 @@
     </style>
 </head>
 <body>
+
+    <div id="toast" class="toast-box"><i class="fa-solid fa-circle-exclamation"></i> <span id="toast_msg">Mesej di sini</span></div>
 
     <header>
         <div class="brand" onclick="bukaHome()">
@@ -270,7 +285,6 @@
                     <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">CARTA PENYERTAAN</div>
                     <div style="height:300px;"><canvas id="chart_daerah"></canvas></div>
                 </div>
-                
                 <div class="split-list">
                     <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">SENARAI SEKOLAH</div>
                     <div class="list-container">
@@ -306,10 +320,19 @@
 
     Chart.register(ChartDataLabels);
 
-    /* STATUS SEMUA "OPEN" AGAR FUNGSI - STATUS DAFTAR BORANG */
+    /* --- 🔥 FUNGSI TOAST NOTIFICATION 🔥 --- */
+    function showToast(msg) {
+        const x = document.getElementById("toast");
+        const txt = document.getElementById("toast_msg");
+        txt.innerText = msg;
+        x.className = "toast-box show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); // Hilang lepas 3 saat
+    }
+
     const DATABASE = [
-        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
-        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
+        // STATUS BORANG
+        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
@@ -354,6 +377,7 @@
         const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
         const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
+        
         tabContainer.innerHTML = "";
         categories.forEach(cat => {
             let btn = document.createElement('div');
@@ -362,8 +386,10 @@
             btn.onclick = () => renderDashboardLayout(cat);
             tabContainer.appendChild(btn);
         });
+
         grid.innerHTML = "";
         let data = activeCat === "SEMUA" ? DATABASE : DATABASE.filter(i => i.cat === activeCat);
+        
         data.forEach((item) => {
             let idx = DATABASE.indexOf(item);
             let countId = `mini_${idx}`;
@@ -371,10 +397,33 @@
             let isOpen = item.status === 'OPEN';
             let statusClass = isOpen ? 'status-open' : 'status-closed';
             let statusText = isOpen ? 'DIBUKA' : 'DITUTUP';
+            
             card.className = `event-card ${!isOpen ? 'closed' : ''}`;
-            if(isOpen) { card.onclick = () => bukaPage(idx); } else { card.onclick = () => alert("Pendaftaran bagi acara ini telah ditutup."); }
+            
+            // GUNA FUNGSI TOAST DI SINI
+            if(isOpen) { 
+                card.onclick = () => bukaPage(idx); 
+            } else { 
+                card.onclick = () => showToast("⚠️ Pendaftaran bagi acara ini telah ditutup."); 
+            }
+
             let iconClass = item.cat==="MUZIK"?"fa-music": item.cat==="TARI"?"fa-person-running": item.cat==="TEATER"?"fa-masks-theater":"fa-palette";
-            card.innerHTML = `<i class="fa-solid ${iconClass} watermark-icon"></i><div class="card-top"><div class="status-badge ${statusClass}"><div class="status-dot"></div> ${statusText}</div><div style="font-size:10px; font-weight:700; color:#9ca3af;">${item.sub}</div></div><div class="card-title">${item.title}</div><div><div style="display:flex; justify-content:space-between; font-size:11px; font-weight:600; color:#6b7280; margin-bottom:4px;"><span>Penyertaan</span><span id="${countId}">0</span></div><div class="progress-mini"><div id="bar_${idx}" class="progress-bar"></div></div></div>`;
+            
+            card.innerHTML = `
+                <i class="fa-solid ${iconClass} watermark-icon"></i>
+                <div class="card-top">
+                    <div class="status-badge ${statusClass}"><div class="status-dot"></div> ${statusText}</div>
+                    <div style="font-size:10px; font-weight:700; color:#9ca3af;">${item.sub}</div>
+                </div>
+                <div class="card-title">${item.title}</div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:600; color:#6b7280; margin-bottom:4px;">
+                        <span>Penyertaan</span>
+                        <span id="${countId}">0</span>
+                    </div>
+                    <div class="progress-mini"><div id="bar_${idx}" class="progress-bar"></div></div>
+                </div>
+            `;
             grid.appendChild(card);
             fetchCount(item.csv, countId, `bar_${idx}`);
         });
@@ -383,9 +432,10 @@
     let currentUser = null;
     function bukaModalStatistik() {
         if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
-            alert("Maaf, fungsi 'Analisis Daerah' hanya untuk Pentadbir (Admin) yang telah log masuk.");
+            showToast("⚠️ Maaf, fungsi ini hanya untuk Pentadbir.");
             return;
         }
+
         if(currentIndex===null) return;
         const d = DATABASE[currentIndex];
         document.getElementById('public_stats_modal').style.display='flex';
@@ -421,11 +471,20 @@
         document.getElementById('page_title').innerText = d.title;
         document.getElementById('action_buttons').innerHTML = '';
         if(isOpen) {
-            document.getElementById('action_buttons').innerHTML = `<a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a><a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+            document.getElementById('action_buttons').innerHTML = `
+                <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-check-circle"></i> Daftar Sekarang
+                </a>
+                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
+                    <i class="fa-brands fa-google-drive"></i> Folder Info
+                </a>`;
             document.getElementById('page_status_alert').innerHTML = "";
         } else {
             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN TELAH DITUTUP</div>`;
-            document.getElementById('action_buttons').innerHTML = `<a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+            document.getElementById('action_buttons').innerHTML = `
+                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
+                    <i class="fa-brands fa-google-drive"></i> Folder Info
+                </a>`;
         }
         fetchCount(d.csv, 'page_stat', null);
         currentIndex = idx;
@@ -439,6 +498,7 @@
         document.getElementById('view_admin').classList.add('hidden');
         history.pushState(null, null, window.location.pathname);
     }
+    
     function bukaAdmin() {
         document.getElementById('view_dashboard').classList.add('hidden');
         document.getElementById('view_page').classList.add('hidden');
@@ -480,7 +540,7 @@
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
     auth.onAuthStateChanged(user => {
-        currentUser = user;
+        currentUser = user; // SAVE CURRENT USER STATE
         if(user && ALLOWED_ADMINS.includes(user.email)) {
             document.getElementById('admin_login_ui').classList.add('hidden');
             document.getElementById('admin_dashboard_ui').classList.remove('hidden');
@@ -497,6 +557,7 @@
         const subSelect = document.getElementById('filter_sub');
         subSelect.innerHTML = '<option value="">Pilih Acara...</option>';
         let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
+        
         filtered.forEach((item) => {
             let option = document.createElement('option');
             let globalIdx = DATABASE.indexOf(item);
@@ -504,7 +565,11 @@
             option.innerText = item.title;
             subSelect.appendChild(option);
         });
-        if(subSelect.options.length > 1) { subSelect.selectedIndex = 1; handleSubChange(); }
+
+        if(subSelect.options.length > 1) {
+            subSelect.selectedIndex = 1;
+            handleSubChange();
+        }
     }
 
     let adminData = { heads: [], rows: [] };
@@ -546,7 +611,10 @@
     function renderTable(data) {
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tiada rekod.</td></tr>`; return; }
-        tbody.innerHTML = data.map((r,i)=> `<tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td><td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>`).join('');
+        tbody.innerHTML = data.map((r,i)=> `
+            <tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td>
+            <td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
+        `).join('');
     }
     
     function openDetail(i) {
