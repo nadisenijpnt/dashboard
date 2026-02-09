@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NADI SENI JPNT - Portal Data</title>
+    <title>NADI SENI JPNT - Analisis Data</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,13 +13,26 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        /* --- 1. DESIGN SYSTEM --- */
-        :root { --primary: #0f766e; --accent: #2dd4bf; --bg: #f8fafc; --white: #ffffff; --dark: #1e293b; }
+        /* --- 1. DESIGN SYSTEM (UPDATED) --- */
+        :root { 
+            --primary: #0f766e; 
+            --dark-green-header: #14532d; /* Warna Header Gambar */
+            --bg: #f3f4f6; 
+            --white: #ffffff; 
+            --dark: #1f2937;
+            
+            /* Warna Kad Statistik */
+            --stat-green: #10b981;
+            --stat-red: #dc2626;
+            --stat-blue: #4f46e5;
+            --stat-orange: #d97706;
+        }
+
         * { box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--dark); }
         
-        /* HEADER */
-        header { background: var(--white); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 1000; }
+        /* HEADER NAV (Kekal Putih di atas) */
+        header { background: var(--white); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #e5e7eb; }
         .logo-area { cursor: pointer; }
         .logo-area h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--primary); }
         
@@ -29,42 +42,111 @@
         .btn-login { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
         .btn-login.logged-in { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; min-height: 80vh; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; min-height: 80vh; }
         .hidden { display: none !important; }
 
-        /* --- 2. PUBLIC DASHBOARD --- */
-        .hero-stat { background: white; padding: 40px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        /* --- 2. NEW DASHBOARD STYLE (IMAGE REPLICA) --- */
         
-        /* TABS */
-        .cat-tabs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-btn { padding: 10px 20px; background: white; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 12px; color: #64748b; white-space: nowrap; transition:0.3s; }
-        .tab-btn:hover { background: #f1f5f9; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2); }
+        /* Green Header Box */
+        .dashboard-header-card {
+            background-color: var(--dark-green-header);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .dash-title h2 { margin: 0; font-size: 24px; font-weight: 700; }
+        .dash-title p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
+        .dash-actions button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            margin-left: 8px;
+            transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .dash-actions button:hover { background: rgba(255,255,255,0.3); }
 
-        /* GRID CARDS */
-        .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .menu-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border: 1px solid #e2e8f0; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .menu-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        /* Top 4 Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            padding: 25px;
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+        }
+        .stat-card h3 { margin: 0; font-size: 13px; font-weight: 500; opacity: 0.9; }
+        .stat-card .value { font-size: 36px; font-weight: 800; margin-top: 10px; line-height: 1; }
         
-        .card-tag { position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
-        .tag-muzik { background: #dbeafe; color: #1e40af; }
-        .tag-tari { background: #fef3c7; color: #b45309; }
-        .tag-teater { background: #dcfce7; color: #15803d; }
-        .tag-visual { background: #fce7f3; color: #9d174d; }
+        .bg-green { background-color: var(--stat-green); }
+        .bg-red { background-color: var(--stat-red); }
+        .bg-blue { background-color: var(--stat-blue); }
+        .bg-orange { background-color: var(--stat-orange); }
 
-        .card-title { font-weight: 700; margin-top: 10px; font-size: 13px; line-height: 1.4; min-height: 36px; display: flex; align-items: center; justify-content: center; }
-        .stat-badge { background: #f1f5f9; color: #64748b; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-top: 15px; }
+        /* Category Filter (Tabs) stylized as chips */
+        .filter-area { margin-bottom: 20px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-chip {
+            background: white; border: 1px solid #e5e7eb; padding: 6px 15px;
+            border-radius: 20px; font-size: 12px; font-weight: 600; color: #4b5563;
+            cursor: pointer; white-space: nowrap; transition: 0.2s;
+        }
+        .filter-chip.active { background: var(--dark-green-header); color: white; border-color: var(--dark-green-header); }
 
-        /* --- 3. PAGE VIEW --- */
+        /* Detailed Cards Grid (The "1 FARABI" style cards) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .detail-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .detail-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .card-title { font-weight: 700; font-size: 13px; color: #374151; text-transform: uppercase; }
+        .card-badge { background: #dcfce7; color: #166534; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+
+        /* Progress Bars */
+        .progress-row { margin-bottom: 12px; }
+        .p-label { display: flex; justify-content: space-between; font-size: 11px; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
+        .p-track { height: 6px; background: #e5e7eb; border-radius: 10px; overflow: hidden; }
+        .p-fill { height: 100%; border-radius: 10px; }
+        
+        .fill-main { background-color: #10b981; }
+        .fill-sub { background-color: #3b82f6; }
+        .fill-red { background-color: #ef4444; }
+
+        /* --- 3. PAGE VIEW (EXISTING STYLE) --- */
         .registration-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0; max-width: 800px; margin: 0 auto; text-align: center; }
         .reg-header { background: var(--primary); padding: 40px 20px; color: white; }
         .reg-body { padding: 40px 20px; }
-        
-        .btn-primary-lg { display: inline-block; background: var(--primary); color: white; padding: 15px 40px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 14px; box-shadow: 0 10px 20px -5px rgba(15, 118, 110, 0.4); transition: 0.3s; margin: 10px; width: 100%; max-width: 300px; }
-        .btn-primary-lg:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgba(15, 118, 110, 0.5); }
-        
-        .btn-secondary-lg { display: inline-block; background: #e2e8f0; color: #334155; padding: 15px 40px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 14px; transition: 0.3s; margin: 10px; width: 100%; max-width: 300px; }
-        .btn-secondary-lg:hover { background: #cbd5e1; }
+        .btn-primary-lg { display: inline-block; background: var(--primary); color: white; padding: 15px 40px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 14px; margin: 10px; width: 100%; max-width: 300px; }
+        .btn-secondary-lg { display: inline-block; background: #e2e8f0; color: #334155; padding: 15px 40px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 14px; margin: 10px; width: 100%; max-width: 300px; }
 
         /* --- 4. ADMIN & TABLE --- */
         .admin-header { background: white; padding: 25px; border-radius: 16px; margin-bottom: 20px; }
@@ -72,33 +154,27 @@
         .sub-card { background: white; border: 1px solid #cbd5e1; padding: 15px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; text-align: center; color: #475569; transition: 0.2s; }
         .sub-card:hover { border-color: var(--primary); color: var(--primary); background: #f0fdfa; }
         .sub-card.selected { background: var(--primary); color: white; border-color: var(--primary); }
-
         .table-container { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .data-table th { background: #f8fafc; text-align: left; padding: 15px; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; }
-        
-        .wrap-text { white-space: normal !important; word-wrap: break-word; max-width: 200px; line-height: 1.5; }
-
         .btn-print { background: #10b981; color: white; padding: 10px 20px; border:none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .btn-print:hover { background: #059669; }
 
         /* --- 5. MODAL --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-card { background: white; width: 95%; max-width: 700px; border-radius: 16px; overflow: hidden; animation: slideUp 0.3s ease; max-height: 90vh; display: flex; flex-direction: column; }
         .modal-head { background: var(--primary); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .modal-body { padding: 25px; overflow-y: auto; }
-        
         .detail-row { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
         .label { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .value { font-size: 14px; font-weight: 500; color: #334155; white-space: normal; line-height: 1.5; }
+        .value { font-size: 14px; font-weight: 500; color: #334155; }
         .action-btns { display: flex; gap: 10px; margin-top: 20px; }
         .btn-action { flex: 1; padding: 12px; border-radius: 8px; text-align: center; text-decoration: none; font-size: 13px; font-weight: 700; color: white; }
         .btn-wa { background: #25D366; } .btn-call { background: #3b82f6; }
         .btn-view { background: #3b82f6; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; border:none; cursor: pointer; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @media (max-width: 768px) { .btn-primary-lg, .btn-secondary-lg { width: 100%; max-width: none; } }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -114,20 +190,46 @@
     <div class="container">
 
         <div id="view_dashboard">
-            <div class="hero-stat">
-                <h4 style="margin:0; color:#94a3b8; font-size:12px; text-transform:uppercase;">Jumlah Penyertaan Keseluruhan</h4>
-                <h1 id="grand_total" style="font-size:60px; color:var(--primary); margin:10px 0; line-height:1;">...</h1>
-                <span style="background:#f1f5f9; padding:5px 15px; border-radius:20px; font-size:11px; color:#64748b;">Data Langsung (Live)</span>
+            
+            <div class="dashboard-header-card">
+                <div class="dash-title">
+                    <h2>Analisis Penyertaan</h2>
+                    <p>Rekod penyertaan & statistik pertandingan</p>
+                </div>
+                <div class="dash-actions">
+                    <button onclick="location.reload()">🔄 Reload</button>
+                    <button onclick="window.print()">🖨 Cetak</button>
+                </div>
             </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-weight:700; font-size:18px; color:var(--dark); margin-bottom:15px;">SENARAI PERTANDINGAN</div>
-                <div class="cat-tabs" id="public_tabs"></div>
+
+            <div class="stats-grid">
+                <div class="stat-card bg-green">
+                    <h3>Jumlah Penyertaan</h3>
+                    <div class="value" id="grand_total">0</div>
+                </div>
+                <div class="stat-card bg-red">
+                    <h3>Jumlah Acara</h3>
+                    <div class="value" id="total_events">0</div>
+                </div>
+                <div class="stat-card bg-blue">
+                    <h3>Peratus Data</h3>
+                    <div class="value">100%</div>
+                </div>
+                <div class="stat-card bg-orange">
+                    <h3>Jumlah Rekod</h3>
+                    <div class="value" id="total_records_display">0</div>
+                </div>
             </div>
-            <div id="grid_container" class="grid-menu"></div>
+
+            <div style="margin-bottom: 10px; font-weight: 700; color: #4b5563;">KATEGORI:</div>
+            <div class="filter-area" id="public_tabs"></div>
+
+            <div id="grid_container" class="cards-grid"></div>
+
         </div>
 
         <div id="view_page" class="hidden">
-            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI</button>
+            <button class="nav-btn" onclick="bukaHome()" style="margin-bottom:20px;">← KEMBALI KE DASHBOARD</button>
             <div class="registration-card">
                 <div class="reg-header">
                     <h2 id="page_title" style="margin:0; font-size:24px;">TAJUK</h2>
@@ -137,7 +239,7 @@
                     <div style="margin-bottom: 30px;">
                         <div id="page_stat" style="font-size:50px; font-weight:800; color:var(--primary); line-height:1;">0</div>
                         <div style="font-size:12px; font-weight:600; color:#64748b; margin-bottom:10px;">PENYERTAAN DITERIMA</div>
-                        <button onclick="bukaModalStatistik()" style="background:#f1f5f9; border:none; padding:8px 15px; border-radius:20px; font-size:11px; font-weight:700; color:#0f766e; cursor:pointer;">📊 LIHAT ANALISIS</button>
+                        <button onclick="bukaModalStatistik()" style="background:#f1f5f9; border:none; padding:8px 15px; border-radius:20px; font-size:11px; font-weight:700; color:#0f766e; cursor:pointer;">📊 LIHAT ANALISIS DAERAH</button>
                     </div>
                     <hr style="border:0; border-top:1px solid #f1f5f9; margin: 30px 0;">
                     <div style="display:flex; flex-wrap:wrap; justify-content:center;">
@@ -161,7 +263,7 @@
                         <div><h2 style="margin:0;">Dashboard Admin</h2><p id="user_display" style="margin:5px 0 0; font-size:12px; color:var(--primary);">...</p></div>
                         <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#ef4444; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:700; font-size:11px;">LOG KELUAR</button>
                     </div>
-                    <div class="cat-tabs" id="category_tabs"></div>
+                    <div class="filter-area" id="category_tabs" style="margin-top:20px;"></div>
                 </div>
                 <div id="sub_category_area" class="sub-grid"></div>
                 
@@ -208,7 +310,6 @@
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
     const chartColors = ['#14b8a6', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#10b981', '#6366f1', '#f97316'];
 
-    // WAJIB REGISTER PLUGIN INI UTK KELUAR NOMBOR
     Chart.register(ChartDataLabels);
 
     const DATABASE = [
@@ -248,38 +349,60 @@
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
         if(page && DATABASE[page]) bukaPage(parseInt(page));
-        else renderPublicTabs("SEMUA");
+        else renderDashboardLayout("SEMUA");
+        
+        document.getElementById('total_events').innerText = DATABASE.length;
     }
 
-    // --- TABS & GRID ---
-    function renderPublicTabs(activeCat) {
+    // --- NEW DASHBOARD RENDERING LOGIC ---
+    function renderDashboardLayout(activeCat) {
         const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
         const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
         
+        // Render Chips
         tabContainer.innerHTML = "";
         categories.forEach(cat => {
-            let btn = document.createElement('button');
-            btn.className = `tab-btn ${cat === activeCat ? 'active' : ''}`;
+            let btn = document.createElement('div');
+            btn.className = `filter-chip ${cat === activeCat ? 'active' : ''}`;
             btn.innerText = cat;
-            btn.onclick = () => renderPublicTabs(cat);
+            btn.onclick = () => renderDashboardLayout(cat);
             tabContainer.appendChild(btn);
         });
 
+        // Render Cards (New Design)
         grid.innerHTML = "";
         let data = activeCat === "SEMUA" ? DATABASE : DATABASE.filter(i => i.cat === activeCat);
         
         data.forEach((item) => {
             let idx = DATABASE.indexOf(item);
-            let tagClass = item.cat === "MUZIK" ? "tag-muzik" : item.cat === "TARI" ? "tag-tari" : item.cat === "TEATER" ? "tag-teater" : "tag-visual";
-            let icon = item.cat === "MUZIK" ? "🎵" : item.cat === "TARI" ? "💃" : item.cat === "TEATER" ? "🎭" : "🎨";
             
+            // Simplified Card mimicking the image style
             let card = document.createElement('div');
-            card.className = 'menu-card';
+            card.className = 'detail-card';
             card.onclick = () => bukaPage(idx);
-            card.innerHTML = `<div class="card-tag ${tagClass}">${item.sub}</div><div style="font-size:32px; margin-bottom:10px;">${icon}</div><div class="card-title">${item.title}</div><div class="stat-badge" id="mini_${idx}">Loading...</div>`;
+            
+            // Use existing fetchCount logic but update the ID target
+            let countId = `mini_${idx}`;
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-badge">${item.sub}</div>
+                    <div style="font-size:10px; color:#9ca3af; font-weight:600;">STATUS: DIBUKA</div>
+                </div>
+                <div class="card-title">${item.title}</div>
+                <div style="margin-top:15px;">
+                    <div class="progress-row">
+                        <div class="p-label">
+                            <span>Jumlah Peserta</span>
+                            <span id="${countId}">0</span>
+                        </div>
+                        <div class="p-track"><div class="p-fill fill-main" style="width:100%"></div></div>
+                    </div>
+                </div>
+            `;
             grid.appendChild(card);
-            fetchCount(item.csv, `mini_${idx}`);
+            fetchCount(item.csv, countId);
         });
     }
 
@@ -322,6 +445,7 @@
     function calcTotal() {
         let t=0; document.querySelectorAll('[id^="mini"]').forEach(e => t+=parseInt(e.innerText)||0);
         document.getElementById('grand_total').innerText = t;
+        document.getElementById('total_records_display').innerText = t; // Mirror total
     }
 
     function parseCSV(text) {
@@ -338,7 +462,7 @@
         return result.map(v => v.replace(/^"|"$/g, '').trim());
     }
 
-    // --- MODAL & STATS (FIXED COL) ---
+    // --- MODAL & STATS ---
     let chartInstance;
     let currentIndex = null;
     function bukaModalStatistik() {
@@ -348,9 +472,7 @@
         fetch(d.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const stats = {}; const list = [];
-            const headers = parseCSV(rows[0]);
             
-            // HARDCODED COLUMNS
             let iSchool = 2; let iDistrict = 1;
 
             for(let i=1; i<rows.length; i++) {
@@ -365,13 +487,12 @@
             }
             
             document.getElementById('public_list_body').innerHTML = list.map((x,i)=>
-                `<tr><td>${i+1}</td><td class="wrap-text">${x.s}</td><td>${x.d}</td></tr>`
+                `<tr><td>${i+1}</td><td style="white-space:normal;">${x.s}</td><td>${x.d}</td></tr>`
             ).join('');
             
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
             
-            // CHART CONFIG WITH LABELS
             chartInstance = new Chart(ctx, { 
                 type: 'pie', 
                 data: {
@@ -417,7 +538,9 @@
     function renderAdminTabs(active) {
         const c = document.getElementById('category_tabs'); c.innerHTML="";
         ["MUZIK","TARI","TEATER","SENI VISUAL"].forEach(cat=>{
-            let b = document.createElement('button'); b.className=`tab-btn ${cat===active?'active':''}`; b.innerText=cat;
+            let b = document.createElement('div'); 
+            b.className=`filter-chip ${cat===active?'active':''}`; 
+            b.innerText=cat;
             b.onclick=()=>{ renderAdminTabs(cat); }; c.appendChild(b);
         });
         const sub = document.getElementById('sub_category_area'); sub.innerHTML="";
@@ -440,16 +563,10 @@
         fetch(item.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const heads = parseCSV(rows[0]);
-            adminData = []; // Store raw data for printing
+            adminData = []; 
             
-            // STORE HEADERS & FULL ROWS FOR PRINTING
-            // Create specific object for template
-            adminData = [];
-            
-            // HARDCODED COLUMNS
             let iSchool = 2; let iDistrict = 1;
 
-            // Save Metadata for Printing
             adminData.heads = heads;
             adminData.rows = [];
 
@@ -466,7 +583,7 @@
 
     function renderTable(data) {
         document.getElementById('data_tbody').innerHTML = data.map((r,i)=>`
-            <tr><td>${i+1}</td><td class="wrap-text" style="font-weight:600;color:var(--primary);">${r.s}</td>
+            <tr><td>${i+1}</td><td style="font-weight:600;color:var(--primary);">${r.s}</td>
             <td><span style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">${r.d}</span></td>
             <td><button class="btn-view" onclick='openDetail(${i})'>👁️ LIHAT</button></td></tr>
         `).join('');
@@ -496,45 +613,22 @@
         document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // 🔥 FUNGSI CETAK (PRINT)
     function printAdminData() {
         if(!adminData.rows || adminData.rows.length === 0) { alert("Tiada data untuk dicetak."); return; }
-
         const selectedBtn = document.querySelector('.sub-card.selected');
         const title = selectedBtn ? selectedBtn.innerText : "Senarai Peserta";
-
         let printWindow = window.open('', '', 'height=600,width=800');
-        
         let html = `<html><head><title>Cetak - ${title}</title>`;
-        html += `<style>
-            body { font-family: sans-serif; padding: 20px; }
-            h2 { text-align: center; margin-bottom: 20px; text-transform: uppercase; }
-            table { width: 100%; border-collapse: collapse; font-size: 10px; }
-            th, td { border: 1px solid #333; padding: 5px; text-align: left; vertical-align: top; }
-            th { background-color: #f2f2f2; }
-            @media print { @page { size: landscape; } }
-        </style></head><body>`;
-        
-        html += `<h2>${title}</h2>`;
-        html += `<table><thead><tr><th>#</th>`;
-        
-        // Headers (Skip Timestamp if index 0)
-        adminData.heads.forEach((h, i) => {
-            if(i !== 0) html += `<th>${h}</th>`;
-        });
+        html += `<style>body{font-family:sans-serif;padding:20px;}h2{text-align:center;margin-bottom:20px;text-transform:uppercase;}table{width:100%;border-collapse:collapse;font-size:10px;}th,td{border:1px solid #333;padding:5px;text-align:left;vertical-align:top;}th{background-color:#f2f2f2;}@media print{@page{size:landscape;}}</style></head><body>`;
+        html += `<h2>${title}</h2><table><thead><tr><th>#</th>`;
+        adminData.heads.forEach((h, i) => { if(i !== 0) html += `<th>${h}</th>`; });
         html += `</tr></thead><tbody>`;
-
-        // Rows
         adminData.rows.forEach((row, index) => {
             html += `<tr><td>${index+1}</td>`;
-            row.full.forEach((cell, i) => {
-                if(i !== 0) html += `<td>${cell.replace(/"/g, '')}</td>`;
-            });
+            row.full.forEach((cell, i) => { if(i !== 0) html += `<td>${cell.replace(/"/g, '')}</td>`; });
             html += `</tr>`;
         });
-
         html += `</tbody></table></body></html>`;
-
         printWindow.document.write(html);
         printWindow.document.close();
         printWindow.print();
