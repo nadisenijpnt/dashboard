@@ -131,6 +131,7 @@
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
+        /* 🔥 MOBILE FIXES 🔥 */
         @media (max-width: 768px) {
             .hero-banner { flex-direction: column; gap: 15px; text-align: center; align-items: stretch; }
             .hero-text h2 { font-size: 18px; }
@@ -139,20 +140,53 @@
             .hero-actions .btn-glass { width: 100%; }
             .stats-grid { grid-template-columns: 1fr; gap: 15px; }
             
-            /* 🔥 PEMBAIKAN: TABLE MOBILE ALIGN LEFT 🔥 */
+            /* --- FIX ADMIN TABLET/MOBILE LAYOUT --- */
+            .admin-toolbar { flex-direction: column; align-items: stretch; }
+            .admin-filters { flex-direction: column; width: 100%; }
+            .filter-select { width: 100%; margin-bottom: 5px; }
+            .admin-actions-group { width: 100%; flex-wrap: wrap; gap: 10px; }
+            .admin-actions-group input { width: 100% !important; flex: 100%; } /* Search box full width */
+            .admin-actions-group button { flex: 1; } /* Buttons share space */
+
+            /* --- FIX TABLE LIST ALIGNMENT (LEFT) --- */
             .table-container thead { display: none; }
             .table-container tr { display: block; margin: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-            /* Force semua text ke kiri */
-            .table-container td { display: flex; justify-content: space-between; padding: 8px 0; border: none; font-size: 13px; text-align: left !important; }
-            .table-container td:before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 11px; text-transform: uppercase; margin-right: 10px; }
+            
+            /* Paksa semua content dalam TD ke KIRI */
+            .table-container td { 
+                display: block; 
+                width: 100%;
+                text-align: left !important; /* 🔥 FORCE LEFT 🔥 */
+                padding: 5px 0; 
+                border: none; 
+                font-size: 13px; 
+            }
+            
+            /* Label kecil di atas setiap data (cth: DAERAH) */
+            .table-container td:before { 
+                content: attr(data-label); 
+                font-weight: 700; 
+                color: #94a3b8; 
+                font-size: 10px; 
+                text-transform: uppercase; 
+                display: block; /* Label duduk atas */
+                margin-bottom: 2px;
+            }
+            
+            /* Sembunyikan column # */
             .table-container td:first-child { display: none; }
             
+            /* Special style for School Name (Heading) */
+            .table-container td[data-label="SEKOLAH"], 
+            .table-container td:nth-child(2) { 
+                font-weight: 700; font-size: 14px; color: var(--primary); 
+                padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px;
+            }
+            .table-container td[data-label="SEKOLAH"]:before,
+            .table-container td:nth-child(2):before { display: none; } /* Hide label for title */
+
             .analysis-layout { flex-direction: column; height: auto; }
             .analysis-list { border-left: none; border-top: 1px solid #e2e8f0; height: 350px; }
-            
-            /* Admin Mobile */
-            .admin-actions-group { width: 100%; }
-            .search-box { width: 100%; }
         }
     </style>
 </head>
@@ -322,9 +356,10 @@
     const LINK_BORANG = "https://script.google.com/macros/s/AKfycbybtQd4rMH_mws9T0iwMC1FOvxiydh9xbKvTsOU1Zqxv-LHxAWzWXwFgg_WuTa7FstZSw/exec";
     const TEKNIKAL_WASAP = "60193232323";
 
+    /* 🔥 #TARIKH PERTANDINGAN & ##STATUS PENDAFTARAN 🔥 */
     const DATABASE = [
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", date: "15 Julai 2026" },
-        { status: "CLOSE", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026" },
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", date: "17 Julai 2026" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE REKORDER & GENDERANG (SR)", date: "18 Julai 2026" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE KIBOD MUSIC TIME (SR)", date: "19 Julai 2026" },
@@ -371,25 +406,41 @@
             document.getElementById('grand_total').innerText = GLOBAL_DATA.length;
             document.getElementById('total_schools_unique').innerText = uniqueSchools.size;
 
-            renderDashboardLayout("SEMUA");
+            const params = new URLSearchParams(window.location.search);
+            const page = params.get('page');
+            if(page && DATABASE[page]) bukaPage(parseInt(page));
+            else renderDashboardLayout("SEMUA");
+
         } catch (error) { console.error(error); renderDashboardLayout("SEMUA"); }
     }
 
     function parseMasterData(csvText) {
         const rows = csvText.trim().split('\n');
+        const headers = parseCSVLine(rows[0]);
         GLOBAL_DATA = [];
         for (let i = 1; i < rows.length; i++) {
-            let row = rows[i];
-            let cols = []; let cell = ''; let inQuote = false;
-            for (let c = 0; c < row.length; c++) {
-                if (row[c] === '"') inQuote = !inQuote;
-                else if (row[c] === ',' && !inQuote) { cols.push(cell.trim().replace(/^"|"$/g, '')); cell = ''; }
-                else cell += row[c];
-            }
-            cols.push(cell.trim().replace(/^"|"$/g, ''));
+            const cols = parseCSVLine(rows[i]); 
             if (cols.length < 3) continue;
-            GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase(), full: cols });
+            GLOBAL_DATA.push({
+                event: cols[0].trim(),
+                district: cols[1].trim().toUpperCase(),
+                school: cols[2].trim().toUpperCase(),
+                full: cols,
+                heads: headers
+            });
         }
+    }
+
+    function parseCSVLine(text) {
+        let result = []; let cell = ''; let inQuote = false;
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            if (char === '"') inQuote = !inQuote;
+            else if (char === ',' && !inQuote) { result.push(cell.trim().replace(/^"|"$/g, '')); cell = ''; }
+            else cell += char;
+        }
+        result.push(cell.trim().replace(/^"|"$/g, ''));
+        return result;
     }
 
     // --- DASHBOARD UI ---
@@ -478,8 +529,19 @@
     function openEventStats() {
         document.getElementById('data_modal').style.display = 'flex';
         document.getElementById('data_modal_title').innerText = "Senarai Acara & Tarikh Penting";
+        
+        // TABLE HEADER
         let thead = `<tr><th>Kategori</th><th>Acara</th><th>Tarikh</th></tr>`;
-        let tbody = DATABASE.map(d => `<tr><td><span style="font-size:10px; font-weight:700; padding:2px 6px; background:#f1f5f9; border-radius:4px;">${d.cat}</span></td><td style="font-weight:600;">${d.title}</td><td>${d.date}</td></tr>`).join('');
+        
+        // TABLE BODY
+        let tbody = DATABASE.map(d => `
+            <tr>
+                <td data-label="KATEGORI"><span style="font-size:10px; font-weight:700; padding:2px 6px; background:#f1f5f9; border-radius:4px;">${d.cat}</span></td>
+                <td data-label="ACARA" style="font-weight:600;">${d.title}</td>
+                <td data-label="TARIKH">${d.date}</td>
+            </tr>
+        `).join('');
+        
         document.getElementById('modal_thead').innerHTML = thead;
         document.getElementById('modal_tbody').innerHTML = tbody;
     }
@@ -490,7 +552,14 @@
         document.getElementById('data_modal_title').innerText = "Senarai Penuh Penyertaan Sekolah";
         let thead = `<tr><th width="5%">#</th><th>Nama Sekolah</th><th>Daerah</th><th>Acara Disertai</th></tr>`;
         let sortedData = [...GLOBAL_DATA].sort((a,b) => a.district.localeCompare(b.district) || a.school.localeCompare(b.school));
-        let tbody = sortedData.map((d, i) => `<tr><td data-label="#">${i+1}</td><td data-label="SEKOLAH" style="font-weight:600; color:#0f766e;">${d.school}</td><td data-label="DAERAH">${d.district}</td><td data-label="ACARA" style="font-size:11px; color:#64748b;">${d.event}</td></tr>`).join('');
+        let tbody = sortedData.map((d, i) => `
+            <tr>
+                <td data-label="#">${i+1}</td>
+                <td data-label="SEKOLAH" style="font-weight:600; color:#0f766e;">${d.school}</td>
+                <td data-label="DAERAH">${d.district}</td>
+                <td data-label="ACARA" style="font-size:11px; color:#64748b;">${d.event}</td>
+            </tr>
+        `).join('');
         if(sortedData.length === 0) tbody = `<tr><td colspan="4" style="text-align:center; padding:20px;">Tiada data rekod.</td></tr>`;
         document.getElementById('modal_thead').innerHTML = thead;
         document.getElementById('modal_tbody').innerHTML = tbody;
@@ -499,19 +568,13 @@
     // 3. ANALISIS CHART & LIST
     let chartInstance;
     function openAnalysis(eventName) {
-        // 🔥 LOGIK: Filter data yang mengandungi nama acara 🔥
         const eventData = GLOBAL_DATA.filter(row => isEventMatch(row.event, eventName));
-        
         document.getElementById('analysis_modal').style.display = 'flex';
         document.getElementById('analysis_modal_title').innerText = eventName;
-        
-        // Render List Default (Semua)
         renderAnalysisList(eventData);
 
-        // Render Chart
         const stats = {};
         eventData.forEach(d => { stats[d.district] = (stats[d.district] || 0) + 1; });
-        
         const ctx = document.getElementById('chart_daerah').getContext('2d');
         if(chartInstance) chartInstance.destroy();
         const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
@@ -523,14 +586,11 @@
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                 layout: { padding: { right: 40 } },
                 onClick: (e, elements) => {
-                    // 🔥 LOGIK KLIK BARU: KLIK BAR UNTUK TAPIS 🔥
                     if (elements && elements.length > 0) {
                         const index = elements[0].index;
                         const label = chartInstance.data.labels[index];
-                        // Tapis senarai berdasarkan daerah yg diklik
                         renderAnalysisList(eventData.filter(s => s.district === label));
                     } else {
-                        // Reset jika klik luar bar
                         renderAnalysisList(eventData); 
                     }
                 },
@@ -573,7 +633,7 @@
         document.getElementById('view_admin').classList.remove('hidden');
     }
 
-    const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"]; // Masukkan email admin disini
+    const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"]; 
 
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
@@ -585,7 +645,6 @@
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i>`;
             document.getElementById('user_display').innerText = user.email;
             
-            // Load Admin Options
             const cat = document.getElementById('filter_category').value;
             const subSelect = document.getElementById('filter_sub');
             subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
@@ -598,7 +657,6 @@
         }
     });
 
-    // --- ADMIN FILTER LOGIC ---
     let currentAdminDataForPrint = [];
 
     function filterAdminData() {
@@ -627,11 +685,55 @@
             <tr>
                 <td>${i+1}</td>
                 <td data-label="SEKOLAH">${r.school}</td>
-                <td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td>
+                <td data-label="ACARA"><span style="font-size:10px; background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td>
                 <td data-label="DAERAH">${r.district}</td>
                 <td><button style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-eye"></i></button></td>
             </tr>
         `).join('');
+    }
+
+    function renderAdminSubOptions() {
+        const subSelect = document.getElementById('filter_sub');
+        subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
+        const cat = document.getElementById('filter_category').value;
+        let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
+        filtered.forEach((item) => {
+            let option = document.createElement('option');
+            option.value = item.title; option.innerText = item.title;
+            subSelect.appendChild(option);
+        });
+        filterAdminData();
+    }
+
+    function openDetailGlobal(i) {
+        const d = currentAdminDataForPrint[i];
+        document.getElementById('modal_school_name').innerText = d.school;
+        let grid = ""; let phone = "";
+        d.heads.forEach((h, idx) => {
+            if(idx===0) return;
+            let val = d.full[idx] || "-"; val = val.replace(/"/g, ''); 
+            if(h.toUpperCase().includes('TELEFON') || h.toUpperCase().includes('HP')) { phone = val.replace(/[^0-9]/g,''); if(!phone.startsWith('6')) phone='6'+phone; }
+            grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${h}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`;
+        });
+        document.getElementById('modal_grid_content').innerHTML = grid;
+        let f = "";
+        if(phone) f += `<a href="https://wa.me/${phone}" target="_blank" style="flex:1; background:#22c55e; color:white; text-align:center; padding:12px; border-radius:8px; text-decoration:none; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>`;
+        document.getElementById('modal_footer_actions').innerHTML = f;
+        document.getElementById('detail_modal').style.display = 'flex';
+    }
+
+    // PRINT FUNCTION WITH POPUP
+    function printAdminData() {
+        if(!currentAdminDataForPrint || currentAdminDataForPrint.length === 0) { alert("Tiada data."); return; }
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) { alert("Sila benarkan popup untuk mencetak."); return; }
+        let headerHTML = ""; currentAdminDataForPrint[0].heads.forEach((h,i) => { if(i!==0) headerHTML += `<th>${h}</th>`; });
+        let rowsHTML = ""; currentAdminDataForPrint.forEach((row, index) => {
+            rowsHTML += `<tr><td>${index+1}</td>`; row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); rowsHTML += `</tr>`;
+        });
+        const content = `<html><head><title>Laporan Data</title><style>body{font-family:sans-serif;font-size:10pt;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #333;padding:5px;text-align:left;}th{background-color:#eee;}@page{size:landscape;}</style></head><body><h1>LAPORAN DATA PESERTA</h1><table><thead><tr><th>BIL</th>${headerHTML}</tr></thead><tbody>${rowsHTML}</tbody></table></body></html>`;
+        printWindow.document.write(content); printWindow.document.close();
+        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
     }
 
     window.addEventListener('DOMContentLoaded', initSystem);
