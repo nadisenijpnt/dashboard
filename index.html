@@ -18,6 +18,7 @@
         :root {
             --bg-body: #f8fafc; --text-main: #1e293b; --text-muted: #64748b;
             --primary: #0f766e; --card-bg: #ffffff; --radius: 12px;
+            --accent: #f59e0b; /* Warna Oren untuk butang Folder */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -83,7 +84,7 @@
         .status-dot.active { background: #22c55e; box-shadow: 0 0 0 2px #dcfce7; }
         .count-badge { background: #f8fafc; color: #64748b; font-size: 12px; padding: 5px 12px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid #e2e8f0; }
 
-        /* 🔥 NEW PAGE VIEW DESIGN 🔥 */
+        /* PAGE VIEW DESIGN */
         .page-card { background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; max-width: 800px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; }
         .page-header-bg { height: 100px; width: 100%; background: #e2e8f0; position: relative; margin-bottom: 40px; }
         .page-icon-wrapper { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 4px solid white; }
@@ -99,21 +100,18 @@
         .page-stat-num { font-size: 36px; font-weight: 800; color: #334155; line-height: 1; }
         .page-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-bottom: 5px; }
 
-        /* Colorful Action Buttons */
+        /* Action Buttons */
         .btn-act-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .btn-act { padding: 25px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; border: 1px solid transparent; transition: 0.2s; background: #fff; }
         .btn-act span { font-size: 14px; font-weight: 600; color: #475569; }
         .btn-act i { font-size: 28px; }
-        
         .btn-act:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        
-        /* Specific Colors */
         .act-info { background: #eff6ff; color: #1e40af; border-color: #dbeafe; } .act-info i { color: #3b82f6; }
         .act-reg { background: #ecfdf5; color: #064e3b; border-color: #d1fae5; } .act-reg i { color: #10b981; }
         .act-ana { background: #fffbeb; color: #78350f; border-color: #fef3c7; } .act-ana i { color: #f59e0b; }
         .act-con { background: #fdf2f8; color: #831843; border-color: #fce7f3; } .act-con i { color: #ec4899; }
 
-        /* ADMIN TOOLBAR */
+        /* ADMIN TOOLBAR & TABLE */
         .admin-toolbar { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .admin-flex-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
         .admin-filters { display: flex; gap: 10px; flex: 1; min-width: 300px; }
@@ -122,6 +120,10 @@
         .form-input { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 250px; outline: none; font-size: 13px; }
         .btn-primary { background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
         .btn-print { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+        
+        /* 🔥 BUTANG FOLDER (ADMIN) 🔥 */
+        .btn-folder-view { background: var(--accent); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-folder-view:hover { background: #d97706; transform: scale(1.05); }
 
         /* MODAL */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
@@ -146,6 +148,7 @@
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
+        /* 🔥 MOBILE FIXES 🔥 */
         @media (max-width: 768px) {
             .hero-banner { flex-direction: column; gap: 15px; text-align: center; align-items: stretch; }
             .hero-text h2 { font-size: 18px; }
@@ -156,9 +159,10 @@
             .admin-flex-row { flex-direction: column; align-items: stretch; }
             .admin-filters { flex-direction: column; width: 100%; min-width: auto; }
             .form-select { max-width: none; width: 100%; }
-            .admin-actions { flex-direction: column; width: 100%; }
+            .admin-actions { flex-direction: column; width: 100%; gap: 10px; }
             .form-input { width: 100%; }
             .btn-primary, .btn-print { width: 100%; justify-content: center; }
+            
             .table-container thead { display: none; }
             .table-container tr { display: block; margin: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
             .table-container td { display: block; width: 100%; text-align: left !important; padding: 5px 0; border: none; font-size: 13px; }
@@ -166,6 +170,10 @@
             .table-container td:first-child { display: none; }
             .table-container td[data-label="SEKOLAH"], .table-container td:nth-child(2) { font-weight: 700; font-size: 14px; color: var(--primary); padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px; }
             .table-container td[data-label="SEKOLAH"]:before, .table-container td:nth-child(2):before { display: none; }
+            
+            /* Align Folder Button for Mobile */
+            .table-container td:last-child { display: flex; justify-content: flex-end; padding-top: 10px; border-top: 1px dashed #e2e8f0; margin-top: 5px; }
+            
             .analysis-layout { flex-direction: column; height: auto; }
             .analysis-list { border-left: none; border-top: 1px solid #e2e8f0; height: 350px; }
             .page-body { padding: 0 20px 30px 20px; }
@@ -222,8 +230,8 @@
 
         <div id="view_page" class="hidden">
             <button onclick="bukaHome()" style="background:none; border:none; margin-bottom:20px; color:#64748b; font-weight:600; cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Kembali ke Utama</button>
-            
-            <div id="page_card_container"></div> </div>
+            <div id="page_card_container"></div>
+        </div>
 
         <div id="view_admin" class="hidden">
             <div id="admin_login_ui" style="display:flex; justify-content:center; align-items:center; min-height:60vh;">
@@ -361,7 +369,7 @@
             for (let c = 0; c < row.length; c++) { if (row[c] === '"') inQuote = !inQuote; else if (row[c] === ',' && !inQuote) { cols.push(cell.trim().replace(/^"|"$/g, '')); cell = ''; } else cell += row[c]; }
             cols.push(cell.trim().replace(/^"|"$/g, ''));
             if (cols.length < 3) continue;
-            GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase(), full: cols });
+            GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase(), heads: rows[0].split(','), full: cols });
         }
     }
 
@@ -386,43 +394,18 @@
         });
     }
 
-    // 🔥 NEW PAGE VIEW LOGIC 🔥
     function bukaPage(idx) {
         document.getElementById('view_dashboard').classList.add('hidden');
         document.getElementById('view_page').classList.remove('hidden');
         const d = DATABASE[idx];
         const count = GLOBAL_DATA.filter(row => isEventMatch(row.event, d.title)).length;
-        
         let isOpen = d.status === 'OPEN';
         let alertHtml = !isOpen ? `<div style="background:#fee2e2; color:#b91c1c; padding:10px; border-radius:8px; font-weight:700; margin-bottom:20px;">🚫 PENDAFTARAN DITUTUP</div>` : "";
-        
-        // Tentukan Theme
         let themeClass = "pg-theme-muzik";
         if(d.cat === "TARI") themeClass = "pg-theme-tari";
         if(d.cat === "TEATER") themeClass = "pg-theme-teater";
         if(d.cat === "SENI VISUAL") themeClass = "pg-theme-visual";
-
-        let html = `
-            <div class="page-card ${themeClass}">
-                <div class="page-header-bg">
-                    <div class="page-icon-wrapper"><i class="fa-solid fa-pen-nib"></i></div>
-                </div>
-                <div class="page-body">
-                    <h2 class="page-title">${d.title}</h2>
-                    ${alertHtml}
-                    <div class="page-stat-box">
-                        <span class="page-stat-label">Penyertaan Terkini</span>
-                        <span class="page-stat-num">${count}</span>
-                    </div>
-                    <div class="btn-act-grid">
-                        <a href="${d.drive}" target="_blank" class="btn-act act-info"><i class="fa-regular fa-file-pdf"></i><span>Kertas Konsep</span></a>
-                        <a onclick="${isOpen ? `window.open('${LINK_BORANG}','_blank')` : `showToast('Tutup')`}" class="btn-act act-reg"><i class="fa-solid fa-pen-to-square"></i><span>Pendaftaran</span></a>
-                        <div class="btn-act act-ana" onclick="openAnalysis('${d.title}')"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></div>
-                        <a href="https://wa.me/${TEKNIKAL_WASAP}" target="_blank" class="btn-act act-con"><i class="fa-brands fa-whatsapp"></i><span>Hubungi</span></a>
-                    </div>
-                </div>
-            </div>
-        `;
+        let html = `<div class="page-card ${themeClass}"><div class="page-header-bg"><div class="page-icon-wrapper"><i class="fa-solid fa-pen-nib"></i></div></div><div class="page-body"><h2 class="page-title">${d.title}</h2>${alertHtml}<div class="page-stat-box"><span class="page-stat-label">Penyertaan Terkini</span><span class="page-stat-num">${count}</span></div><div class="btn-act-grid"><a href="${d.drive}" target="_blank" class="btn-act act-info"><i class="fa-regular fa-file-pdf"></i><span>Kertas Konsep</span></a><a onclick="${isOpen ? `window.open('${LINK_BORANG}','_blank')` : `showToast('Tutup')`}" class="btn-act act-reg"><i class="fa-solid fa-pen-to-square"></i><span>Pendaftaran</span></a><div class="btn-act act-ana" onclick="openAnalysis('${d.title}')"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></div><a href="https://wa.me/${TEKNIKAL_WASAP}" target="_blank" class="btn-act act-con"><i class="fa-brands fa-whatsapp"></i><span>Hubungi</span></a></div></div></div>`;
         document.getElementById('page_card_container').innerHTML = html;
         window.scrollTo(0,0);
     }
@@ -438,7 +421,6 @@
         cards.forEach(c => { c.style.display = c.innerText.toUpperCase().includes(val.toUpperCase()) ? "" : "none"; });
     }
 
-    // MODAL LOGIC (Simplified)
     function openEventStats() {
         document.getElementById('data_modal').style.display = 'flex';
         document.getElementById('data_modal_title').innerText = "Senarai Acara";
@@ -475,7 +457,6 @@
         for (let i = 0; i < tr.length; i++) { tr[i].style.display = tr[i].innerText.toUpperCase().indexOf(input) > -1 ? "" : "none"; }
     }
 
-    // --- ADMIN ---
     function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"]; 
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
@@ -517,7 +498,15 @@
     function renderAdminTable(data) {
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">Tiada rekod.</td></tr>`; return; }
-        tbody.innerHTML = data.map((r,i)=> `<tr><td>${i+1}</td><td data-label="SEKOLAH">${r.school}</td><td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td><td data-label="DAERAH">${r.district}</td><td><button style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-eye"></i></button></td></tr>`).join('');
+        tbody.innerHTML = data.map((r,i)=> `
+            <tr>
+                <td>${i+1}</td>
+                <td data-label="SEKOLAH">${r.school}</td>
+                <td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td>
+                <td data-label="DAERAH">${r.district}</td>
+                <td data-label="TINDAKAN"><button class="btn-folder-view" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-folder-open"></i></button></td>
+            </tr>
+        `).join('');
     }
 
     function renderAdminSubOptions() {
@@ -530,27 +519,37 @@
 
     function openDetailGlobal(i) {
         const d = currentAdminDataForPrint[i]; document.getElementById('modal_school_name').innerText = d.school;
-        let grid = ""; d.heads.forEach((h, idx) => { if(idx===0) return; let val = d.full[idx] || "-"; val = val.replace(/"/g, ''); grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${h}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`; });
+        let grid = ""; 
+        d.full.forEach((val, idx) => { 
+            let head = d.heads && d.heads[idx] ? d.heads[idx] : "Info"; // Pastikan header ada
+            val = val.replace(/"/g, ''); 
+            grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${head}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`; 
+        });
         document.getElementById('modal_grid_content').innerHTML = grid; document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // 🔥 ROBUST PRINT FUNCTION 🔥
     function printAdminData() {
         if(!currentAdminDataForPrint || currentAdminDataForPrint.length === 0) { alert("Tiada data."); return; }
-        
-        // 1. Open Window
         const printWindow = window.open('', '_blank');
         if (!printWindow) { alert("Sila benarkan popup untuk mencetak."); return; }
-        
-        // 2. Build HTML
-        let headerHTML = ""; currentAdminDataForPrint[0].heads.forEach((h,i) => { if(i!==0) headerHTML += `<th>${h}</th>`; });
-        let rowsHTML = ""; currentAdminDataForPrint.forEach((row, index) => { rowsHTML += `<tr><td>${index+1}</td>`; row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); rowsHTML += `</tr>`; });
+        let headerHTML = ""; 
+        // Jika header wujud dalam data pertama
+        if (currentAdminDataForPrint[0].heads) {
+             currentAdminDataForPrint[0].heads.forEach((h,i) => { if(i!==0) headerHTML += `<th>${h}</th>`; });
+        } else {
+             // Fallback jika header tiada
+             headerHTML = "<th>Data</th>";
+        }
+
+        let rowsHTML = ""; 
+        currentAdminDataForPrint.forEach((row, index) => { 
+            rowsHTML += `<tr><td>${index+1}</td>`; 
+            row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); 
+            rowsHTML += `</tr>`; 
+        });
         
         const content = `<html><head><title>Laporan Data</title><style>body{font-family:sans-serif;font-size:10pt;} table{width:100%;border-collapse:collapse;margin-top:20px;} th,td{border:1px solid #333;padding:8px;text-align:left;} th{background-color:#eee;font-weight:bold;} .header-print { text-align:center; margin-bottom:20px; border-bottom:2px solid #333; padding-bottom:10px; } .header-print h2 { margin:0; font-size:18px; text-transform:uppercase; } .header-print p { margin:5px 0 0; font-size:14px; } @page{size:landscape;}</style></head><body><div class="header-print"><h2>Jabatan Pendidikan Negeri Terengganu</h2><p>SENARAI DATA PENDAFTARAN KESENIAN</p><p style="font-size:12px; margin-top:5px;">Tarikh Cetakan: ${new Date().toLocaleDateString()}</p></div><table><thead><tr><th>BIL</th>${headerHTML}</tr></thead><tbody>${rowsHTML}</tbody></table></body></html>`;
-        
-        // 3. Write & Print with Delay
-        printWindow.document.write(content);
-        printWindow.document.close();
+        printWindow.document.write(content); printWindow.document.close();
         printWindow.focus();
         setTimeout(() => { printWindow.print(); printWindow.close(); }, 800);
     }
