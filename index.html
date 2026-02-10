@@ -30,12 +30,12 @@
         .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo-box { width: 35px; height: 35px; background: var(--primary); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
         .btn-nav { border:none; background:none; color:var(--text-muted); font-weight:600; cursor:pointer; }
-        .btn-auth { background:#e0f2fe; color:#0369a1; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; border:none; }
+        .btn-auth { background:#e0f2fe; color:#0369a1; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; border:none; cursor: pointer; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .hidden { display: none !important; }
 
-        /* HERO BANNER (FIXED HEIGHT & OVERLAP) */
+        /* HERO BANNER */
         .hero-banner {
             background: white; border-radius: 16px; padding: 25px; margin-bottom: 20px;
             display: flex; justify-content: space-between; align-items: center;
@@ -99,7 +99,7 @@
         .btn-action-card:hover { border-color: var(--primary); background: #f0fdfa; color: #115e59; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .btn-action-card i { font-size: 26px; }
 
-        /* MODAL */
+        /* MODAL (POPOUT) */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 900px; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; animation: slideUp 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
         .modal-header { background: white; color: var(--text-main); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
@@ -116,6 +116,15 @@
         td { padding: 12px 20px; border-bottom: 1px solid #e2e8f0; color: #334155; }
         tr:hover { background: #f1f5f9; }
 
+        /* ADMIN SPECIFIC */
+        .admin-toolbar { background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; display:flex; flex-wrap:wrap; gap:10px; }
+        .admin-filters { display:flex; gap:10px; flex-grow:1; flex-wrap:wrap; }
+        .filter-select { padding:10px; border-radius:8px; border:1px solid #cbd5e1; flex:1; min-width:140px; }
+        .admin-actions-group { display:flex; gap:10px; }
+        .btn-action { padding:10px 20px; border-radius:8px; border:none; color:white; font-weight:600; cursor:pointer; }
+        .btn-search-trigger { background: var(--accent); }
+        .btn-print { background: var(--text-main); }
+
         /* TOAST */
         .toast-box { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; opacity: 0; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
@@ -129,13 +138,21 @@
             .hero-actions { flex-direction: column; width: 100%; }
             .hero-actions .btn-glass { width: 100%; }
             .stats-grid { grid-template-columns: 1fr; gap: 15px; }
+            
+            /* 🔥 PEMBAIKAN: TABLE MOBILE ALIGN LEFT 🔥 */
             .table-container thead { display: none; }
             .table-container tr { display: block; margin: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-            .table-container td { display: flex; justify-content: space-between; padding: 8px 0; border: none; font-size: 13px; }
-            .table-container td:before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 11px; text-transform: uppercase; }
+            /* Force semua text ke kiri */
+            .table-container td { display: flex; justify-content: space-between; padding: 8px 0; border: none; font-size: 13px; text-align: left !important; }
+            .table-container td:before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 11px; text-transform: uppercase; margin-right: 10px; }
             .table-container td:first-child { display: none; }
+            
             .analysis-layout { flex-direction: column; height: auto; }
             .analysis-list { border-left: none; border-top: 1px solid #e2e8f0; height: 350px; }
+            
+            /* Admin Mobile */
+            .admin-actions-group { width: 100%; }
+            .search-box { width: 100%; }
         }
     </style>
 </head>
@@ -200,9 +217,44 @@
             </div>
         </div>
 
+        <div id="view_admin" class="hidden">
+            <div id="admin_login_ui" style="display:flex; justify-content:center; align-items:center; min-height:60vh;">
+                <div style="background:white; padding:50px; border-radius:20px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.1); max-width:400px; width:100%;">
+                    <h3>Akses Pentadbir</h3>
+                    <button onclick="loginGoogle()" style="width:100%; background:#2563eb; color:white; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer; margin-top:20px;">Log Masuk Google</button>
+                    <button onclick="bukaHome()" style="background:none; border:none; color:#64748b; margin-top:15px; cursor:pointer; font-size:12px;">Batal</button>
+                </div>
+            </div>
+            <div id="admin_dashboard_ui" class="hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+                    <div><h2 style="margin:0;">Data Peserta</h2><p id="user_display" style="margin:0; font-size:12px; color:var(--text-muted);">...</p></div>
+                    <button onclick="logoutGoogle()" style="background:#fee2e2; border:none; color:#dc2626; padding:8px 15px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;">KELUAR</button>
+                </div>
+                
+                <div class="admin-toolbar">
+                    <div class="admin-filters">
+                        <select id="filter_category" class="filter-select" onchange="renderAdminSubOptions()"><option value="ALL">Semua Kategori</option><option value="MUZIK">Muzik</option><option value="TARI">Tari</option><option value="TEATER">Teater</option><option value="SENI VISUAL">Seni Visual</option></select>
+                        <select id="filter_sub" class="filter-select" onchange="filterAdminData()"><option value="ALL">Semua Acara</option></select>
+                        <select id="filter_district" class="filter-select" onchange="filterAdminData()"><option value="">Semua Daerah</option><option value="BESUT">Besut</option><option value="MARANG">Marang</option><option value="KUALA NERUS">Kuala Nerus</option><option value="KUALA TERENGGANU">K. Terengganu</option><option value="HULU TERENGGANU">H. Terengganu</option><option value="SETIU">Setiu</option><option value="DUNGUN">Dungun</option><option value="KEMAMAN">Kemaman</option></select>
+                    </div>
+                    <div class="admin-actions-group">
+                        <input type="text" id="tableSearch" class="filter-select" placeholder="Cari..." onkeyup="filterAdminData()">
+                        <button onclick="filterAdminData()" class="btn-action btn-search-trigger">Cari</button>
+                        <button onclick="printAdminData()" class="btn-action btn-print">Cetak</button>
+                    </div>
+                </div>
+
+                <div id="loading_msg" class="hidden" style="text-align:center; padding:50px; color:var(--text-muted);">Sedang memproses...</div>
+                
+                <div id="table_area" class="table-wrapper hidden">
+                    <table class="data-table"><thead><tr><th width="5%">#</th><th>Sekolah</th><th>Acara</th><th>Daerah</th><th>Tindakan</th></tr></thead><tbody id="data_tbody"></tbody></table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div id="data_modal" class="modal-overlay">
+    <div id="data_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="data_modal_title" style="margin:0; font-size:16px; font-weight:700;">Senarai</h3>
@@ -222,7 +274,7 @@
         </div>
     </div>
 
-    <div id="analysis_modal" class="modal-overlay">
+    <div id="analysis_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="analysis_modal_title" style="margin:0; font-size:16px; font-weight:700;">Analisis Pendaftaran</h3>
@@ -245,6 +297,19 @@
         </div>
     </div>
 
+    <div id="detail_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
+        <div class="modal-box" style="max-width:650px;">
+            <div class="modal-header">
+                <h3 id="modal_school_name" style="margin:0; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Nama Sekolah</h3>
+                <button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="padding:25px; overflow-y:auto; background:white;">
+                <div style="display:grid; gap:15px;" id="modal_grid_content"></div>
+            </div>
+            <div style="padding:20px; background:#f8fafc; display:flex; gap:10px; border-top:1px solid #e2e8f0;" id="modal_footer_actions"></div>
+        </div>
+    </div>
+
 <script>
     const firebaseConfig = { apiKey: "AIzaSyBXqVEgI1EMzXnmKl4uOaf-npykNn4TDeg", authDomain: "nadisenijpnt.firebaseapp.com", projectId: "nadisenijpnt", storageBucket: "nadisenijpnt.firebasestorage.app", messagingSenderId: "140808067955", appId: "1:140808067955:web:75a432f442ed2240dfc306", measurementId: "G-S0FSJYL6E4" };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -257,11 +322,6 @@
     const LINK_BORANG = "https://script.google.com/macros/s/AKfycbybtQd4rMH_mws9T0iwMC1FOvxiydh9xbKvTsOU1Zqxv-LHxAWzWXwFgg_WuTa7FstZSw/exec";
     const TEKNIKAL_WASAP = "60193232323";
 
-    /* 🔥 #TARIKH PERTANDINGAN & ##STATUS PENDAFTARAN 🔥 */
-    /* PANDUAN EDIT:
-       1. status: "OPEN" = Buka Pendaftaran | "CLOSED" = Tutup Pendaftaran
-       2. date: Ubah tarikh di dalam "..."
-    */
     const DATABASE = [
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", date: "15 Julai 2026" },
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026" },
@@ -311,11 +371,7 @@
             document.getElementById('grand_total').innerText = GLOBAL_DATA.length;
             document.getElementById('total_schools_unique').innerText = uniqueSchools.size;
 
-            const params = new URLSearchParams(window.location.search);
-            const page = params.get('page');
-            if(page && DATABASE[page]) bukaPage(parseInt(page));
-            else renderDashboardLayout("SEMUA");
-
+            renderDashboardLayout("SEMUA");
         } catch (error) { console.error(error); renderDashboardLayout("SEMUA"); }
     }
 
@@ -332,7 +388,7 @@
             }
             cols.push(cell.trim().replace(/^"|"$/g, ''));
             if (cols.length < 3) continue;
-            GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase() });
+            GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase(), full: cols });
         }
     }
 
@@ -406,6 +462,7 @@
     function bukaHome() {
         document.getElementById('view_dashboard').classList.remove('hidden');
         document.getElementById('view_page').classList.add('hidden');
+        document.getElementById('view_admin').classList.add('hidden');
     }
 
     function searchPublicEvents(val) {
@@ -442,21 +499,19 @@
     // 3. ANALISIS CHART & LIST
     let chartInstance;
     function openAnalysis(eventName) {
+        // 🔥 LOGIK: Filter data yang mengandungi nama acara 🔥
         const eventData = GLOBAL_DATA.filter(row => isEventMatch(row.event, eventName));
+        
         document.getElementById('analysis_modal').style.display = 'flex';
         document.getElementById('analysis_modal_title').innerText = eventName;
         
-        // Render List
-        const listBody = document.getElementById('analysis_list_body');
-        if(eventData.length === 0) {
-            listBody.innerHTML = `<tr><td style="text-align:center; padding:20px; color:#999;">Belum ada penyertaan.</td></tr>`;
-        } else {
-            listBody.innerHTML = eventData.map((d, i) => `<tr style="border-bottom:1px solid #eee;"><td style="padding:10px;"><div style="font-weight:600; font-size:13px; color:#334155;">${i+1}. ${d.school}</div><div style="font-size:11px; color:#64748b; margin-top:2px;"><span style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${d.district}</span></div></td></tr>`).join('');
-        }
+        // Render List Default (Semua)
+        renderAnalysisList(eventData);
 
         // Render Chart
         const stats = {};
         eventData.forEach(d => { stats[d.district] = (stats[d.district] || 0) + 1; });
+        
         const ctx = document.getElementById('chart_daerah').getContext('2d');
         if(chartInstance) chartInstance.destroy();
         const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
@@ -467,10 +522,40 @@
             options: {
                 indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                 layout: { padding: { right: 40 } },
+                onClick: (e, elements) => {
+                    // 🔥 LOGIK KLIK BARU: KLIK BAR UNTUK TAPIS 🔥
+                    if (elements && elements.length > 0) {
+                        const index = elements[0].index;
+                        const label = chartInstance.data.labels[index];
+                        // Tapis senarai berdasarkan daerah yg diklik
+                        renderAnalysisList(eventData.filter(s => s.district === label));
+                    } else {
+                        // Reset jika klik luar bar
+                        renderAnalysisList(eventData); 
+                    }
+                },
                 plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', color: '#333', font: { weight: 'bold' } } },
                 scales: { x: { display: false }, y: { grid: { display: false } } }
             } 
         });
+    }
+
+    function renderAnalysisList(data) {
+        const listBody = document.getElementById('analysis_list_body');
+        if(data.length === 0) {
+            listBody.innerHTML = `<tr><td style="text-align:center; padding:20px; color:#999;">Belum ada penyertaan.</td></tr>`;
+        } else {
+            listBody.innerHTML = data.map((d, i) => `
+                <tr style="border-bottom:1px solid #eee;">
+                    <td style="padding:10px;">
+                        <div style="font-weight:600; font-size:13px; color:#334155;">${i+1}. ${d.school}</div>
+                        <div style="font-size:11px; color:#64748b; margin-top:2px;">
+                            <span style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${d.district}</span>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
     }
 
     function filterModalTable(tbodyId = 'modal_tbody') {
@@ -481,7 +566,73 @@
         }
     }
 
-    function bukaAdmin() { alert("Sila gunakan pautan Admin yang disediakan secara berasingan."); }
+    // --- ADMIN & LOGIN ---
+    function bukaAdmin() {
+        document.getElementById('view_dashboard').classList.add('hidden');
+        document.getElementById('view_page').classList.add('hidden');
+        document.getElementById('view_admin').classList.remove('hidden');
+    }
+
+    const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"]; // Masukkan email admin disini
+
+    function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
+    function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
+
+    auth.onAuthStateChanged(user => {
+        if(user && ALLOWED_ADMINS.includes(user.email)) {
+            document.getElementById('admin_login_ui').classList.add('hidden');
+            document.getElementById('admin_dashboard_ui').classList.remove('hidden');
+            document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i>`;
+            document.getElementById('user_display').innerText = user.email;
+            
+            // Load Admin Options
+            const cat = document.getElementById('filter_category').value;
+            const subSelect = document.getElementById('filter_sub');
+            subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
+            DATABASE.forEach(item => {
+                let option = document.createElement('option');
+                option.value = item.title; option.innerText = item.title;
+                subSelect.appendChild(option);
+            });
+            filterAdminData();
+        }
+    });
+
+    // --- ADMIN FILTER LOGIC ---
+    let currentAdminDataForPrint = [];
+
+    function filterAdminData() {
+        const search = document.getElementById('tableSearch').value.toUpperCase();
+        const category = document.getElementById('filter_category').value;
+        const subEventTitle = document.getElementById('filter_sub').value;
+        const district = document.getElementById('filter_district').value.toUpperCase();
+
+        const filtered = GLOBAL_DATA.filter(r => {
+            let matchSearch = (r.school.includes(search) || r.district.includes(search));
+            let eventObj = DATABASE.find(d => isEventMatch(r.event, d.title));
+            let matchCat = category === "ALL" || (eventObj && eventObj.cat === category);
+            let matchEvent = subEventTitle === "ALL" || isEventMatch(r.event, subEventTitle);
+            let matchDist = district === "" || r.district.includes(district);
+            return matchSearch && matchCat && matchEvent && matchDist;
+        });
+
+        currentAdminDataForPrint = filtered;
+        renderAdminTable(filtered);
+    }
+
+    function renderAdminTable(data) {
+        const tbody = document.getElementById('data_tbody');
+        if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">Tiada rekod.</td></tr>`; return; }
+        tbody.innerHTML = data.map((r,i)=> `
+            <tr>
+                <td>${i+1}</td>
+                <td data-label="SEKOLAH">${r.school}</td>
+                <td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td>
+                <td data-label="DAERAH">${r.district}</td>
+                <td><button style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-eye"></i></button></td>
+            </tr>
+        `).join('');
+    }
 
     window.addEventListener('DOMContentLoaded', initSystem);
 </script>
