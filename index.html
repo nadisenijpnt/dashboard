@@ -29,28 +29,17 @@
         .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo-box { width: 35px; height: 35px; background: var(--primary); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
         
-        /* HEADER BUTTONS */
         .nav-actions { display: flex; gap: 8px; align-items: center; }
         .btn-icon-circle { width: 36px; height: 36px; border-radius: 50%; background: #f1f5f9; color: var(--text-muted); border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
         .btn-icon-circle:hover { background: #e2e8f0; color: var(--text-main); }
-        
-        .btn-pill-admin { 
-            background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; 
-            padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; 
-            display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; 
-        }
+        .btn-pill-admin { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
         .btn-pill-admin:hover { background: #d1fae5; }
-        .btn-pill-admin.active { background: #047857; color: white; border-color: #047857; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .hidden { display: none !important; }
 
         /* HERO BANNER */
-        .hero-banner {
-            background: white; border-radius: 16px; padding: 25px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
+        .hero-banner { background: white; border-radius: 16px; padding: 25px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .hero-text h2 { margin: 0; font-size: 20px; color: var(--text-main); }
         .hero-text p { margin: 5px 0 0; color: var(--text-muted); font-size: 13px; }
         .hero-actions { display: flex; gap: 10px; align-items: center; }
@@ -60,11 +49,7 @@
 
         /* STATS CARDS */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 0; margin-bottom: 30px; }
-        .stat-card {
-            padding: 25px; border-radius: 16px; color: white; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
-        }
+        .stat-card { padding: 25px; border-radius: 16px; color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
         .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .g-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
         .g-red { background: linear-gradient(135deg, #dc2626, #b91c1c); }
@@ -79,12 +64,7 @@
         .filter-pill.active { background: var(--text-main); color: white; border-color: var(--text-main); }
 
         .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .event-card { 
-            background: white; border-radius: 16px; padding: 20px; 
-            border: 1px solid #e2e8f0; border-left: 6px solid #cbd5e1; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; transition: 0.2s; 
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
+        .event-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; border-left: 6px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
         .event-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
         .event-card.closed { opacity: 0.75; filter: grayscale(1); background: #f8fafc; }
 
@@ -103,11 +83,45 @@
         .status-dot.active { background: #22c55e; box-shadow: 0 0 0 2px #dcfce7; }
         .count-badge { background: #f8fafc; color: #64748b; font-size: 12px; padding: 5px 12px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid #e2e8f0; }
 
-        /* DETAIL BUTTONS */
-        .details-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
-        .btn-action-card { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; color: #475569; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.2s; }
-        .btn-action-card:hover { border-color: var(--primary); background: #f0fdfa; color: #115e59; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .btn-action-card i { font-size: 26px; }
+        /* 🔥 NEW PAGE VIEW DESIGN 🔥 */
+        .page-card { background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; max-width: 800px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; }
+        .page-header-bg { height: 100px; width: 100%; background: #e2e8f0; position: relative; margin-bottom: 40px; }
+        .page-icon-wrapper { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 4px solid white; }
+        
+        .pg-theme-muzik .page-header-bg { background: linear-gradient(135deg, #3b82f6, #60a5fa); } .pg-theme-muzik .page-icon-wrapper { color: #2563eb; }
+        .pg-theme-tari .page-header-bg { background: linear-gradient(135deg, #a855f7, #c084fc); } .pg-theme-tari .page-icon-wrapper { color: #9333ea; }
+        .pg-theme-teater .page-header-bg { background: linear-gradient(135deg, #f97316, #fb923c); } .pg-theme-teater .page-icon-wrapper { color: #ea580c; }
+        .pg-theme-visual .page-header-bg { background: linear-gradient(135deg, #ec4899, #f472b6); } .pg-theme-visual .page-icon-wrapper { color: #db2777; }
+
+        .page-body { padding: 0 40px 40px 40px; }
+        .page-title { font-size: 22px; font-weight: 800; color: #1e293b; margin: 0 0 10px 0; line-height: 1.3; }
+        .page-stat-box { display: inline-flex; flex-direction: column; align-items: center; background: #f8fafc; padding: 15px 30px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        .page-stat-num { font-size: 36px; font-weight: 800; color: #334155; line-height: 1; }
+        .page-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-bottom: 5px; }
+
+        /* Colorful Action Buttons */
+        .btn-act-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn-act { padding: 25px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; border: 1px solid transparent; transition: 0.2s; background: #fff; }
+        .btn-act span { font-size: 14px; font-weight: 600; color: #475569; }
+        .btn-act i { font-size: 28px; }
+        
+        .btn-act:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        /* Specific Colors */
+        .act-info { background: #eff6ff; color: #1e40af; border-color: #dbeafe; } .act-info i { color: #3b82f6; }
+        .act-reg { background: #ecfdf5; color: #064e3b; border-color: #d1fae5; } .act-reg i { color: #10b981; }
+        .act-ana { background: #fffbeb; color: #78350f; border-color: #fef3c7; } .act-ana i { color: #f59e0b; }
+        .act-con { background: #fdf2f8; color: #831843; border-color: #fce7f3; } .act-con i { color: #ec4899; }
+
+        /* ADMIN TOOLBAR */
+        .admin-toolbar { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .admin-flex-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .admin-filters { display: flex; gap: 10px; flex: 1; min-width: 300px; }
+        .admin-actions { display: flex; gap: 10px; }
+        .form-select { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; font-size: 13px; color: #334155; outline: none; width: 100%; max-width: 200px; }
+        .form-input { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 250px; outline: none; font-size: 13px; }
+        .btn-primary { background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+        .btn-print { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; }
 
         /* MODAL */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
@@ -119,27 +133,12 @@
         .analysis-chart { flex: 1.2; padding: 20px; background: white; display: flex; flex-direction: column; }
         .analysis-list { flex: 1; padding: 20px; background: #f8fafc; overflow-y: auto; border-left: 1px solid #e2e8f0; }
 
-        /* TABLE (DASHBOARD & MODAL) */
+        /* TABLE */
         .table-container { background: white; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         th { background: #f8fafc; padding: 12px 20px; text-align: left; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; text-transform: uppercase; font-size: 11px; }
         td { padding: 12px 20px; border-bottom: 1px solid #e2e8f0; color: #334155; }
         tr:hover { background: #f1f5f9; }
-
-        /* 🔥 ADMIN TOOLBAR & TABLE 🔥 */
-        .admin-toolbar { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .admin-flex-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-        .admin-filters { display: flex; gap: 10px; flex: 1; min-width: 300px; }
-        .admin-actions { display: flex; gap: 10px; }
-        
-        .form-select { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; font-size: 13px; color: #334155; outline: none; width: 100%; max-width: 200px; }
-        .form-input { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 250px; outline: none; font-size: 13px; }
-        
-        .btn-primary { background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
-        .btn-primary:hover { background: #0f172a; }
-        
-        .btn-print { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; }
-        .btn-print:hover { background: #ea580c; }
 
         /* TOAST */
         .toast-box { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; opacity: 0; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
@@ -147,7 +146,6 @@
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        /* 🔥 MOBILE FIXES 🔥 */
         @media (max-width: 768px) {
             .hero-banner { flex-direction: column; gap: 15px; text-align: center; align-items: stretch; }
             .hero-text h2 { font-size: 18px; }
@@ -155,29 +153,22 @@
             .hero-actions { flex-direction: column; width: 100%; }
             .hero-actions .btn-glass { width: 100%; }
             .stats-grid { grid-template-columns: 1fr; gap: 15px; }
-            
-            /* Admin Mobile Layout */
             .admin-flex-row { flex-direction: column; align-items: stretch; }
             .admin-filters { flex-direction: column; width: 100%; min-width: auto; }
             .form-select { max-width: none; width: 100%; }
             .admin-actions { flex-direction: column; width: 100%; }
             .form-input { width: 100%; }
             .btn-primary, .btn-print { width: 100%; justify-content: center; }
-
-            /* Table List Alignment Fix */
             .table-container thead { display: none; }
             .table-container tr { display: block; margin: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
             .table-container td { display: block; width: 100%; text-align: left !important; padding: 5px 0; border: none; font-size: 13px; }
             .table-container td:before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 2px; }
-            .table-container td:first-child { display: none; } /* Hide ID */
-            
-            /* Special style for School Name (Heading) */
-            .table-container td[data-label="SEKOLAH"], 
-            .table-container td:nth-child(2) { font-weight: 700; font-size: 14px; color: var(--primary); padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px; }
+            .table-container td:first-child { display: none; }
+            .table-container td[data-label="SEKOLAH"], .table-container td:nth-child(2) { font-weight: 700; font-size: 14px; color: var(--primary); padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px; }
             .table-container td[data-label="SEKOLAH"]:before, .table-container td:nth-child(2):before { display: none; }
-
             .analysis-layout { flex-direction: column; height: auto; }
             .analysis-list { border-left: none; border-top: 1px solid #e2e8f0; height: 350px; }
+            .page-body { padding: 0 20px 30px 20px; }
         }
     </style>
 </head>
@@ -230,18 +221,9 @@
         </div>
 
         <div id="view_page" class="hidden">
-            <button onclick="bukaHome()" style="background:none; border:none; margin-bottom:20px; color:#64748b; font-weight:600;"><i class="fa-solid fa-arrow-left"></i> Kembali ke Utama</button>
-            <div style="background:white; padding:40px; border-radius:24px; border:1px solid #e2e8f0; text-align:center; max-width:800px; margin:0 auto; box-shadow:0 10px 30px rgba(0,0,0,0.03);">
-                <div style="width:70px; height:70px; background:#f0fdfa; color:#0f766e; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; margin:0 auto 20px;"><i class="fa-solid fa-pen-nib"></i></div>
-                <h2 id="page_title" style="margin:0 0 10px; font-size:20px;">Tajuk</h2>
-                <div id="page_status_alert" style="margin-bottom:20px;"></div>
-                <div style="display:inline-block; padding:15px 30px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0; font-weight:700; color:#334155;">
-                    <span style="font-size:11px; text-transform:uppercase; color:#94a3b8; display:block; letter-spacing:1px;">Penyertaan Terkini</span>
-                    <span id="page_stat" style="font-size:32px;">0</span>
-                </div>
-                <div id="action_buttons" class="details-action-grid"></div>
-            </div>
-        </div>
+            <button onclick="bukaHome()" style="background:none; border:none; margin-bottom:20px; color:#64748b; font-weight:600; cursor:pointer;"><i class="fa-solid fa-arrow-left"></i> Kembali ke Utama</button>
+            
+            <div id="page_card_container"></div> </div>
 
         <div id="view_admin" class="hidden">
             <div id="admin_login_ui" style="display:flex; justify-content:center; align-items:center; min-height:60vh;">
@@ -286,56 +268,25 @@
 
     <div id="data_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="data_modal_title" style="margin:0; font-size:16px; font-weight:700;">Senarai</h3>
-                <button onclick="document.getElementById('data_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+            <div class="modal-header"><h3 id="data_modal_title" style="margin:0; font-size:16px; font-weight:700;">Senarai</h3><button onclick="document.getElementById('data_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button></div>
             <div class="modal-content">
-                <div style="padding:20px;">
-                    <input type="text" id="modalSearch" placeholder="Cari dalam senarai..." style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; outline:none;" onkeyup="filterModalTable('modal_tbody')">
-                </div>
-                <div class="table-container">
-                    <table id="modal_table">
-                        <thead id="modal_thead"></thead>
-                        <tbody id="modal_tbody"></tbody>
-                    </table>
-                </div>
+                <div style="padding:20px;"><input type="text" id="modalSearch" placeholder="Cari dalam senarai..." style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; outline:none;" onkeyup="filterModalTable('modal_tbody')"></div>
+                <div class="table-container"><table id="modal_table"><thead id="modal_thead"></thead><tbody id="modal_tbody"></tbody></table></div>
             </div>
         </div>
     </div>
 
     <div id="analysis_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="analysis_modal_title" style="margin:0; font-size:16px; font-weight:700;">Analisis Pendaftaran</h3>
-                <button onclick="document.getElementById('analysis_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-content">
-                <div class="analysis-layout">
-                    <div class="analysis-chart">
-                        <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:15px; text-transform:uppercase;">Statistik Daerah (Klik Bar untuk Tapis)</div>
-                        <div style="flex:1; position:relative;"><canvas id="chart_daerah"></canvas></div>
-                    </div>
-                    <div class="analysis-list">
-                        <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:15px; text-transform:uppercase;">Senarai Sekolah Terlibat</div>
-                        <table style="width:100%;">
-                            <tbody id="analysis_list_body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <div class="modal-header"><h3 id="analysis_modal_title" style="margin:0; font-size:16px; font-weight:700;">Analisis</h3><button onclick="document.getElementById('analysis_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="modal-content"><div class="analysis-layout"><div class="analysis-chart"><div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:15px; text-transform:uppercase;">Statistik Daerah (Klik Bar untuk Tapis)</div><div style="flex:1; position:relative;"><canvas id="chart_daerah"></canvas></div></div><div class="analysis-list"><div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:15px; text-transform:uppercase;">Senarai Sekolah Terlibat</div><table style="width:100%;"><tbody id="analysis_list_body"></tbody></table></div></div></div>
         </div>
     </div>
 
     <div id="detail_modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
         <div class="modal-box" style="max-width:650px;">
-            <div class="modal-header">
-                <h3 id="modal_school_name" style="margin:0; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Nama Sekolah</h3>
-                <button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="padding:25px; overflow-y:auto; background:white;">
-                <div style="display:grid; gap:15px;" id="modal_grid_content"></div>
-            </div>
+            <div class="modal-header"><h3 id="modal_school_name" style="margin:0; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Nama Sekolah</h3><button onclick="document.getElementById('detail_modal').style.display='none'" style="background:none; border:none; color:var(--text-main); font-size:20px;"><i class="fa-solid fa-xmark"></i></button></div>
+            <div style="padding:25px; overflow-y:auto; background:white;"><div style="display:grid; gap:15px;" id="modal_grid_content"></div></div>
             <div style="padding:20px; background:#f8fafc; display:flex; gap:10px; border-top:1px solid #e2e8f0;" id="modal_footer_actions"></div>
         </div>
     </div>
@@ -352,6 +303,7 @@
     const LINK_BORANG = "https://script.google.com/macros/s/AKfycbybtQd4rMH_mws9T0iwMC1FOvxiydh9xbKvTsOU1Zqxv-LHxAWzWXwFgg_WuTa7FstZSw/exec";
     const TEKNIKAL_WASAP = "60193232323";
 
+    /* 🔥 #TARIKH PERTANDINGAN & ##STATUS PENDAFTARAN 🔥 */
     const DATABASE = [
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", date: "15 Julai 2026" },
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026" },
@@ -380,7 +332,6 @@
 
     let GLOBAL_DATA = [];
 
-    // --- HELPER ---
     function showToast(msg) {
         const x = document.getElementById("toast"); x.innerText = msg; x.className = "toast-box show"; setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
     }
@@ -389,18 +340,15 @@
         return dataEvent.toUpperCase().trim().includes(cardTitle.toUpperCase().trim());
     }
 
-    // --- INIT ---
     async function initSystem() {
         try {
             const response = await fetch(MASTER_CSV_URL);
             const text = await response.text();
             parseMasterData(text);
-            
             const uniqueSchools = new Set(GLOBAL_DATA.map(d => d.school.trim()));
             document.getElementById('total_events').innerText = DATABASE.length;
             document.getElementById('grand_total').innerText = GLOBAL_DATA.length;
             document.getElementById('total_schools_unique').innerText = uniqueSchools.size;
-
             renderDashboardLayout("SEMUA");
         } catch (error) { console.error(error); renderDashboardLayout("SEMUA"); }
     }
@@ -409,83 +357,73 @@
         const rows = csvText.trim().split('\n');
         GLOBAL_DATA = [];
         for (let i = 1; i < rows.length; i++) {
-            let row = rows[i];
-            let cols = []; let cell = ''; let inQuote = false;
-            for (let c = 0; c < row.length; c++) {
-                if (row[c] === '"') inQuote = !inQuote;
-                else if (row[c] === ',' && !inQuote) { cols.push(cell.trim().replace(/^"|"$/g, '')); cell = ''; }
-                else cell += row[c];
-            }
+            let row = rows[i]; let cols = []; let cell = ''; let inQuote = false;
+            for (let c = 0; c < row.length; c++) { if (row[c] === '"') inQuote = !inQuote; else if (row[c] === ',' && !inQuote) { cols.push(cell.trim().replace(/^"|"$/g, '')); cell = ''; } else cell += row[c]; }
             cols.push(cell.trim().replace(/^"|"$/g, ''));
             if (cols.length < 3) continue;
             GLOBAL_DATA.push({ event: cols[0].trim(), district: cols[1].trim().toUpperCase(), school: cols[2].trim().toUpperCase(), full: cols });
         }
     }
 
-    // --- DASHBOARD UI ---
     function renderDashboardLayout(activeCat) {
         const grid = document.getElementById('grid_container');
         const tabContainer = document.getElementById('public_tabs');
-        
         tabContainer.innerHTML = "";
         ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"].forEach(cat => {
-            let btn = document.createElement('div');
-            btn.className = `filter-pill ${cat === activeCat ? 'active' : ''}`;
-            btn.innerText = cat;
-            btn.onclick = () => renderDashboardLayout(cat);
-            tabContainer.appendChild(btn);
+            let btn = document.createElement('div'); btn.className = `filter-pill ${cat === activeCat ? 'active' : ''}`; btn.innerText = cat;
+            btn.onclick = () => renderDashboardLayout(cat); tabContainer.appendChild(btn);
         });
-
         grid.innerHTML = "";
         let data = activeCat === "SEMUA" ? DATABASE : DATABASE.filter(i => i.cat === activeCat);
-
         data.forEach((item, idx) => {
             let idxGlobal = DATABASE.indexOf(item);
             const count = GLOBAL_DATA.filter(row => isEventMatch(row.event, item.title)).length;
             let isOpen = item.status === 'OPEN';
             let themeClass = item.cat === "MUZIK" ? "theme-muzik" : item.cat === "TARI" ? "theme-tari" : item.cat === "TEATER" ? "theme-teater" : "theme-visual";
-            
-            let card = document.createElement('div');
-            card.className = `event-card ${themeClass} ${!isOpen ? 'closed' : ''}`;
-            card.onclick = () => bukaPage(idxGlobal);
-
-            card.innerHTML = `
-                <div class="card-header">
-                    <div class="tag-group">
-                        <span class="tag tag-cat">${item.cat}</span>
-                        <span class="tag tag-sub">${item.sub}</span>
-                    </div>
-                    <div class="status-dot ${isOpen ? 'active' : ''}"></div>
-                </div>
-                <div class="card-title">${item.title}</div>
-                <div class="card-footer">
-                    <div class="count-badge"><i class="fa-solid fa-user-group"></i> ${count}</div>
-                    <div style="font-size:11px; font-weight:700; color:${isOpen?'#059669':'#b91c1c'};">${isOpen ? 'DIBUKA' : 'TUTUP'}</div>
-                </div>
-            `;
+            let card = document.createElement('div'); card.className = `event-card ${themeClass} ${!isOpen ? 'closed' : ''}`; card.onclick = () => bukaPage(idxGlobal);
+            card.innerHTML = `<div class="card-header"><div class="tag-group"><span class="tag tag-cat">${item.cat}</span><span class="tag tag-sub">${item.sub}</span></div><div class="status-dot ${isOpen ? 'active' : ''}"></div></div><div class="card-title">${item.title}</div><div class="card-footer"><div class="count-badge"><i class="fa-solid fa-user-group"></i> ${count}</div><div style="font-size:11px; font-weight:700; color:${isOpen?'#059669':'#b91c1c'};">${isOpen ? 'DIBUKA' : 'TUTUP'}</div></div>`;
             grid.appendChild(card);
         });
     }
 
+    // 🔥 NEW PAGE VIEW LOGIC 🔥
     function bukaPage(idx) {
         document.getElementById('view_dashboard').classList.add('hidden');
         document.getElementById('view_page').classList.remove('hidden');
         const d = DATABASE[idx];
         const count = GLOBAL_DATA.filter(row => isEventMatch(row.event, d.title)).length;
         
-        document.getElementById('page_title').innerText = d.title;
-        document.getElementById('page_stat').innerText = count;
-        
         let isOpen = d.status === 'OPEN';
-        let htmlAlert = !isOpen ? `<div style="color:red; font-size:12px; font-weight:700; background:#fee2e2; padding:10px; border-radius:8px;">PENDAFTARAN DITUTUP</div>` : "";
-        document.getElementById('page_status_alert').innerHTML = htmlAlert;
+        let alertHtml = !isOpen ? `<div style="background:#fee2e2; color:#b91c1c; padding:10px; border-radius:8px; font-weight:700; margin-bottom:20px;">🚫 PENDAFTARAN DITUTUP</div>` : "";
+        
+        // Tentukan Theme
+        let themeClass = "pg-theme-muzik";
+        if(d.cat === "TARI") themeClass = "pg-theme-tari";
+        if(d.cat === "TEATER") themeClass = "pg-theme-teater";
+        if(d.cat === "SENI VISUAL") themeClass = "pg-theme-visual";
 
-        document.getElementById('action_buttons').innerHTML = `
-            <a href="${d.drive}" target="_blank" class="btn-action-card act-info"><i class="fa-regular fa-file-pdf"></i><span>Kertas Konsep</span></a>
-            <a onclick="${isOpen ? `window.open('${LINK_BORANG}','_blank')` : `showToast('Tutup')`}" class="btn-action-card act-reg"><i class="fa-solid fa-pen-to-square"></i><span>Pendaftaran</span></a>
-            <div class="btn-action-card act-ana" onclick="openAnalysis('${d.title}')"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></div>
-            <a href="https://wa.me/${TEKNIKAL_WASAP}" target="_blank" class="btn-action-card act-wasap"><i class="fa-brands fa-whatsapp"></i><span>Hubungi</span></a>
+        let html = `
+            <div class="page-card ${themeClass}">
+                <div class="page-header-bg">
+                    <div class="page-icon-wrapper"><i class="fa-solid fa-pen-nib"></i></div>
+                </div>
+                <div class="page-body">
+                    <h2 class="page-title">${d.title}</h2>
+                    ${alertHtml}
+                    <div class="page-stat-box">
+                        <span class="page-stat-label">Penyertaan Terkini</span>
+                        <span class="page-stat-num">${count}</span>
+                    </div>
+                    <div class="btn-act-grid">
+                        <a href="${d.drive}" target="_blank" class="btn-act act-info"><i class="fa-regular fa-file-pdf"></i><span>Kertas Konsep</span></a>
+                        <a onclick="${isOpen ? `window.open('${LINK_BORANG}','_blank')` : `showToast('Tutup')`}" class="btn-act act-reg"><i class="fa-solid fa-pen-to-square"></i><span>Pendaftaran</span></a>
+                        <div class="btn-act act-ana" onclick="openAnalysis('${d.title}')"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></div>
+                        <a href="https://wa.me/${TEKNIKAL_WASAP}" target="_blank" class="btn-act act-con"><i class="fa-brands fa-whatsapp"></i><span>Hubungi</span></a>
+                    </div>
+                </div>
+            </div>
         `;
+        document.getElementById('page_card_container').innerHTML = html;
         window.scrollTo(0,0);
     }
     
@@ -497,31 +435,21 @@
 
     function searchPublicEvents(val) {
         let cards = document.querySelectorAll('.event-card');
-        cards.forEach(c => {
-            c.style.display = c.innerText.toUpperCase().includes(val.toUpperCase()) ? "" : "none";
-        });
+        cards.forEach(c => { c.style.display = c.innerText.toUpperCase().includes(val.toUpperCase()) ? "" : "none"; });
     }
 
-    // --- MODAL LOGIC ---
-
+    // MODAL LOGIC (Simplified)
     function openEventStats() {
         document.getElementById('data_modal').style.display = 'flex';
-        document.getElementById('data_modal_title').innerText = "Senarai Acara & Tarikh Penting";
-        let thead = `<tr><th>Kategori</th><th>Acara</th><th>Tarikh</th></tr>`;
-        let tbody = DATABASE.map(d => `<tr><td data-label="KATEGORI"><span style="font-size:10px; font-weight:700; padding:2px 6px; background:#f1f5f9; border-radius:4px;">${d.cat}</span></td><td data-label="ACARA" style="font-weight:600;">${d.title}</td><td data-label="TARIKH">${d.date}</td></tr>`).join('');
-        document.getElementById('modal_thead').innerHTML = thead;
-        document.getElementById('modal_tbody').innerHTML = tbody;
+        document.getElementById('data_modal_title').innerText = "Senarai Acara";
+        document.getElementById('modal_tbody').innerHTML = DATABASE.map(d => `<tr><td data-label="KAT"><span style="font-size:10px; font-weight:700; padding:2px 6px; background:#f1f5f9; border-radius:4px;">${d.cat}</span></td><td data-label="ACARA" style="font-weight:600;">${d.title}</td><td data-label="TARIKH">${d.date}</td></tr>`).join('');
     }
 
     function openSchoolStats() {
         document.getElementById('data_modal').style.display = 'flex';
-        document.getElementById('data_modal_title').innerText = "Senarai Penuh Penyertaan Sekolah";
-        let thead = `<tr><th width="5%">#</th><th>Nama Sekolah</th><th>Daerah</th><th>Acara Disertai</th></tr>`;
-        let sortedData = [...GLOBAL_DATA].sort((a,b) => a.district.localeCompare(b.district) || a.school.localeCompare(b.school));
-        let tbody = sortedData.map((d, i) => `<tr><td data-label="#">${i+1}</td><td data-label="SEKOLAH" style="font-weight:600; color:#0f766e;">${d.school}</td><td data-label="DAERAH">${d.district}</td><td data-label="ACARA" style="font-size:11px; color:#64748b;">${d.event}</td></tr>`).join('');
-        if(sortedData.length === 0) tbody = `<tr><td colspan="4" style="text-align:center; padding:20px;">Tiada data rekod.</td></tr>`;
-        document.getElementById('modal_thead').innerHTML = thead;
-        document.getElementById('modal_tbody').innerHTML = tbody;
+        document.getElementById('data_modal_title').innerText = "Senarai Sekolah";
+        let sorted = [...GLOBAL_DATA].sort((a,b) => a.district.localeCompare(b.district) || a.school.localeCompare(b.school));
+        document.getElementById('modal_tbody').innerHTML = sorted.map((d, i) => `<tr><td data-label="#">${i+1}</td><td data-label="SEKOLAH" style="font-weight:600; color:#0f766e;">${d.school}</td><td data-label="DAERAH">${d.district}</td><td data-label="ACARA" style="font-size:11px; color:#64748b;">${d.event}</td></tr>`).join('');
     }
 
     let chartInstance;
@@ -530,60 +458,26 @@
         document.getElementById('analysis_modal').style.display = 'flex';
         document.getElementById('analysis_modal_title').innerText = eventName;
         renderAnalysisList(eventData);
-
-        const stats = {};
-        eventData.forEach(d => { stats[d.district] = (stats[d.district] || 0) + 1; });
+        const stats = {}; eventData.forEach(d => { stats[d.district] = (stats[d.district] || 0) + 1; });
         const ctx = document.getElementById('chart_daerah').getContext('2d');
         if(chartInstance) chartInstance.destroy();
         const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
-
-        chartInstance = new Chart(ctx, { 
-            type: 'bar',
-            data: { labels: Object.keys(stats), datasets: [{ label: 'Jumlah', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 5, barThickness: 20 }] }, 
-            options: {
-                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                layout: { padding: { right: 40 } },
-                onClick: (e, elements) => {
-                    if (elements && elements.length > 0) {
-                        const index = elements[0].index;
-                        const label = chartInstance.data.labels[index];
-                        renderAnalysisList(eventData.filter(s => s.district === label));
-                    } else {
-                        renderAnalysisList(eventData); 
-                    }
-                },
-                plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', color: '#333', font: { weight: 'bold' } } },
-                scales: { x: { display: false }, y: { grid: { display: false } } }
-            } 
-        });
+        chartInstance = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(stats), datasets: [{ label: 'Jumlah', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 5, barThickness: 20 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 40 } }, onClick: (e, elements) => { if (elements && elements.length > 0) { const label = chartInstance.data.labels[elements[0].index]; renderAnalysisList(eventData.filter(s => s.district === label)); } else { renderAnalysisList(eventData); } }, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } });
     }
 
     function renderAnalysisList(data) {
-        const listBody = document.getElementById('analysis_list_body');
-        if(data.length === 0) {
-            listBody.innerHTML = `<tr><td style="text-align:center; padding:20px; color:#999;">Belum ada penyertaan.</td></tr>`;
-        } else {
-            listBody.innerHTML = data.map((d, i) => `<tr style="border-bottom:1px solid #eee;"><td style="padding:10px;"><div style="font-weight:600; font-size:13px; color:#334155;">${i+1}. ${d.school}</div><div style="font-size:11px; color:#64748b; margin-top:2px;"><span style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${d.district}</span></div></td></tr>`).join('');
-        }
+        document.getElementById('analysis_list_body').innerHTML = data.length === 0 ? `<tr><td style="text-align:center; padding:20px; color:#999;">Belum ada penyertaan.</td></tr>` : data.map((d, i) => `<tr style="border-bottom:1px solid #eee;"><td style="padding:10px;"><div style="font-weight:600; font-size:13px; color:#334155;">${i+1}. ${d.school}</div><div style="font-size:11px; color:#64748b; margin-top:2px;"><span style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${d.district}</span></div></td></tr>`).join('');
     }
 
     function filterModalTable(tbodyId = 'modal_tbody') {
         let input = document.getElementById('modalSearch').value.toUpperCase();
         let tr = document.getElementById(tbodyId).getElementsByTagName('tr');
-        for (let i = 0; i < tr.length; i++) {
-            tr[i].style.display = tr[i].innerText.toUpperCase().indexOf(input) > -1 ? "" : "none";
-        }
+        for (let i = 0; i < tr.length; i++) { tr[i].style.display = tr[i].innerText.toUpperCase().indexOf(input) > -1 ? "" : "none"; }
     }
 
-    // --- ADMIN & LOGIN ---
-    function bukaAdmin() {
-        document.getElementById('view_dashboard').classList.add('hidden');
-        document.getElementById('view_page').classList.add('hidden');
-        document.getElementById('view_admin').classList.remove('hidden');
-    }
-
+    // --- ADMIN ---
+    function bukaAdmin() { document.getElementById('view_dashboard').classList.add('hidden'); document.getElementById('view_page').classList.add('hidden'); document.getElementById('view_admin').classList.remove('hidden'); }
     const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"]; 
-
     function loginGoogle() { auth.signInWithPopup(provider).catch(e=>alert(e.message)); }
     function logoutGoogle() { auth.signOut().then(()=>location.reload()); }
 
@@ -594,37 +488,20 @@
             document.getElementById('btn_auth').innerHTML = `<i class="fa-solid fa-unlock"></i>`;
             document.getElementById('btn_auth').classList.add('active');
             document.getElementById('user_display').innerText = user.email;
-            
-            // Show Loading & Fetch Data
             document.getElementById('loading_msg').classList.remove('hidden');
             document.getElementById('table_area').classList.add('hidden');
-            
-            // Populate Dropdown
-            const subSelect = document.getElementById('filter_sub');
-            subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
-            DATABASE.forEach(item => {
-                let option = document.createElement('option');
-                option.value = item.title; option.innerText = item.title;
-                subSelect.appendChild(option);
-            });
-            
-            // Simulate brief loading for UX, then filter
-            setTimeout(() => {
-                document.getElementById('loading_msg').classList.add('hidden');
-                document.getElementById('table_area').classList.remove('hidden');
-                filterAdminData();
-            }, 800);
+            const subSelect = document.getElementById('filter_sub'); subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
+            DATABASE.forEach(item => { let option = document.createElement('option'); option.value = item.title; option.innerText = item.title; subSelect.appendChild(option); });
+            setTimeout(() => { document.getElementById('loading_msg').classList.add('hidden'); document.getElementById('table_area').classList.remove('hidden'); filterAdminData(); }, 800);
         }
     });
 
     let currentAdminDataForPrint = [];
-
     function filterAdminData() {
         const search = document.getElementById('tableSearch').value.toUpperCase();
         const category = document.getElementById('filter_category').value;
         const subEventTitle = document.getElementById('filter_sub').value;
         const district = document.getElementById('filter_district').value.toUpperCase();
-
         const filtered = GLOBAL_DATA.filter(r => {
             let matchSearch = (r.school.includes(search) || r.district.includes(search));
             let eventObj = DATABASE.find(d => isEventMatch(r.event, d.title));
@@ -633,7 +510,6 @@
             let matchDist = district === "" || r.district.includes(district);
             return matchSearch && matchCat && matchEvent && matchDist;
         });
-
         currentAdminDataForPrint = filtered;
         renderAdminTable(filtered);
     }
@@ -641,78 +517,42 @@
     function renderAdminTable(data) {
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">Tiada rekod.</td></tr>`; return; }
-        tbody.innerHTML = data.map((r,i)=> `
-            <tr>
-                <td>${i+1}</td>
-                <td data-label="SEKOLAH">${r.school}</td>
-                <td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td>
-                <td data-label="DAERAH">${r.district}</td>
-                <td><button style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-eye"></i></button></td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = data.map((r,i)=> `<tr><td>${i+1}</td><td data-label="SEKOLAH">${r.school}</td><td data-label="ACARA"><span style="font-size:10px; background:#f3f4f6; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; font-weight:600;">${r.event}</span></td><td data-label="DAERAH">${r.district}</td><td><button style="background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;" onclick='openDetailGlobal(${i})'><i class="fa-solid fa-eye"></i></button></td></tr>`).join('');
     }
 
     function renderAdminSubOptions() {
-        const subSelect = document.getElementById('filter_sub');
-        subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
+        const subSelect = document.getElementById('filter_sub'); subSelect.innerHTML = '<option value="ALL">Semua Acara</option>';
         const cat = document.getElementById('filter_category').value;
         let filtered = cat === "ALL" ? DATABASE : DATABASE.filter(d=>d.cat === cat);
-        filtered.forEach((item) => {
-            let option = document.createElement('option');
-            option.value = item.title; option.innerText = item.title;
-            subSelect.appendChild(option);
-        });
+        filtered.forEach((item) => { let option = document.createElement('option'); option.value = item.title; option.innerText = item.title; subSelect.appendChild(option); });
         filterAdminData();
     }
 
     function openDetailGlobal(i) {
-        const d = currentAdminDataForPrint[i];
-        document.getElementById('modal_school_name').innerText = d.school;
-        let grid = ""; let phone = "";
-        d.heads.forEach((h, idx) => {
-            if(idx===0) return;
-            let val = d.full[idx] || "-"; val = val.replace(/"/g, ''); 
-            if(h.toUpperCase().includes('TELEFON') || h.toUpperCase().includes('HP')) { phone = val.replace(/[^0-9]/g,''); if(!phone.startsWith('6')) phone='6'+phone; }
-            grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${h}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`;
-        });
-        document.getElementById('modal_grid_content').innerHTML = grid;
-        let f = "";
-        if(phone) f += `<a href="https://wa.me/${phone}" target="_blank" style="flex:1; background:#22c55e; color:white; text-align:center; padding:12px; border-radius:8px; text-decoration:none; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>`;
-        document.getElementById('modal_footer_actions').innerHTML = f;
-        document.getElementById('detail_modal').style.display = 'flex';
+        const d = currentAdminDataForPrint[i]; document.getElementById('modal_school_name').innerText = d.school;
+        let grid = ""; d.heads.forEach((h, idx) => { if(idx===0) return; let val = d.full[idx] || "-"; val = val.replace(/"/g, ''); grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${h}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`; });
+        document.getElementById('modal_grid_content').innerHTML = grid; document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // PRINT FUNCTION WITH HEADER JPNT
+    // 🔥 ROBUST PRINT FUNCTION 🔥
     function printAdminData() {
         if(!currentAdminDataForPrint || currentAdminDataForPrint.length === 0) { alert("Tiada data."); return; }
+        
+        // 1. Open Window
         const printWindow = window.open('', '_blank');
         if (!printWindow) { alert("Sila benarkan popup untuk mencetak."); return; }
+        
+        // 2. Build HTML
         let headerHTML = ""; currentAdminDataForPrint[0].heads.forEach((h,i) => { if(i!==0) headerHTML += `<th>${h}</th>`; });
-        let rowsHTML = ""; currentAdminDataForPrint.forEach((row, index) => {
-            rowsHTML += `<tr><td>${index+1}</td>`; row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); rowsHTML += `</tr>`;
-        });
+        let rowsHTML = ""; currentAdminDataForPrint.forEach((row, index) => { rowsHTML += `<tr><td>${index+1}</td>`; row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); rowsHTML += `</tr>`; });
         
-        // CUSTOM HEADER CETAKAN
-        const content = `<html><head><title>Laporan Data</title><style>
-            body{font-family:sans-serif;font-size:10pt;}
-            table{width:100%;border-collapse:collapse;margin-top:20px;}
-            th,td{border:1px solid #333;padding:8px;text-align:left;}
-            th{background-color:#eee;font-weight:bold;}
-            .header-print { text-align:center; margin-bottom:20px; border-bottom:2px solid #333; padding-bottom:10px; }
-            .header-print h2 { margin:0; font-size:18px; text-transform:uppercase; }
-            .header-print p { margin:5px 0 0; font-size:14px; }
-            @page{size:landscape;}
-        </style></head><body>
-            <div class="header-print">
-                <h2>Jabatan Pendidikan Negeri Terengganu</h2>
-                <p>SENARAI DATA PENDAFTARAN KESENIAN</p>
-                <p style="font-size:12px; margin-top:5px;">Tarikh Cetakan: ${new Date().toLocaleDateString()}</p>
-            </div>
-            <table><thead><tr><th>BIL</th>${headerHTML}</tr></thead><tbody>${rowsHTML}</tbody></table>
-        </body></html>`;
+        const content = `<html><head><title>Laporan Data</title><style>body{font-family:sans-serif;font-size:10pt;} table{width:100%;border-collapse:collapse;margin-top:20px;} th,td{border:1px solid #333;padding:8px;text-align:left;} th{background-color:#eee;font-weight:bold;} .header-print { text-align:center; margin-bottom:20px; border-bottom:2px solid #333; padding-bottom:10px; } .header-print h2 { margin:0; font-size:18px; text-transform:uppercase; } .header-print p { margin:5px 0 0; font-size:14px; } @page{size:landscape;}</style></head><body><div class="header-print"><h2>Jabatan Pendidikan Negeri Terengganu</h2><p>SENARAI DATA PENDAFTARAN KESENIAN</p><p style="font-size:12px; margin-top:5px;">Tarikh Cetakan: ${new Date().toLocaleDateString()}</p></div><table><thead><tr><th>BIL</th>${headerHTML}</tr></thead><tbody>${rowsHTML}</tbody></table></body></html>`;
         
-        printWindow.document.write(content); printWindow.document.close();
-        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+        // 3. Write & Print with Delay
+        printWindow.document.write(content);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => { printWindow.print(); printWindow.close(); }, 800);
     }
 
     window.addEventListener('DOMContentLoaded', initSystem);
