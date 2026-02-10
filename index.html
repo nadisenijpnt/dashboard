@@ -18,7 +18,7 @@
         :root {
             --bg-body: #f8fafc; --text-main: #1e293b; --text-muted: #64748b;
             --primary: #0f766e; --card-bg: #ffffff; --radius: 12px;
-            --accent: #f59e0b; /* Warna Oren untuk butang Folder */
+            --accent: #f59e0b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -84,7 +84,7 @@
         .status-dot.active { background: #22c55e; box-shadow: 0 0 0 2px #dcfce7; }
         .count-badge { background: #f8fafc; color: #64748b; font-size: 12px; padding: 5px 12px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid #e2e8f0; }
 
-        /* PAGE VIEW DESIGN */
+        /* PAGE VIEW */
         .page-card { background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; max-width: 800px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.05); text-align: center; }
         .page-header-bg { height: 100px; width: 100%; background: #e2e8f0; position: relative; margin-bottom: 40px; }
         .page-icon-wrapper { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 4px solid white; }
@@ -100,7 +100,6 @@
         .page-stat-num { font-size: 36px; font-weight: 800; color: #334155; line-height: 1; }
         .page-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; margin-bottom: 5px; }
 
-        /* Action Buttons */
         .btn-act-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .btn-act { padding: 25px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; border: 1px solid transparent; transition: 0.2s; background: #fff; }
         .btn-act span { font-size: 14px; font-weight: 600; color: #475569; }
@@ -111,7 +110,7 @@
         .act-ana { background: #fffbeb; color: #78350f; border-color: #fef3c7; } .act-ana i { color: #f59e0b; }
         .act-con { background: #fdf2f8; color: #831843; border-color: #fce7f3; } .act-con i { color: #ec4899; }
 
-        /* ADMIN TOOLBAR & TABLE */
+        /* ADMIN TOOLBAR */
         .admin-toolbar { background: white; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .admin-flex-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
         .admin-filters { display: flex; gap: 10px; flex: 1; min-width: 300px; }
@@ -120,8 +119,6 @@
         .form-input { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; width: 250px; outline: none; font-size: 13px; }
         .btn-primary { background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
         .btn-print { background: #f97316; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; }
-        
-        /* 🔥 BUTANG FOLDER (ADMIN) 🔥 */
         .btn-folder-view { background: var(--accent); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .btn-folder-view:hover { background: #d97706; transform: scale(1.05); }
 
@@ -148,7 +145,7 @@
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        /* 🔥 MOBILE FIXES 🔥 */
+        /* 🔥 MOBILE FIXES (NO SCROLL & CLEAN LAYOUT) 🔥 */
         @media (max-width: 768px) {
             .hero-banner { flex-direction: column; gap: 15px; text-align: center; align-items: stretch; }
             .hero-text h2 { font-size: 18px; }
@@ -163,16 +160,52 @@
             .form-input { width: 100%; }
             .btn-primary, .btn-print { width: 100%; justify-content: center; }
             
+            /* Table Mobile Card Style - NO SCROLL */
             .table-container thead { display: none; }
             .table-container tr { display: block; margin: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-            .table-container td { display: block; width: 100%; text-align: left !important; padding: 5px 0; border: none; font-size: 13px; }
-            .table-container td:before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 2px; }
-            .table-container td:first-child { display: none; }
-            .table-container td[data-label="SEKOLAH"], .table-container td:nth-child(2) { font-weight: 700; font-size: 14px; color: var(--primary); padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px; }
-            .table-container td[data-label="SEKOLAH"]:before, .table-container td:nth-child(2):before { display: none; }
             
-            /* Align Folder Button for Mobile */
-            .table-container td:last-child { display: flex; justify-content: flex-end; padding-top: 10px; border-top: 1px dashed #e2e8f0; margin-top: 5px; }
+            .table-container td { 
+                display: block; 
+                width: 100%;
+                text-align: left !important; 
+                padding: 5px 0; 
+                border: none; 
+                font-size: 13px;
+                /* Text Wrapping */
+                white-space: normal;
+                word-wrap: break-word;
+            }
+            
+            /* Label diatas (ACARA) */
+            .table-container td:before { 
+                content: attr(data-label); 
+                font-weight: 700; 
+                color: #94a3b8; 
+                font-size: 10px; 
+                text-transform: uppercase; 
+                display: block; 
+                margin-bottom: 2px;
+            }
+            
+            /* Sembunyikan Column ID */
+            .table-container td:first-child { display: none; }
+            
+            /* Nama Sekolah (Heading) */
+            .table-container td[data-label="SEKOLAH"], 
+            .table-container td:nth-child(2) { 
+                font-weight: 700; font-size: 14px; color: var(--primary); 
+                padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; margin-bottom: 8px; 
+            }
+            .table-container td[data-label="SEKOLAH"]:before, 
+            .table-container td:nth-child(2):before { display: none; }
+            
+            /* Butang Tindakan */
+            .table-container td[data-label="TINDAKAN"] { 
+                border-top: 1px dashed #e2e8f0; 
+                padding-top: 10px; 
+                margin-top: 5px; 
+                text-align: right !important; 
+            }
             
             .analysis-layout { flex-direction: column; height: auto; }
             .analysis-list { border-left: none; border-top: 1px solid #e2e8f0; height: 350px; }
@@ -421,6 +454,7 @@
         cards.forEach(c => { c.style.display = c.innerText.toUpperCase().includes(val.toUpperCase()) ? "" : "none"; });
     }
 
+    // MODAL LOGIC
     function openEventStats() {
         document.getElementById('data_modal').style.display = 'flex';
         document.getElementById('data_modal_title').innerText = "Senarai Acara";
@@ -521,34 +555,35 @@
         const d = currentAdminDataForPrint[i]; document.getElementById('modal_school_name').innerText = d.school;
         let grid = ""; 
         d.full.forEach((val, idx) => { 
-            let head = d.heads && d.heads[idx] ? d.heads[idx] : "Info"; // Pastikan header ada
+            let head = d.heads && d.heads[idx] ? d.heads[idx] : "Info"; 
             val = val.replace(/"/g, ''); 
             grid += `<div style="border-bottom:1px solid #f1f5f9; padding-bottom:5px;"><div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${head}</div><div style="font-size:14px; font-weight:500; color:#334155;">${val}</div></div>`; 
         });
         document.getElementById('modal_grid_content').innerHTML = grid; document.getElementById('detail_modal').style.display = 'flex';
     }
 
+    // 🔥 FIX: PRINT FUNCTION INCLUDE EVENT NAME (COLUMN A) 🔥
     function printAdminData() {
         if(!currentAdminDataForPrint || currentAdminDataForPrint.length === 0) { alert("Tiada data."); return; }
         const printWindow = window.open('', '_blank');
         if (!printWindow) { alert("Sila benarkan popup untuk mencetak."); return; }
+        
         let headerHTML = ""; 
-        // Jika header wujud dalam data pertama
+        // Cetak semua header (TERMASUK COLUMN A - PERTANDINGAN)
         if (currentAdminDataForPrint[0].heads) {
-             currentAdminDataForPrint[0].heads.forEach((h,i) => { if(i!==0) headerHTML += `<th>${h}</th>`; });
-        } else {
-             // Fallback jika header tiada
-             headerHTML = "<th>Data</th>";
+             currentAdminDataForPrint[0].heads.forEach((h,i) => { headerHTML += `<th>${h}</th>`; });
         }
 
         let rowsHTML = ""; 
         currentAdminDataForPrint.forEach((row, index) => { 
             rowsHTML += `<tr><td>${index+1}</td>`; 
-            row.full.forEach((cell, i) => { if(i!==0) rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); 
+            // Cetak semua data (TERMASUK COLUMN A)
+            row.full.forEach((cell, i) => { rowsHTML += `<td>${cell.replace(/"/g,'')}</td>`; }); 
             rowsHTML += `</tr>`; 
         });
         
         const content = `<html><head><title>Laporan Data</title><style>body{font-family:sans-serif;font-size:10pt;} table{width:100%;border-collapse:collapse;margin-top:20px;} th,td{border:1px solid #333;padding:8px;text-align:left;} th{background-color:#eee;font-weight:bold;} .header-print { text-align:center; margin-bottom:20px; border-bottom:2px solid #333; padding-bottom:10px; } .header-print h2 { margin:0; font-size:18px; text-transform:uppercase; } .header-print p { margin:5px 0 0; font-size:14px; } @page{size:landscape;}</style></head><body><div class="header-print"><h2>Jabatan Pendidikan Negeri Terengganu</h2><p>SENARAI DATA PENDAFTARAN KESENIAN</p><p style="font-size:12px; margin-top:5px;">Tarikh Cetakan: ${new Date().toLocaleDateString()}</p></div><table><thead><tr><th>BIL</th>${headerHTML}</tr></thead><tbody>${rowsHTML}</tbody></table></body></html>`;
+        
         printWindow.document.write(content); printWindow.document.close();
         printWindow.focus();
         setTimeout(() => { printWindow.print(); printWindow.close(); }, 800);
