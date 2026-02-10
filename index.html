@@ -29,8 +29,7 @@
         header { background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); padding: 10px 20px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         
-        /* 🔥 LOGO STYLE BARU 🔥 */
-        .logo-img { height: 45px; width: auto; object-fit: contain; } /* Saiz Logo */
+        .logo-img { height: 45px; width: auto; object-fit: contain; } 
 
         .nav-actions { display: flex; gap: 8px; align-items: center; }
         .btn-icon-circle { width: 36px; height: 36px; border-radius: 50%; background: #f1f5f9; color: var(--text-muted); border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
@@ -185,9 +184,7 @@
 
     <header>
         <div class="brand" onclick="location.reload()">
-            
-            <img src="https://i.ibb.co/HTWF1s5Z/logo-Korporat-KPM.png" class="logo-img" alt="Logo">
-            
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Jata_Malaysia.png" class="logo-img" alt="Logo">
             <div>
                 <h1 style="font-size:16px; font-weight:800; margin:0; line-height:1.2; color:var(--text-main);">
                     UNIT PEMBANGUNAN BAKAT<br>
@@ -316,34 +313,36 @@
     Chart.register(ChartDataLabels);
 
     const MASTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzuitInHt2AqV1pcaPyvCPWmxUHspGUlcACYNeOfgiAhpOpyyoWhqeHQNQCDjhdJ07cJYDECseFBmi/pub?gid=0&single=true&output=csv";
-    const LINK_BORANG = "https://script.google.com/macros/s/AKfycbybtQd4rMH_mws9T0iwMC1FOvxiydh9xbKvTsOU1Zqxv-LHxAWzWXwFgg_WuTa7FstZSw/exec";
-    const TEKNIKAL_WASAP = "60193232323";
+    
+    // 👇👇👇 UBAH DI SINI 👇👇👇
+    const LINK_BORANG = "https://script.google.com/macros/s/AKfycbwcSR_kBYJPePv4-mLlRrxJLfS_8vNhpKt2K2uIAxbcv0QjRm7hogQ2HgmL6WkNm89JWA/exec";
+    const TEKNIKAL_WASAP = "60199715005"; 
 
     /* 🔥 #TARIKH PERTANDINGAN & ##STATUS PENDAFTARAN 🔥 */
     const DATABASE = [
-        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", date: "15 Julai 2026" },
-        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", date: "17 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE REKORDER & GENDERANG (SR)", date: "18 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE KIBOD MUSIC TIME (SR)", date: "19 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SM)", date: "20 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", date: "21 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SR)", date: "21 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", date: "22 Julai 2026" },
-        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SM)", date: "22 Julai 2026" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN TRADISIONAL (SR)", date: "23 Julai 2026" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK/RAKYAT SOLO (SR)", date: "23 Julai 2026" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", date: "24 Julai 2026" },
-        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN TRADISIONAL DUO (SM)", date: "24 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", date: "25 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN FILEM PENDEK (SR)", date: "26 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN MONOLOG (SR)", date: "27 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", date: "28 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN FILEM PENDEK (SM)", date: "29 Julai 2026" },
-        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN MONOLOG (SM)", date: "30 Julai 2026" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "PERTANDINGAN SENI CETAKAN (SR)", date: "1 Ogos 2026" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "PERTANDINGAN BUSANA (SM)", date: "2 Ogos 2026" },
-        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "INTERNATIONAL HIGH SCHOOL ARTS FESTIVAL (IFAC-JAPAN)", date: "3 Ogos 2026" }
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "PERTANDINGAN SEIMFONI TRADISIONAL (SM)", date: "15 Julai 2026", drive: "#" },
+        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", date: "16 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SR)", date: "17 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE REKORDER & GENDERANG (SR)", date: "18 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN ENSEMBLE KIBOD MUSIC TIME (SR)", date: "19 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "PERTANDINGAN KOIR (SM)", date: "20 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SR)", date: "21 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SR)", date: "21 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "NYANYIAN SOLO (SM)", date: "22 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "MUZIK", sub: "GENTA", title: "KOIR (SM)", date: "22 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN TRADISIONAL (SR)", date: "23 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN ETNIK/RAKYAT SOLO (SR)", date: "23 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARI PENCAK (SM)", date: "24 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TARI", sub: "TA'SEEM", title: "TARIAN RAMPAIAN TRADISIONAL DUO (SM)", date: "24 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SR)", date: "25 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN FILEM PENDEK (SR)", date: "26 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN MONOLOG (SR)", date: "27 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "SAYEMBARA TEATER (SM)", date: "28 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN FILEM PENDEK (SM)", date: "29 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "TEATER", sub: "FLLASH", title: "PERTANDINGAN MONOLOG (SM)", date: "30 Julai 2026", drive: "#" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "PERTANDINGAN SENI CETAKAN (SR)", date: "1 Ogos 2026", drive: "#" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "PERTANDINGAN BUSANA (SM)", date: "2 Ogos 2026", drive: "#" },
+        { status: "OPEN", cat: "SENI VISUAL", sub: "ASEV", title: "INTERNATIONAL HIGH SCHOOL ARTS FESTIVAL (IFAC-JAPAN)", date: "3 Ogos 2026", drive: "#" }
     ];
 
     let GLOBAL_DATA = [];
@@ -582,4 +581,4 @@
     window.addEventListener('DOMContentLoaded', initSystem);
 </script>
 </body>
-</html>
+</html>```
