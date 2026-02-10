@@ -114,7 +114,24 @@
         
         /* TOAST NOTIFICATION CSS */
         .toast-box {
-            visibility: hidden; min-width: 280px; background-color: #1f2937; color: #fff; text-align: center; border-radius: 50px; padding: 12px 20px; position: fixed; z-index: 9999; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            visibility: hidden;
+            min-width: 280px;
+            background-color: #1f2937;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px 20px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
 
@@ -261,7 +278,7 @@
             
             <div class="modal-body-split">
                 <div class="split-chart">
-                    <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">CARTA PENYERTAAN (KLIK BAR UTK TAPIS)</div>
+                    <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">CARTA PENYERTAAN</div>
                     <div style="height:300px;"><canvas id="chart_daerah"></canvas></div>
                 </div>
                 <div class="split-list">
@@ -305,12 +322,14 @@
         const txt = document.getElementById("toast_msg");
         txt.innerText = msg;
         x.className = "toast-box show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); // Hilang lepas 3 saat
     }
 
     const DATABASE = [
-        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
-        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
+        // SAYA TUTUP 1 ITEM UTK DEMO (Admin masih boleh masuk)
+        { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
+        
+        { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "KOIR (SR)", form: "https://forms.gle/wRGC6VbVacj9jcwd8", drive: "https://drive.google.com/drive/folders/1D_M1Mqa4NCAqi9LsSRRJzHFTkmDMrK2Z", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQklqA7GgfvayKWyQrFKAFVFEDN6rjM3IEGC_j13zXgCpNpFJ7q7PfHyVjZvZS2B8kTHmB1R3xf_m-i/pub?gid=765816044&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE REKORDER (SR)", form: "https://forms.gle/5dYkpn2361emQUKY8", drive: "https://drive.google.com/drive/folders/1TaEAGtfCv1ptLXjRcw2o6qfBD7pDY4Aj", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSZBPu4r6GvWAlnfVh-kYgIRVS1jmCqZfI3GFsu11bo7XwK5Gcrlisr-U4w17BttJkEE6Q62nWzg2os/pub?gid=231724444&single=true&output=csv" },
         { status: "OPEN", cat: "MUZIK", sub: "FERAS", title: "ENSEMBLE KIBOD (SR)", form: "https://forms.gle/TS1dwdp5Sa475c5A6", drive: "https://drive.google.com/drive/folders/1XDGCWWX88INptz7fvfIJT4wnRhfDfj3f", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwqbUzkDlJ5LlkBwg2pAFXB8nn8Jke6jAVCdsh0XAlOPcePq2h-WjIEtXXIdWdmXLSwJAzdycg68f1/pub?gid=637401373&single=true&output=csv" },
@@ -352,10 +371,10 @@
     }
 
     /* 🔥 LOGIC ADMIN OVERRIDE 🔥 */
-    let currentCategory = "SEMUA"; 
+    let currentCategory = "SEMUA"; // Simpan kategori semasa
 
     function renderDashboardLayout(activeCat) {
-        currentCategory = activeCat; 
+        currentCategory = activeCat; // Update kategori semasa
         const tabContainer = document.getElementById('public_tabs');
         const grid = document.getElementById('grid_container');
         const categories = ["SEMUA", "MUZIK", "TARI", "TEATER", "SENI VISUAL"];
@@ -382,8 +401,10 @@
             
             card.className = `event-card ${!isOpen ? 'closed' : ''}`;
             
+            // --- LOGIC CLICK CARD ---
             card.onclick = () => {
                 let isAdmin = currentUser && ALLOWED_ADMINS.includes(currentUser.email);
+                
                 if (isOpen || isAdmin) {
                     bukaPage(idx);
                 } else {
@@ -414,19 +435,6 @@
     }
 
     let currentUser = null;
-    
-    // --- HELPER FUNCTION: RENDER JADUAL ---
-    function renderSchoolTable(data) {
-        let html = "";
-        if(data.length === 0) {
-            html = `<tr><td colspan="3" style="text-align:center; padding:20px; color:#999;">Tiada data.</td></tr>`;
-        } else {
-            html = data.map((s, i) => `<tr><td>${i+1}</td><td>${s.name}</td><td>${s.district}</td></tr>`).join('');
-        }
-        document.getElementById('public_list_body').innerHTML = html;
-    }
-
-    // --- MODAL STATISTIK DENGAN CLICK LISTENER ---
     function bukaModalStatistik() {
         if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
             showToast("⚠️ Maaf, fungsi ini hanya untuk Pentadbir.");
@@ -436,65 +444,26 @@
         if(currentIndex===null) return;
         const d = DATABASE[currentIndex];
         document.getElementById('public_stats_modal').style.display='flex';
-        
         fetch(d.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
-            const stats = {};
-            const schools = []; // Simpan data penuh untuk filtering
+            const stats = {}; let listHtml = "";
             let iDistrict = 1; let iSchool = 2;
-
             for(let i=1; i<rows.length; i++) {
                 if(!rows[i].trim()) continue;
                 let c = parseCSV(rows[i]);
                 let da = c[iDistrict]||"Lain"; let sc = c[iSchool]||"-";
                 da = da.replace(/"/g, '').trim().toUpperCase();
                 stats[da] = (stats[da]||0)+1;
-                schools.push({ name: sc, district: da });
+                listHtml += `<tr><td>${i}</td><td>${sc}</td><td>${da}</td></tr>`;
             }
-
-            // Papar semua sekolah pada mulanya
-            renderSchoolTable(schools);
-
+            document.getElementById('public_list_body').innerHTML = listHtml;
             const ctx = document.getElementById('chart_daerah').getContext('2d');
             if(chartInstance) chartInstance.destroy();
             const bgColors = Object.keys(stats).map((_, i) => `hsl(${i * 45 + 160}, 70%, 50%)`);
-
             chartInstance = new Chart(ctx, { 
                 type: 'bar',
-                data: {
-                    labels: Object.keys(stats),
-                    datasets: [{
-                        label: 'Penyertaan',
-                        data: Object.values(stats),
-                        backgroundColor: bgColors,
-                        borderRadius: 6,
-                        barThickness: 20
-                    }]
-                }, 
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    // --- 🔥 INTERAKSI KLIK GRAF DI SINI 🔥 ---
-                    onClick: (e, elements) => {
-                        if (elements && elements.length > 0) {
-                            const index = elements[0].index;
-                            const label = chartInstance.data.labels[index];
-                            // Tapis sekolah ikut daerah yang diklik
-                            const filtered = schools.filter(s => s.district === label);
-                            renderSchoolTable(filtered);
-                        } else {
-                            // Jika klik tempat kosong, reset ke semua
-                            renderSchoolTable(schools);
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: true },
-                        datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } }
-                    },
-                    scales: { x: { display: false }, y: { grid: { display: false } } }
-                } 
+                data: { labels: Object.keys(stats), datasets: [{ label: 'Penyertaan', data: Object.values(stats), backgroundColor: bgColors, borderRadius: 6, barThickness: 20 }] }, 
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'end', offset: 4, color: '#333', font: { weight: 'bold' } } }, scales: { x: { display: false }, y: { grid: { display: false } } } } 
             });
         });
     }
@@ -504,11 +473,14 @@
         document.getElementById('view_page').classList.remove('hidden');
         const d = DATABASE[idx];
         let isOpen = d.status === 'OPEN';
+        
+        // CHECK ADMIN STATUS AGAIN
         let isAdmin = currentUser && ALLOWED_ADMINS.includes(currentUser.email);
 
         document.getElementById('page_title').innerText = d.title;
         document.getElementById('action_buttons').innerHTML = '';
         
+        // JIKA OPEN ATAU ADMIN -> BOLEH NAMPAK LINK BORANG
         if(isOpen || isAdmin) {
             let statusMsg = "";
             if(!isOpen && isAdmin) {
@@ -594,6 +566,7 @@
         } else {
             currentUser = null;
         }
+        // RE-RENDER DASHBOARD UNTUK UPDATE CLICKABILITY
         renderDashboardLayout(currentCategory);
     });
 
@@ -651,10 +624,7 @@
     function renderTable(data) {
         const tbody = document.getElementById('data_tbody');
         if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">Tiada rekod.</td></tr>`; return; }
-        tbody.innerHTML = data.map((r,i)=> `
-            <tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td>
-            <td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>
-        `).join('');
+        tbody.innerHTML = data.map((r,i)=> `<tr><td>${i+1}</td><td>${r.s}</td><td>${r.d}</td><td><button style="background:#3b82f6; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;" onclick='openDetail(${i})'><i class="fa-solid fa-folder-open"></i></button></td></tr>`).join('');
     }
     
     function openDetail(i) {
