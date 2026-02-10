@@ -113,7 +113,7 @@
         .split-list { flex: 1; min-width: 0; }
         .list-container { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-height: 300px; overflow-y: auto; }
         
-        /* TOAST NOTIFICATION CSS */
+        /* TOAST CSS */
         .toast-box {
             visibility: hidden; min-width: 280px; background-color: #1f2937; color: #fff; text-align: center; border-radius: 50px; padding: 12px 20px; position: fixed; z-index: 9999; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
@@ -137,6 +137,20 @@
             .table-wrapper td::before { content: attr(data-label); font-weight: 700; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
             .table-wrapper td:first-child { text-align: left; display: block; padding-bottom: 10px; border-bottom: 1px solid var(--bg-body); margin-bottom: 10px; }
             .table-wrapper td:first-child::before { display: none; }
+            
+            /* --- 🔥 FIXED MOBILE ALIGNMENT 🔥 --- */
+            /* Paksa Nama Sekolah (child ke-2) align kiri di mobile */
+            .table-wrapper td:nth-child(2) { text-align: left !important; }
+        }
+        
+        /* CSS KHAS UNTUK PRINT DASHBOARD SAHAJA */
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hero-actions, .filter-scroll, .admin-toolbar, header { display: none !important; }
+            .hero-banner { background: #0f766e !important; color: white !important; margin-bottom: 20px; padding: 20px !important; }
+            .stats-grid { display: flex; gap: 10px; margin-top: 0; }
+            .stat-card { border: 1px solid #ccc; box-shadow: none; flex: 1; }
+            canvas { max-height: 400px; }
         }
     </style>
 </head>
@@ -240,7 +254,7 @@
                             <i class="fa-solid fa-search"></i>
                             <input type="text" id="tableSearch" placeholder="Cari..." onkeyup="filterAdminData()">
                         </div>
-                        <button onclick="window.print()" class="btn-print"><i class="fa-solid fa-print"></i> Cetak</button>
+                        <button onclick="printAdminData()" class="btn-print"><i class="fa-solid fa-print"></i> Cetak</button>
                     </div>
                 </div>
 
@@ -262,9 +276,7 @@
             
             <div class="modal-body-split">
                 <div class="split-chart">
-                    <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">
-                        CARTA (KLIK BAR UNTUK TAPIS SEKOLAH)
-                    </div>
+                    <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px;">CARTA (KLIK BAR UNTUK TAPIS)</div>
                     <div style="height:300px;"><canvas id="chart_daerah"></canvas></div>
                 </div>
                 <div class="split-list">
@@ -298,11 +310,10 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
-    const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com", "g-35298209@moe-dl.edu.my"];
+    const ALLOWED_ADMINS = ["naimullahkhalid@gmail.com", "unit.kesenian@gmail.com"];
 
     Chart.register(ChartDataLabels);
 
-    // --- FUNGSI TOAST ---
     function showToast(msg) {
         const x = document.getElementById("toast");
         const txt = document.getElementById("toast_msg");
@@ -311,7 +322,6 @@
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 
-    // --- DATA PROGRAM ---
     const DATABASE = [
         { status: "OPEN", cat: "MUZIK", sub: "FASUS", title: "SEIMFONI TRADISIONAL (SM)", form: "https://forms.gle/KQixYdJZHPoyt1nn9", drive: "https://drive.google.com/drive/folders/1t2oUE62Cn2qm0uVWfziWBObyCA5lcYhQ", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZroqQF_DS0MNPr0mSpj-_WibQczhGRuZnfYw908vzQiCDVf7rJGR5pM-KPsxSlPNxDtkkUlLXW1/pub?gid=530649611&single=true&output=csv" },
         { status: "CLOSED", cat: "MUZIK", sub: "FASUS", title: "SAYEMBARA PUISI LAGU (SM)", form: "https://forms.gle/mMQvnVpka1kRiJpVA", drive: "https://drive.google.com/drive/folders/18kIJxHsK8E4KZndbMUAqsFqfnlTHHnnH", csv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxcSxaEsKmEGRyusZJNeFsuCUgo-Po2WM_aygnoXhYlMovue_BgLeeDj3zyDKy0pL-pmTepPHx3lWD/pub?gid=820254919&single=true&output=csv" },
@@ -347,19 +357,14 @@
         });
     }
 
-    // --- SYSTEM INIT (DIPASTIKAN BERJALAN) ---
     function initSystem() {
         const params = new URLSearchParams(window.location.search);
         const page = params.get('page');
-        if(page && DATABASE[page]) {
-            bukaPage(parseInt(page));
-        } else {
-            renderDashboardLayout("SEMUA");
-        }
+        if(page && DATABASE[page]) bukaPage(parseInt(page));
+        else renderDashboardLayout("SEMUA");
         document.getElementById('total_events').innerText = DATABASE.length;
     }
 
-    // --- DASHBOARD LOGIC ---
     let currentCategory = "SEMUA"; 
 
     function renderDashboardLayout(activeCat) {
@@ -424,19 +429,21 @@
     let currentUser = null;
     let chartInstance;
     let currentIndex = null;
+    
+    // --- VARIABLES UNTUK PRINT ---
+    let currentAdminDataForPrint = null; 
+    // Variable ini akan simpan data terkini yang sedang dipaparkan di table admin
 
-    // --- HELPER UNTUK RENDER JADUAL SEKOLAH ---
     function renderSchoolTable(data) {
         let html = "";
         if(data.length === 0) {
-            html = `<tr><td colspan="3" style="text-align:center; padding:20px; color:#999;">Tiada data untuk paparan ini.</td></tr>`;
+            html = `<tr><td colspan="3" style="text-align:center; padding:20px; color:#999;">Tiada data.</td></tr>`;
         } else {
             html = data.map((s, i) => `<tr><td>${i+1}</td><td>${s.name}</td><td>${s.district}</td></tr>`).join('');
         }
         document.getElementById('public_list_body').innerHTML = html;
     }
 
-    // --- MODAL STATISTIK DENGAN INTERAKSI KLIK ---
     function bukaModalStatistik() {
         if(!currentUser || !ALLOWED_ADMINS.includes(currentUser.email)) {
             showToast("⚠️ Maaf, fungsi ini hanya untuk Pentadbir.");
@@ -450,7 +457,7 @@
         fetch(d.csv).then(r=>r.text()).then(t=>{
             const rows = t.trim().split('\n');
             const stats = {};
-            const schools = []; // Simpan semua data sekolah
+            const schools = []; 
             let iDistrict = 1; let iSchool = 2;
 
             for(let i=1; i<rows.length; i++) {
@@ -462,7 +469,6 @@
                 schools.push({ name: sc, district: da });
             }
 
-            // Papar semua sekolah bila mula-mula buka
             renderSchoolTable(schools);
 
             const ctx = document.getElementById('chart_daerah').getContext('2d');
@@ -485,16 +491,13 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    // --- 🔥 INTERAKSI KLIK DI SINI 🔥 ---
                     onClick: (e, elements) => {
                         if (elements && elements.length > 0) {
-                            // Jika klik pada bar
                             const index = elements[0].index;
-                            const label = chartInstance.data.labels[index]; // Dapat nama daerah
+                            const label = chartInstance.data.labels[index];
                             const filtered = schools.filter(s => s.district === label);
-                            renderSchoolTable(filtered); // Update table
+                            renderSchoolTable(filtered);
                         } else {
-                            // Jika klik tempat kosong (reset)
                             renderSchoolTable(schools);
                         }
                     },
@@ -509,7 +512,6 @@
         });
     }
 
-    // --- NAVIGASI & AUTH ---
     function bukaPage(idx) {
         document.getElementById('view_dashboard').classList.add('hidden');
         document.getElementById('view_page').classList.remove('hidden');
@@ -525,13 +527,21 @@
             if(!isOpen && isAdmin) {
                 statusMsg = `<div style="background:#fee2e2; color:#b91c1c; padding:10px; border-radius:8px; font-weight:700; font-size:12px; margin-bottom:15px; display:inline-block;"><i class="fa-solid fa-lock-open"></i> Mod Admin: Akses Khas (Acara Ditutup)</div>`;
             }
+
             document.getElementById('action_buttons').innerHTML = `
-                <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check-circle"></i> Daftar Sekarang</a>
-                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+                <a href="${d.form}" target="_blank" style="text-decoration:none; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-check-circle"></i> Daftar Sekarang
+                </a>
+                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
+                    <i class="fa-brands fa-google-drive"></i> Folder Info
+                </a>`;
             document.getElementById('page_status_alert').innerHTML = statusMsg;
         } else {
             document.getElementById('page_status_alert').innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:15px; border-radius:8px; font-weight:700; font-size:13px;"><i class="fa-solid fa-lock"></i> PENDAFTARAN TELAH DITUTUP</div>`;
-            document.getElementById('action_buttons').innerHTML = `<a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);"><i class="fa-brands fa-google-drive"></i> Folder Info</a>`;
+            document.getElementById('action_buttons').innerHTML = `
+                <a href="${d.drive}" target="_blank" style="text-decoration:none; background:var(--bg-body); color:var(--text-main); padding:15px 30px; border-radius:12px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; border:1px solid var(--border);">
+                    <i class="fa-brands fa-google-drive"></i> Folder Info
+                </a>`;
         }
         fetchCount(d.csv, 'page_stat', null);
         currentIndex = idx;
@@ -552,7 +562,6 @@
         document.getElementById('view_admin').classList.remove('hidden');
     }
 
-    // --- DATA UTILS ---
     function fetchCount(url, txtId, barId) {
         if(!url) { document.getElementById(txtId).innerText="0"; return; }
         fetch(url).then(r=>r.text()).then(t=>{
@@ -598,7 +607,6 @@
         renderDashboardLayout(currentCategory);
     });
 
-    // --- ADMIN PAGE LOGIC ---
     function renderAdminSubOptions() {
         const cat = document.getElementById('filter_category').value;
         const subSelect = document.getElementById('filter_sub');
@@ -647,6 +655,9 @@
         const filtered = adminData.rows.filter(r => {
             return (r.s.toUpperCase().includes(search) || r.d.toUpperCase().includes(search)) && (district === "" || r.d.toUpperCase().includes(district));
         });
+        
+        // Simpan data terkini yang ditapis untuk tujuan cetakan
+        currentAdminDataForPrint = filtered;
         renderTable(filtered);
     }
 
@@ -676,8 +687,77 @@
         document.getElementById('detail_modal').style.display = 'flex';
     }
 
-    // Initialize System
-    window.addEventListener('DOMContentLoaded', initSystem);
+    // --- 🔥 FUNGSI CETAK FORMAL (POPUP WINDOW) 🔥 ---
+    function printAdminData() {
+        if(!currentAdminDataForPrint || currentAdminDataForPrint.length === 0) {
+            alert("Tiada data untuk dicetak. Sila pilih kategori/acara yang mempunyai data.");
+            return;
+        }
+
+        const acaraName = document.getElementById("filter_sub").options[document.getElementById("filter_sub").selectedIndex].text;
+        const printWindow = window.open('', '_blank');
+        
+        let headerHTML = "";
+        // Ambil semua header dari adminData.heads (kecuali timestamp - index 0)
+        adminData.heads.forEach((h, i) => {
+            if(i !== 0) headerHTML += `<th>${h}</th>`;
+        });
+
+        let rowsHTML = "";
+        currentAdminDataForPrint.forEach((row, index) => {
+            rowsHTML += "<tr>";
+            rowsHTML += `<td>${index + 1}</td>`; // Nombor Bil
+            // Loop setiap cell dalam row.full (kecuali timestamp)
+            row.full.forEach((cell, i) => {
+                if(i !== 0) {
+                    let cleanCell = cell.replace(/"/g, '');
+                    rowsHTML += `<td>${cleanCell}</td>`;
+                }
+            });
+            rowsHTML += "</tr>";
+        });
+
+        // HTML Structure untuk Report
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>Laporan Data Peserta</title>
+                <style>
+                    body { font-family: sans-serif; font-size: 10pt; }
+                    h1 { text-align: center; margin-bottom: 5px; font-size: 14pt; }
+                    h2 { text-align: center; margin-top: 0; margin-bottom: 20px; font-size: 12pt; color: #555; }
+                    table { width: 100%; border-collapse: collapse; }
+                    th, td { border: 1px solid #333; padding: 5px; text-align: left; vertical-align: top; }
+                    th { background-color: #f2f2f2; }
+                    tr:nth-child(even) { background-color: #fafafa; }
+                    @page { size: landscape; margin: 1cm; }
+                </style>
+            </head>
+            <body>
+                <h1>DASHBOARD PENDAFTARAN KESENIAN JPNT</h1>
+                <h2>LAPORAN DATA: ${acaraName}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="30">BIL</th>
+                            ${headerHTML}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHTML}
+                    </tbody>
+                </table>
+                <div style="margin-top: 20px; font-size: 8pt; color: #777;">Dicetak pada: ${new Date().toLocaleString()}</div>
+                <script>
+                    window.onload = function() { window.print(); window.close(); }
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+
+    initSystem();
     renderAdminSubOptions();
 </script>
 </body>
